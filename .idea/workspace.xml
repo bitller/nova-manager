@@ -21,14 +21,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="User.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/User.php">
+      <file leaf-file-name=".env" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.env">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="670">
-              <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
-              <folding>
-                <element signature="e#23#78#0#PHP" expanded="true" />
-              </folding>
+            <state relative-caret-position="780">
+              <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -38,14 +36,12 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/config/app.php" />
         <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_16_172011_entrust_setup_tables.php" />
         <option value="$PROJECT_DIR$/app/Permission.php" />
         <option value="$PROJECT_DIR$/app/Role.php" />
         <option value="$PROJECT_DIR$/database/seeds/RolesTableSeeder.php" />
         <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
-        <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/Refresh.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_16_174945_create_campaigns_table.php" />
@@ -56,7 +52,13 @@
         <option value="$PROJECT_DIR$/app/Product.php" />
         <option value="$PROJECT_DIR$/app/Bill.php" />
         <option value="$PROJECT_DIR$/database/migrations/2016_04_16_175314_create_bills_table.php" />
+        <option value="$PROJECT_DIR$/config/app.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_16_184029_create_subscriptions_table.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" />
         <option value="$PROJECT_DIR$/app/User.php" />
+        <option value="$PROJECT_DIR$/config/services.php" />
+        <option value="$PROJECT_DIR$/app/Providers/AppServiceProvider.php" />
+        <option value="$PROJECT_DIR$/.env" />
       </list>
     </option>
   </component>
@@ -273,12 +275,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1460826857464</updated>
-      <workItem from="1460826860886" duration="4372000" />
+      <workItem from="1460826860886" duration="5671000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4372000" />
+    <option name="totallyTimeSpent" value="5671000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
@@ -312,30 +314,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/config/app.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="936">
-          <caret line="204" column="59" selection-start-line="204" selection-start-column="59" selection-end-line="204" selection-end-column="59" />
-          <folding>
-            <marker date="1460827153043" expanded="true" signature="15:8361" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="23:451" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="505:928" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="979:1395" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="1455:1879" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="1915:2354" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="2387:2818" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="2860:3281" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="3353:3847" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="3897:4329" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="4353:6023" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="4365:4425" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="5760:5814" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="6033:6447" placeholder="..." />
-            <marker date="1460827153043" expanded="true" signature="6469:8357" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="878">
@@ -434,14 +412,6 @@
             <marker date="1460828025347" expanded="true" signature="179:243" placeholder=" Run the database seeds. ..." />
             <marker date="1460828025347" expanded="true" signature="273:324" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.env">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="12" column="18" selection-start-line="12" selection-start-column="18" selection-end-line="12" selection-end-column="18" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -607,30 +577,119 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="552">
+          <caret line="150" column="54" selection-start-line="150" selection-start-column="54" selection-end-line="150" selection-end-column="54" />
+          <folding>
+            <marker date="1460831966491" expanded="true" signature="15:8416" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="23:451" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="505:928" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="979:1395" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="1455:1879" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="1915:2354" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="2387:2818" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="2860:3281" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="3353:3847" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="3897:4329" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="4353:6078" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="4365:4425" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="5815:5869" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="6088:6502" placeholder="..." />
+            <marker date="1460831966491" expanded="true" signature="6524:8412" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_16_184029_create_subscriptions_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="37" column="46" selection-start-line="37" selection-start-column="46" selection-end-line="37" selection-end-column="46" />
+          <folding>
+            <marker date="1460832085675" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1460832085675" expanded="true" signature="99:194" placeholder=" Create subscriptions table. ..." />
+            <marker date="1460832085675" expanded="true" signature="247:974" placeholder="..." />
+            <marker date="1460832085675" expanded="true" signature="256:316" placeholder=" Run the migrations. ..." />
+            <marker date="1460832085675" expanded="true" signature="345:815" placeholder="..." />
+            <marker date="1460832085675" expanded="true" signature="369:808" placeholder="..." />
+            <marker date="1460832085675" expanded="true" signature="405:807" placeholder="..." />
+            <marker date="1460832085675" expanded="true" signature="825:889" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460832085675" expanded="true" signature="920:972" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+        <state relative-caret-position="598">
+          <caret line="24" column="59" selection-start-line="24" selection-start-column="59" selection-end-line="24" selection-end-column="59" />
           <folding>
-            <marker date="1459544805000" expanded="false" signature="11:94" placeholder="..." />
-            <marker date="1459544805000" expanded="true" signature="136:698" placeholder="{...}" />
-            <marker date="1459544805000" expanded="true" signature="146:206" placeholder=" Run the migrations. ..." />
-            <marker date="1459544805000" expanded="true" signature="233:551" placeholder="{...}" />
-            <marker date="1459544805000" expanded="true" signature="263:543" placeholder="..." />
-            <marker date="1459544805000" expanded="true" signature="301:542" placeholder="..." />
-            <marker date="1459544805000" expanded="true" signature="560:624" placeholder=" Reverse the migrations. ..." />
-            <marker date="1459544805000" expanded="true" signature="653:696" placeholder="{...}" />
+            <marker date="1460832102507" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1460832102507" expanded="true" signature="136:982" placeholder="{...}" />
+            <marker date="1460832102507" expanded="true" signature="146:206" placeholder=" Run the migrations. ..." />
+            <marker date="1460832102507" expanded="true" signature="233:835" placeholder="{...}" />
+            <marker date="1460832102507" expanded="true" signature="263:827" placeholder="..." />
+            <marker date="1460832102507" expanded="true" signature="301:826" placeholder="..." />
+            <marker date="1460832102507" expanded="true" signature="844:908" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460832102507" expanded="true" signature="937:980" placeholder="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="670">
-          <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+        <state relative-caret-position="442">
+          <caret line="17" column="4" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
           <folding>
-            <element signature="e#23#78#0#PHP" expanded="true" />
+            <marker date="1460832194895" expanded="true" signature="27:152" placeholder="..." />
+            <marker date="1460832194895" expanded="true" signature="157:247" placeholder=" Model for users table. ..." />
+            <marker date="1460832194895" expanded="true" signature="286:1105" placeholder="..." />
+            <marker date="1460832194895" expanded="true" signature="344:423" placeholder=" The attributes that are mass assignable. ..." />
+            <marker date="1460832194895" expanded="true" signature="453:495" placeholder="..." />
+            <marker date="1460832194895" expanded="true" signature="506:593" placeholder=" The attributes that should be hidden for arrays. ..." />
+            <marker date="1460832194895" expanded="true" signature="621:664" placeholder="..." />
+            <marker date="1460832194895" expanded="true" signature="675:787" placeholder=" Get the clients of the user. ..." />
+            <marker date="1460832194895" expanded="true" signature="821:871" placeholder="..." />
+            <marker date="1460832194895" expanded="true" signature="881:1002" placeholder=" Get all the bills of the user. ..." />
+            <marker date="1460832194895" expanded="true" signature="1034:1103" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Providers/AppServiceProvider.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="14" column="45" selection-start-line="14" selection-start-column="45" selection-end-line="14" selection-end-column="45" />
+          <folding>
+            <marker date="1460832262927" expanded="true" signature="124:678" placeholder="..." />
+            <marker date="1460832262927" expanded="true" signature="133:209" placeholder=" Bootstrap any application services. ..." />
+            <marker date="1460832262927" expanded="true" signature="240:536" placeholder="..." />
+            <marker date="1460832262927" expanded="true" signature="546:621" placeholder=" Register any application services. ..." />
+            <marker date="1460832262927" expanded="true" signature="654:677" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/services.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="800">
+          <caret line="37" column="6" selection-start-line="37" selection-start-column="6" selection-end-line="37" selection-end-column="6" />
+          <folding>
+            <marker date="1460832228243" expanded="true" signature="15:1113" placeholder="..." />
+            <marker date="1460832228243" expanded="true" signature="23:518" placeholder="..." />
+            <marker date="1460832228243" expanded="true" signature="540:631" placeholder="..." />
+            <marker date="1460832228243" expanded="true" signature="649:759" placeholder="..." />
+            <marker date="1460832228243" expanded="true" signature="783:833" placeholder="..." />
+            <marker date="1460832228243" expanded="true" signature="857:1109" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="780">
+          <caret line="30" column="21" selection-start-line="30" selection-start-column="21" selection-end-line="30" selection-end-column="21" />
+          <folding />
         </state>
       </provider>
     </entry>

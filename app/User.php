@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
+use Laravel\Cashier\Billable;
 
 /**
  * Model for users table.
@@ -13,7 +14,8 @@ use Zizaco\Entrust\Traits\EntrustUserTrait;
 class User extends Authenticatable {
 
     use EntrustUserTrait;
-
+    use Billable;
+    
     /**
      * The attributes that are mass assignable.
      *
