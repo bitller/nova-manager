@@ -21,12 +21,14 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Refresh.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/Console/Commands/Refresh.php">
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/User.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="826">
-              <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
-              <folding />
+            <state relative-caret-position="670">
+              <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+              <folding>
+                <element signature="e#23#78#0#PHP" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -41,12 +43,20 @@
         <option value="$PROJECT_DIR$/database/migrations/2016_04_16_172011_entrust_setup_tables.php" />
         <option value="$PROJECT_DIR$/app/Permission.php" />
         <option value="$PROJECT_DIR$/app/Role.php" />
-        <option value="$PROJECT_DIR$/app/User.php" />
         <option value="$PROJECT_DIR$/database/seeds/RolesTableSeeder.php" />
         <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Console/Kernel.php" />
         <option value="$PROJECT_DIR$/app/Console/Commands/Refresh.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_16_174945_create_campaigns_table.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_16_175135_create_clients_table.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_16_175800_create_products_table.php" />
+        <option value="$PROJECT_DIR$/app/Campaign.php" />
+        <option value="$PROJECT_DIR$/app/Client.php" />
+        <option value="$PROJECT_DIR$/app/Product.php" />
+        <option value="$PROJECT_DIR$/app/Bill.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_16_175314_create_bills_table.php" />
+        <option value="$PROJECT_DIR$/app/User.php" />
       </list>
     </option>
   </component>
@@ -263,12 +273,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1460826857464</updated>
-      <workItem from="1460826860886" duration="1738000" />
+      <workItem from="1460826860886" duration="4372000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="1738000" />
+    <option name="totallyTimeSpent" value="4372000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
@@ -397,22 +407,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/User.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="364">
-          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
-          <folding>
-            <marker date="1460827409787" expanded="true" signature="27:122" placeholder="..." />
-            <marker date="1460827409787" expanded="true" signature="127:217" placeholder=" Model for users table. ..." />
-            <marker date="1460827409787" expanded="true" signature="256:615" placeholder="..." />
-            <marker date="1460827409787" expanded="true" signature="292:371" placeholder=" The attributes that are mass assignable. ..." />
-            <marker date="1460827409787" expanded="true" signature="401:443" placeholder="..." />
-            <marker date="1460827409787" expanded="true" signature="454:541" placeholder=" The attributes that should be hidden for arrays. ..." />
-            <marker date="1460827409787" expanded="true" signature="569:612" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/database/seeds/RolesTableSeeder.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
@@ -470,7 +464,173 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="826">
           <caret line="42" column="49" selection-start-line="42" selection-start-column="49" selection-end-line="42" selection-end-column="49" />
-          <folding />
+          <folding>
+            <marker date="1460828596131" expanded="true" signature="76:189" placeholder=" Delete all old data and run everything again. ..." />
+            <marker date="1460828596131" expanded="true" signature="223:980" placeholder="..." />
+            <marker date="1460828596131" expanded="true" signature="232:318" placeholder=" The name and signature of the console command. ..." />
+            <marker date="1460828596131" expanded="true" signature="367:439" placeholder=" The console command description. ..." />
+            <marker date="1460828596131" expanded="true" signature="523:574" placeholder=" Create a new command instance. ..." />
+            <marker date="1460828596131" expanded="true" signature="612:648" placeholder="..." />
+            <marker date="1460828596131" expanded="true" signature="658:728" placeholder=" Execute the console command. ..." />
+            <marker date="1460828596131" expanded="true" signature="761:978" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_16_174945_create_campaigns_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="23" column="53" selection-start-line="23" selection-start-column="53" selection-end-line="23" selection-end-column="53" />
+          <folding>
+            <marker date="1460829065303" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1460829065303" expanded="true" signature="99:190" placeholder=" Create campaigns table. ..." />
+            <marker date="1460829065303" expanded="true" signature="239:829" placeholder="..." />
+            <marker date="1460829065303" expanded="true" signature="248:308" placeholder=" Run the migrations. ..." />
+            <marker date="1460829065303" expanded="true" signature="337:674" placeholder="..." />
+            <marker date="1460829065303" expanded="true" signature="361:667" placeholder="..." />
+            <marker date="1460829065303" expanded="true" signature="402:666" placeholder="..." />
+            <marker date="1460829065303" expanded="true" signature="684:748" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460829065303" expanded="true" signature="779:827" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Campaign.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="19" column="4" selection-start-line="19" selection-start-column="4" selection-end-line="19" selection-end-column="4" />
+          <folding>
+            <marker date="1460829839475" expanded="true" signature="67:160" placeholder=" Model of campaigns table. ..." />
+            <marker date="1460829839475" expanded="true" signature="193:348" placeholder="..." />
+            <marker date="1460829839475" expanded="true" signature="202:268" placeholder=" Mass assignable attributes. ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="546">
+          <caret line="21" column="40" selection-start-line="21" selection-start-column="40" selection-end-line="21" selection-end-column="40" />
+          <folding>
+            <marker date="1460830338051" expanded="true" signature="67:159" placeholder=" Model of clients table. ..." />
+            <marker date="1460830338051" expanded="true" signature="190:751" placeholder="..." />
+            <marker date="1460830338051" expanded="true" signature="199:261" placeholder=" Mass assignable fields. ..." />
+            <marker date="1460830338051" expanded="true" signature="333:451" placeholder=" Return this bills of this client. ..." />
+            <marker date="1460830338051" expanded="true" signature="483:531" placeholder="..." />
+            <marker date="1460830338051" expanded="true" signature="545:667" placeholder=" Get the user that have this client. ..." />
+            <marker date="1460830338051" expanded="true" signature="698:748" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_16_175800_create_products_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="910">
+          <caret line="36" column="41" selection-start-line="36" selection-start-column="41" selection-end-line="36" selection-end-column="41" />
+          <folding>
+            <marker date="1460829559635" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1460829559635" expanded="true" signature="99:189" placeholder=" Create products table. ..." />
+            <marker date="1460829559635" expanded="true" signature="237:901" placeholder="..." />
+            <marker date="1460829559635" expanded="true" signature="246:306" placeholder=" Run the migrations. ..." />
+            <marker date="1460829559635" expanded="true" signature="335:747" placeholder="..." />
+            <marker date="1460829559635" expanded="true" signature="359:740" placeholder="..." />
+            <marker date="1460829559635" expanded="true" signature="399:739" placeholder="..." />
+            <marker date="1460829559635" expanded="true" signature="757:821" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460829559635" expanded="true" signature="852:899" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Product.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="18" column="43" selection-start-line="18" selection-start-column="43" selection-end-line="18" selection-end-column="43" />
+          <folding>
+            <marker date="1460830622331" expanded="true" signature="67:159" placeholder=" Model of products table. ..." />
+            <marker date="1460830622331" expanded="true" signature="191:310" placeholder="..." />
+            <marker date="1460830622331" expanded="true" signature="200:262" placeholder=" Mass assignable fields. ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Bill.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="494">
+          <caret line="28" column="4" selection-start-line="28" selection-start-column="4" selection-end-line="28" selection-end-column="4" />
+          <folding>
+            <marker date="1460830622339" expanded="true" signature="67:156" placeholder=" Model of bills table. ..." />
+            <marker date="1460830622339" expanded="true" signature="185:984" placeholder="..." />
+            <marker date="1460830622339" expanded="true" signature="194:256" placeholder=" Mass assignable fields. ..." />
+            <marker date="1460830622339" expanded="true" signature="354:467" placeholder=" Return products of the bill. ..." />
+            <marker date="1460830622339" expanded="true" signature="502:553" placeholder="..." />
+            <marker date="1460830622339" expanded="true" signature="567:684" placeholder=" Return the client of this bill. ..." />
+            <marker date="1460830622339" expanded="true" signature="717:769" placeholder="..." />
+            <marker date="1460830622339" expanded="true" signature="779:901" placeholder=" Return the user that owns this bill. ..." />
+            <marker date="1460830622339" expanded="true" signature="932:982" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_16_175314_create_bills_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="624">
+          <caret line="31" column="42" selection-start-line="31" selection-start-column="42" selection-end-line="31" selection-end-column="42" />
+          <folding>
+            <marker date="1460830622343" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1460830622343" expanded="true" signature="99:186" placeholder=" Create bills table. ..." />
+            <marker date="1460830622343" expanded="true" signature="231:1356" placeholder="..." />
+            <marker date="1460830622343" expanded="true" signature="240:300" placeholder=" Run the migrations. ..." />
+            <marker date="1460830622343" expanded="true" signature="329:1205" placeholder="..." />
+            <marker date="1460830622343" expanded="true" signature="353:1198" placeholder="..." />
+            <marker date="1460830622343" expanded="true" signature="390:1197" placeholder="..." />
+            <marker date="1460830622343" expanded="true" signature="1215:1279" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460830622343" expanded="true" signature="1310:1354" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_16_175135_create_clients_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="18" column="49" selection-start-line="18" selection-start-column="49" selection-end-line="18" selection-end-column="49" />
+          <folding>
+            <marker date="1460829386491" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1460829386491" expanded="true" signature="99:188" placeholder=" Create clients table. ..." />
+            <marker date="1460829386491" expanded="true" signature="235:974" placeholder="..." />
+            <marker date="1460829386491" expanded="true" signature="244:304" placeholder=" Run the migrations. ..." />
+            <marker date="1460829386491" expanded="true" signature="333:821" placeholder="..." />
+            <marker date="1460829386491" expanded="true" signature="357:814" placeholder="..." />
+            <marker date="1460829386491" expanded="true" signature="396:813" placeholder="..." />
+            <marker date="1460829386491" expanded="true" signature="831:895" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460829386491" expanded="true" signature="926:972" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="15" column="35" selection-start-line="15" selection-start-column="35" selection-end-line="15" selection-end-column="35" />
+          <folding>
+            <marker date="1459544805000" expanded="false" signature="11:94" placeholder="..." />
+            <marker date="1459544805000" expanded="true" signature="136:698" placeholder="{...}" />
+            <marker date="1459544805000" expanded="true" signature="146:206" placeholder=" Run the migrations. ..." />
+            <marker date="1459544805000" expanded="true" signature="233:551" placeholder="{...}" />
+            <marker date="1459544805000" expanded="true" signature="263:543" placeholder="..." />
+            <marker date="1459544805000" expanded="true" signature="301:542" placeholder="..." />
+            <marker date="1459544805000" expanded="true" signature="560:624" placeholder=" Reverse the migrations. ..." />
+            <marker date="1459544805000" expanded="true" signature="653:696" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="670">
+          <caret line="44" column="37" selection-start-line="44" selection-start-column="37" selection-end-line="44" selection-end-column="37" />
+          <folding>
+            <element signature="e#23#78#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -31,4 +31,22 @@ class User extends Authenticatable {
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * Get the clients of the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function clients() {
+        return $this->hasMany('App\Client');
+    }
+
+    /**
+     * Get all the bills of the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
+    public function bills() {
+        return $this->hasManyThrough('App\Bill', 'App\Client');
+    }
 }
