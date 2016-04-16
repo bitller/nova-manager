@@ -3,9 +3,17 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Zizaco\Entrust\Traits\EntrustUserTrait;
 
-class User extends Authenticatable
-{
+/**
+ * Model for users table.
+ *
+ * @author Alexandru Bugarin <alexandru.bugarin@gmail.com>
+ */
+class User extends Authenticatable {
+
+    use EntrustUserTrait;
+
     /**
      * The attributes that are mass assignable.
      *

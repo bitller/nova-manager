@@ -4,6 +4,7 @@
     <list default="true" id="4cec99f8-cf26-4178-87d3-321f511d85ef" name="Default" comment="" />
     <ignored path="nova-manager.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,6 +18,35 @@
   </component>
   <component name="FavoritesManager">
     <favorites_list name="nova-manager" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf>
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/User.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="364">
+              <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+              <folding>
+                <element signature="e#23#78#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/config/app.php" />
+        <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
+        <option value="$PROJECT_DIR$/database/migrations/2016_04_16_172011_entrust_setup_tables.php" />
+        <option value="$PROJECT_DIR$/.env" />
+        <option value="$PROJECT_DIR$/app/Permission.php" />
+        <option value="$PROJECT_DIR$/app/Role.php" />
+        <option value="$PROJECT_DIR$/app/User.php" />
+      </list>
+    </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" />
   <component name="JsBuildToolPackageJson" detection-done="true" />
@@ -70,6 +100,48 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nova-manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nova-manager" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nova-manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nova-manager" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nova-manager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="nova-manager" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="database" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="migrations" />
+              <option name="myItemType" value="com.jetbrains.php.projectView.PhpTreeStructureProvider$1" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -90,19 +162,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1460826857464</updated>
-      <workItem from="1460826860886" duration="164000" />
+      <workItem from="1460826860886" duration="541000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="164000" />
+    <option name="totallyTimeSpent" value="541000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Gulp" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24959569" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -127,5 +199,120 @@
   <component name="XDebuggerManager">
     <breakpoint-manager />
     <watches-manager />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/config/app.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="936">
+          <caret line="204" column="59" selection-start-line="204" selection-start-column="59" selection-end-line="204" selection-end-column="59" />
+          <folding>
+            <marker date="1460827153043" expanded="true" signature="15:8361" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="23:451" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="505:928" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="979:1395" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="1455:1879" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="1915:2354" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="2387:2818" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="2860:3281" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="3353:3847" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="3897:4329" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="4353:6023" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="4365:4425" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="5760:5814" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="6033:6447" placeholder="..." />
+            <marker date="1460827153043" expanded="true" signature="6469:8357" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="878">
+          <caret line="53" column="70" selection-start-line="53" selection-start-column="70" selection-end-line="53" selection-end-column="70" />
+          <folding>
+            <marker date="1460827179103" expanded="true" signature="113:1749" placeholder="{...}" />
+            <marker date="1460827179103" expanded="true" signature="123:290" placeholder=" The application's global HTTP middleware stack. ..." />
+            <marker date="1460827179103" expanded="true" signature="322:406" placeholder="..." />
+            <marker date="1460827179103" expanded="true" signature="417:498" placeholder=" The application's route middleware groups. ..." />
+            <marker date="1460827179103" expanded="true" signature="536:956" placeholder="..." />
+            <marker date="1460827179103" expanded="true" signature="555:889" placeholder="..." />
+            <marker date="1460827179103" expanded="true" signature="911:949" placeholder="..." />
+            <marker date="1460827179103" expanded="true" signature="967:1120" placeholder=" The application's route middleware. ..." />
+            <marker date="1460827179103" expanded="true" signature="1157:1745" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/database/migrations/2016_04_16_172011_entrust_setup_tables.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="676">
+          <caret line="27" column="67" selection-start-line="27" selection-start-column="67" selection-end-line="27" selection-end-column="67" />
+          <folding>
+            <marker date="1460827224695" expanded="false" signature="10:93" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="137:2383" placeholder="{...}" />
+            <marker date="1460827224695" expanded="true" signature="147:208" placeholder=" Run the migrations. ..." />
+            <marker date="1460827224695" expanded="true" signature="235:2122" placeholder="{...}" />
+            <marker date="1460827224695" expanded="true" signature="307:584" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="345:583" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="681:1152" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="723:1151" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="926:935" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="947:956" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1056:1065" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1077:1086" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1227:1510" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1271:1509" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1613:2114" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1661:2113" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1882:1891" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="1903:1912" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="2012:2021" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="2033:2042" placeholder="..." />
+            <marker date="1460827224695" expanded="true" signature="2131:2196" placeholder=" Reverse the migrations. ..." />
+            <marker date="1460827224695" expanded="true" signature="2225:2381" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.env">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="260">
+          <caret line="10" column="22" selection-start-line="10" selection-start-column="22" selection-end-line="10" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Permission.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="9" column="58" selection-start-line="9" selection-start-column="58" selection-end-line="9" selection-end-column="58" />
+          <folding>
+            <marker date="1460827362199" expanded="true" signature="65:162" placeholder=" Model for permissions table. ..." />
+            <marker date="1460827362199" expanded="true" signature="209:217" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Role.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="312">
+          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
+          <folding>
+            <marker date="1460827362207" expanded="true" signature="59:149" placeholder=" Model for roles table. ..." />
+            <marker date="1460827362207" expanded="true" signature="184:192" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/User.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="364">
+          <caret line="14" column="25" selection-start-line="14" selection-start-column="25" selection-end-line="14" selection-end-column="25" />
+          <folding>
+            <element signature="e#23#78#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
   </component>
 </project>
