@@ -13,6 +13,7 @@ require('laravel-elixir-vueify');
  */
 
 elixir(function(mix) {
+    mix.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap', 'public/fonts/bootstrap');
     mix.sass('app.scss');
     mix.browserify('app.js');
 });

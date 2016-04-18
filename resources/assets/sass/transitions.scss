@@ -1,0 +1,13 @@
+.search-bar-transition {
+  transition: all .3s ease;
+  height: 30px;
+  padding: 10px;
+  background-color: #eee;
+  overflow: hidden;
+}
+
+.search-bar-enter, .search-bar-leave {
+  height: 0;
+  padding: 0 10px;
+  opacity: 0;
+}

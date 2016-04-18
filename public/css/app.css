@@ -5854,9 +5854,46 @@ button.close {
 .center-responsive-image {
   margin: 0 auto; }
 
-body {
-  padding-top: 40px;
+.search-bar-transition {
+  transition: all .3s ease;
+  height: 30px;
+  padding: 10px;
+  background-color: #eee;
+  overflow: hidden; }
+
+.search-bar-enter, .search-bar-leave {
+  height: 0;
+  padding: 0 10px;
+  opacity: 0; }
+
+html, body {
   background-color: #EDF1F2;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  height: 100%;
+  margin: 0;
+  padding: 0; }
+
+#wrapper {
+  min-height: 100%;
+  position: relative; }
+
+#content {
+  /* Height of the footer element */
+  padding-bottom: 70px; }
+
+#footer {
+  background: #F8F8F8;
+  border-top: 1px solid #dfdfdf;
+  width: 100%;
+  height: 50px;
+  position: absolute;
+  bottom: 0;
+  left: 0; }
+
+.footer-text {
+  padding-top: 15px; }
+
+.table tbody > tr > td.vert-align {
+  vertical-align: middle; }
 
 /*# sourceMappingURL=app.css.map */
