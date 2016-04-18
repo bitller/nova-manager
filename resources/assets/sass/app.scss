@@ -1,2 +1,14 @@
-// @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "custom-variables.scss";
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+@import "auth/register.scss";
+@import "custom-well.scss";
+@import "custom-jumbotron.scss";
+@import "custom-button.scss";
+@import "fancy-divider.scss";
+@import "helpers.scss";
 
+body {
+  padding-top: 40px;
+  background-color: #EDF1F2;
+  overflow-x: hidden;
+}

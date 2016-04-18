@@ -1,0 +1,69 @@
+$brand-primary: #D2527F;
+$brand-warning: #F0AD4E;
+$brand-success: #26C281;
+$default-grey: #E1E1E1;
+$danger-color: #e74c3c;
+$brand-gray: #C1C1C1;
+
+// Navbar
+$navbar-default-bg: $brand-primary;
+$navbar-default-border: $navbar-default-bg;
+
+$navbar-color-for-links: #EFEFEF;
+$navbar-color-for-hover-links: #ffffff;
+
+$navbar-default-brand-color: $navbar-color-for-links;
+$navbar-default-brand-hover-color: $navbar-color-for-hover-links;
+$navbar-default-link-color: $navbar-color-for-links;
+$navbar-default-link-hover-color: $navbar-color-for-hover-links;
+$navbar-default-link-active-color: #DCDCDC;
+
+// Buttons
+$btn-primary-border: $brand-primary;
+$btn-warning-border: $brand-warning;
+
+//$btn-danger-border: $brand-danger;
+
+// Pagination
+$pagination-bg: $brand-primary;
+$pagination-border: $brand-primary;
+
+$pagination-hover-color: #ffffff;
+$pagination-hover-bg: darken($brand-primary, 8%);
+
+$pager-bg:                             $pagination-bg !default;
+$pager-border:                         $pagination-border !default;
+$pager-border-radius:                  15px !default;
+$pager-color: #ffffff !default;
+$pager-border-radius: 5px;
+
+$pager-hover-bg:                       $pagination-hover-bg !default;
+
+$pager-active-bg:                      $brand-primary !default;
+$pager-active-color:                   #ffffff !default;
+
+$pager-disabled-color:                 #ffffff !default;
+$pager-disabled-bg: lighten($brand-primary, 9%);
+
+// Alerts
+//$info-bg: #54C6EB;
+//$alert-info-bg: $info-bg;
+//$alert-info-text: darken($info-bg, 25);
+//$alert-info-border: darken($info-bg, 7);
+//
+//$warning-bg: #F7CA18;
+//$alert-warning-bg: $warning-bg;
+//$alert-warning-border: $warning-bg;
+//$alert-warning-text: #ffffff;
+//
+//$alert-danger-bg: $danger-color;
+//$alert-danger-text: #ffffff;
+//$alert-danger-border: $danger-color;
+//
+//$alert-success-bg: #06D6A0;
+//$alert-success-text: #ffffff;
+//$alert-success-border: $alert-success-bg;
+
+// Lists
+$list-group-active-bg: #f4baa1;
+$list-group-active-color: #ffffff;
