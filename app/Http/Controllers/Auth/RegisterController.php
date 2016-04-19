@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\BaseController;
 use App\Role;
 use App\User;
+use App\Setting;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +53,12 @@ class RegisterController extends BaseController {
             'password' => bcrypt($request->get('password')),
             'trial_ends_at' => Carbon::now()->addDays(10),
         ]);
+
+        // Save user settings
+        $user->settings()->save(new Setting([
+            'number_of_bills' => 10,
+            'number_of_clients' => 10
+        ]));
 
         // Attach role
         $role = Role::where('name', 'user')->first();

@@ -11,9 +11,32 @@ Route::group(['namespace' => 'Auth'], function() {
 
 });
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard'], function() {
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleare' => 'auth'], function() {
     Route::get('/', 'BillsController@index');
     Route::get('/bills', 'BillsController@index');
+    Route::get('/bills/suggest-clients', 'BillsController@suggestClients');
+
+    // User SettingsPage
+    Route::group(['prefix' => 'settings', 'namespace' => 'Settings'], function() {
+        Route::get('/', 'ProfileController@index');
+
+        // Update profile information, email in this case
+        Route::get('/profile', 'ProfileController@index');
+
+        // Update account security
+        Route::get('/security', 'SecurityController@index');
+
+        // Set number of bills displayed
+        Route::get('/bills', 'NumberOfBillsController@index');
+        Route::get('/bills/get', 'NumberOfBillsController@get');
+        Route::post('/bills/update', 'NumberOfBillsController@update');
+
+        // Set number of clients displayed
+        Route::get('/clients', 'NumberOfClientsController@index');
+        Route::get('/clients/get', 'NumberOfClientsController@get');
+        Route::post('/clients/update', 'NumberOfClientsController@update');
+    });
+
 });
 
 Route::get('/home', 'HomeController@index');

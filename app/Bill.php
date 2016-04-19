@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * Model of bills table.
@@ -20,13 +21,22 @@ class Bill extends Model {
 
     /**
      * Return products of the bill.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products() {
         return $this->hasMany('App\Product');
     }
-    
+
+    /**
+     * Return campaign of the bill.
+     *
+     * @return \\Database\Eloquent\Relations\HasOne
+     */
+    public function campaign() {
+        return $this->hasOne('App\Campaign');
+    }
+
     /**
      * Return the client of this bill.
      *
@@ -34,14 +44,5 @@ class Bill extends Model {
      */
     public function client() {
         return $this->belongsTo('App\Client');
-    }
-
-    /**
-     * Return the user that owns this bill.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user() {
-        return $this->belongsTo('App\User');
     }
 }

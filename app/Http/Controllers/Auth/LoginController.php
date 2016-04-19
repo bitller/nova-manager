@@ -18,6 +18,8 @@ class LoginController extends Controller {
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    protected $redirect_to = '/dashboard';
+
     /**
      * Render login page.
      *
@@ -51,19 +53,16 @@ class LoginController extends Controller {
 
         // Check if credentials are correct
         if (Auth::attempt($credentials)) {
-            return response()->json(['success' => true]);
+            return response()->json([
+              'success' => true,
+              'redirect_to' => $this->redirect_to
+            ]);
         }
 
         // If we arrive here email/password combination is wrong
         if ($throttles) {
-            $f = $this->retriesLeft($request);
             $this->incrementLoginAttempts($request);
-            return response()->json([
-                '1' => $f,
-                '2' => $this->retriesLeft($request)
-            ], 500);
         }
-
 
         return response()->json([
             'success' => false,

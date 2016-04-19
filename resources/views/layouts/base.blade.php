@@ -60,7 +60,7 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                 <span class="glyphicon glyphicon-user"></span>&nbsp;
-                                @if (isset($user)) {{ $user->first_name . ' ' . $user->last_name }} @endif
+                                @if (isset($user)) {{ $user->email }} @endif
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <!-- BEGIN Settings -->

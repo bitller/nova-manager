@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Laravel\Cashier\Billable;
 
@@ -15,7 +16,7 @@ class User extends Authenticatable {
 
     use EntrustUserTrait;
     use Billable;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -50,5 +51,14 @@ class User extends Authenticatable {
      */
     public function bills() {
         return $this->hasManyThrough('App\Bill', 'App\Client');
+    }
+
+    /**
+     * Get user settings.
+     *
+     * @return \\Database\Eloquent\Relations\HasOne
+     */
+    public function settings() {
+        return $this->hasOne('App\Setting');
     }
 }

@@ -28,7 +28,7 @@
                     <div role="form" class="col-md-12">
                         <div class="form-group has-feedback client-name">
                             <label for="client-name">Numele clientului:</label>
-                            <input @keyup.enter="initializeTypeahead" type="text" class="twitter-typeahead form-control" id="client-name">
+                            <input @keyup.enter="autocomplete" type="text" class="twitter-typeahead form-control" id="client-name">
                                 <i class="glyphicon glyphicon-refresh glyphicon-spin form-control-feedback add-product-to-bill-loader"></i>
                         </div>
                     </div>
@@ -117,10 +117,10 @@
 
                     cache: false,
 
-                    url: '/suggest/clients?name=',
+                    url: '/dashboard/bills/suggest-clients?name=',
 
                     replace: function() {
-                        var url = '/suggest/clients?name=';
+                        var url = '/dashboard/bills/suggest-clients?name=';
                         if ($('#client-name').val()) {
                             url += encodeURIComponent($('#client-name').val())
                         }

@@ -1,0 +1,125 @@
+<template>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">Numarul de facturi afisate</div>
+        <div class="panel-body">
+
+            <div class="row">
+
+                <div v-if="error" class="col-md-6 col-md-offset-3">
+                    <div class="alert alert-danger">{{ error }}</div>
+                </div>
+
+                <div v-if="showForm" class="col-md-6 col-md-offset-3">
+                    <div class="form-group">
+                        <label for="number-of-bills">Numarul de facturi afisate pe pagina</label>
+                        <input v-model="number_of_bills" @keyup.enter="updateNumberOfBills" type="text" class="form-control" />
+                    </div>
+                    <div @click="updateNumberOfBills" :class="{ 'disabled': loading }" class="btn btn-block btn-primary">
+                        <span v-show="!loading">Salveaza</span>
+                        <img v-show="loading" src="/img/loading-bubbles.svg" />
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</template>
+
+<script>
+export default {
+
+    data: function() {
+        return {
+            loading: false,
+            showForm: true,
+            number_of_bills: '',
+            error: '',
+            errors: ''
+        }
+    },
+
+    ready: function() {
+        this.getCurrentNumberOfBills();
+    },
+
+    methods: {
+
+        getCurrentNumberOfBills: function() {
+
+            this.loading = true;
+            var vn = this;
+
+            this.$http.get('/dashboard/settings/bills/get').then(function(success) {
+
+                // Handle success case
+                vn.loading = false;
+                vn.number_of_bills = success.data.number_of_bills;
+
+            }, function(error) {
+
+                vn.loading = false;
+                vn.showForm = false;
+
+                if (error.data.message) {
+                    vn.error = error.data.message;
+                    vn.errors = '';
+                    return false;
+                }
+
+                vn.error = 'O eraore a avut loc.';
+                vn.errors = '';
+            });
+        },
+
+        updateNumberOfBills: function() {
+
+            this.loading = true;
+            var vn = this;
+            var numberOfBills = {
+                _token: $('#token').attr('content'),
+                number_of_bills: this.number_of_bills
+            };
+
+            this.$http.post('/dashboard/settings/bills/update', numberOfBills).then(function(success) {
+
+                // Server response is ok
+                vn.loading = false;
+                vn.number_of_bills = success.data.number_of_bills;
+                swal({
+                    type: 'success',
+                    title: success.data.title,
+                    text: success.data.message,
+                    timer: 3000,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    closeOnConfirm: false
+                });
+
+            }, function(error) {
+
+                vn.loading = false;
+
+                if (error.data.errors) {
+                    vn.errors = error.data.errors;
+                    vn.error = '';
+                    return;
+                }
+
+                if (error.data.message) {
+                    vn.error = error.data.message;
+                    vn.errors = '';
+                    return;
+                }
+
+                vn.error = 'O eroare a avut loc.';
+                vn.errors = '';
+            })
+
+        }
+    }
+
+}
+</script>
