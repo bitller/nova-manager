@@ -29962,6 +29962,7 @@ exports.default = {
     data: function data() {
         return {
             loading: false,
+            loading_button: false,
             showForm: true,
             number_of_bills: '',
             error: '',
@@ -30003,7 +30004,7 @@ exports.default = {
 
         updateNumberOfBills: function updateNumberOfBills() {
 
-            this.loading = true;
+            this.loading_button = true;
             var vn = this;
             var numberOfBills = {
                 _token: $('#token').attr('content'),
@@ -30013,7 +30014,7 @@ exports.default = {
             this.$http.post('/dashboard/settings/bills/update', numberOfBills).then(function (success) {
 
                 // Server response is ok
-                vn.loading = false;
+                vn.loading_button = false;
                 vn.number_of_bills = success.data.number_of_bills;
                 swal({
                     type: 'success',
@@ -30026,7 +30027,7 @@ exports.default = {
                 });
             }, function (error) {
 
-                vn.loading = false;
+                vn.loading_button = false;
 
                 if (error.data.errors) {
                     vn.errors = error.data.errors;
@@ -30048,7 +30049,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Numarul de facturi afisate</div>\n    <div class=\"panel-body\">\n\n        <div class=\"row\">\n\n            <div v-if=\"error\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"alert alert-danger\">{{ error }}</div>\n            </div>\n\n            <div v-if=\"showForm\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"form-group\">\n                    <label for=\"number-of-bills\">Numarul de facturi afisate pe pagina</label>\n                    <input v-model=\"number_of_bills\" @keyup.enter=\"updateNumberOfBills\" type=\"text\" class=\"form-control\">\n                </div>\n                <div @click=\"updateNumberOfBills\" :class=\"{ 'disabled': loading }\" class=\"btn btn-block btn-primary\">\n                    <span v-show=\"!loading\">Salveaza</span>\n                    <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n                </div>\n            </div>\n\n        </div>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Numarul de facturi afisate</div>\n    <div class=\"panel-body\">\n\n        <div class=\"row\">\n\n            <div v-if=\"error\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"alert alert-danger\">{{ error }}</div>\n            </div>\n\n            <div class=\"col-md-6 col-md-offset-3\">\n                <div v-if=\"showForm &amp;&amp; !loading\">\n                    <div class=\"form-group\">\n                        <label for=\"number-of-bills\">Numarul de facturi afisate pe pagina</label>\n                        <input v-model=\"number_of_bills\" @keyup.enter=\"updateNumberOfBills\" type=\"text\" class=\"form-control\">\n                    </div>\n                    <div @click=\"updateNumberOfBills\" :class=\"{ 'disabled': loading_button }\" class=\"btn btn-block btn-primary\">\n                        <span v-show=\"!loading_button\">Salveaza</span>\n                        <img v-show=\"loading_button\" src=\"/img/loading-bubbles.svg\">\n                    </div>\n                </div>\n                <div v-else=\"\" class=\"col-md-12 text-center\">\n                    <img src=\"/img/loading-bubbles-big.svg\">\n                </div>\n            </div>\n\n        </div>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
