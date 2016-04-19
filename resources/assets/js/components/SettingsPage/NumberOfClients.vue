@@ -11,23 +11,31 @@
                 </div>
                 <!-- END Error -->
 
-                <!-- BEGIN Number of clients form -->
-                <div v-if="showForm" class="col-md-6 col-md-offset-3">
-                    <!-- BEGIN Input -->
-                    <div class="form-group">
-                        <label for="number-of-clients">Numarul de clienti afisati pe pagina</label>
-                        <input v-model="number_of_clients" @keyup.enter="updateNumberOfClients" type="text" id="number-of-clients" class="form-control" />
-                    </div>
-                    <!-- END Input -->
+                <div class="col-md-6 col-md-offset-3">
+                    <!-- BEGIN Number of clients form -->
+                    <div v-if="showForm && !loading">
+                        <!-- BEGIN Input -->
+                        <div class="form-group">
+                            <label for="number-of-clients">Numarul de clienti afisati pe pagina</label>
+                            <input v-model="number_of_clients" @keyup.enter="updateNumberOfClients" type="text" id="number-of-clients" class="form-control" />
+                        </div>
+                        <!-- END Input -->
 
-                    <!-- BEGIN Button -->
-                    <div @click="updateNumberOfClients" :class="{ 'disabled': loading }" class="btn btn-block btn-primary">
-                        <span v-show="!loading">Salveaza</span>
-                        <img v-show="loading" src="/img/loading-bubbles.svg" />
+                        <!-- BEGIN Button -->
+                        <div @click="updateNumberOfClients" :class="{ 'disabled': loading_button }" class="btn btn-block btn-primary">
+                            <span v-show="!loading_button">Salveaza</span>
+                            <img v-show="loading_button" src="/img/loading-bubbles.svg" />
+                        </div>
+                        <!-- END Button -->
                     </div>
-                    <!-- END Button -->
+                    <!-- END Number of clients form -->
+
+                    <!-- BEGIN Number of clients loader -->
+                    <div v-if="loading" class="col-md-12 text-center">
+                        <img src="/img/loading-bubbles-big.svg" />
+                    </div>
+                    <!-- END Number of clients loader -->
                 </div>
-                <!-- END Number of clients form -->
             </div>
         </div>
         <!-- END Panel body -->
@@ -41,6 +49,7 @@ export default {
     data: function() {
         return {
             loading: false,
+            loading_button: false,
             showForm: true,
             number_of_clients: '',
             error: '',
@@ -84,7 +93,7 @@ export default {
 
         updateNumberOfClients: function() {
 
-            this.loading = true;
+            this.loading_button = true;
             var vn = this;
             var numberOfClients = {
                 _token: $('#token').attr('content'),
@@ -94,7 +103,7 @@ export default {
             this.$http.post('/dashboard/settings/clients/update', numberOfClients).then(function(success) {
 
                 // Handle case when server response is ok
-                vn.loading = false;
+                vn.loading_button = false;
                 vn.number_of_clients = success.data.number_of_clients;
                 swal({
                     type: 'success',
@@ -107,7 +116,7 @@ export default {
                 });
             }, function(error) {
 
-                vn.loading = false;
+                vn.loading_button = false;
 
                 if (error.data.errors) {
                     vn.errors = error.data.errors;

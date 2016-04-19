@@ -30049,7 +30049,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Numarul de facturi afisate</div>\n    <div class=\"panel-body\">\n\n        <div class=\"row\">\n\n            <div v-if=\"error\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"alert alert-danger\">{{ error }}</div>\n            </div>\n\n            <div class=\"col-md-6 col-md-offset-3\">\n                <div v-if=\"showForm &amp;&amp; !loading\">\n                    <div class=\"form-group\">\n                        <label for=\"number-of-bills\">Numarul de facturi afisate pe pagina</label>\n                        <input v-model=\"number_of_bills\" @keyup.enter=\"updateNumberOfBills\" type=\"text\" class=\"form-control\">\n                    </div>\n                    <div @click=\"updateNumberOfBills\" :class=\"{ 'disabled': loading_button }\" class=\"btn btn-block btn-primary\">\n                        <span v-show=\"!loading_button\">Salveaza</span>\n                        <img v-show=\"loading_button\" src=\"/img/loading-bubbles.svg\">\n                    </div>\n                </div>\n                <div v-else=\"\" class=\"col-md-12 text-center\">\n                    <img src=\"/img/loading-bubbles-big.svg\">\n                </div>\n            </div>\n\n        </div>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Numarul de facturi afisate</div>\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        <div class=\"row\">\n\n            <!-- BEGIN Error -->\n            <div v-if=\"error\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"alert alert-danger\">{{ error }}</div>\n            </div>\n            <!-- END Error -->\n\n            <div class=\"col-md-6 col-md-offset-3\">\n                <!-- BEGIN Number of bills form -->\n                <div v-if=\"showForm &amp;&amp; !loading\">\n                    <!-- BEGIN Input -->\n                    <div class=\"form-group\">\n                        <label for=\"number-of-bills\">Numarul de facturi afisate pe pagina</label>\n                        <input v-model=\"number_of_bills\" @keyup.enter=\"updateNumberOfBills\" type=\"text\" class=\"form-control\">\n                    </div>\n                    <!-- END Input -->\n\n                    <!-- BEGIN Button -->\n                    <div @click=\"updateNumberOfBills\" :class=\"{ 'disabled': loading_button }\" class=\"btn btn-block btn-primary\">\n                        <span v-show=\"!loading_button\">Salveaza</span>\n                        <img v-show=\"loading_button\" src=\"/img/loading-bubbles.svg\">\n                    </div>\n                    <!-- END Button -->\n                </div>\n                <!-- END Number of bills form -->\n\n                <!-- BEGIN Number of bills loader -->\n                <div v-if=\"loading\" class=\"col-md-12 text-center\">\n                    <img src=\"/img/loading-bubbles-big.svg\">\n                </div>\n                <!-- END Number of bills loader -->\n            </div>\n\n        </div>\n    </div>\n    <!-- END Panel body -->\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -30072,6 +30072,7 @@ exports.default = {
     data: function data() {
         return {
             loading: false,
+            loading_button: false,
             showForm: true,
             number_of_clients: '',
             error: '',
@@ -30114,7 +30115,7 @@ exports.default = {
 
         updateNumberOfClients: function updateNumberOfClients() {
 
-            this.loading = true;
+            this.loading_button = true;
             var vn = this;
             var numberOfClients = {
                 _token: $('#token').attr('content'),
@@ -30124,7 +30125,7 @@ exports.default = {
             this.$http.post('/dashboard/settings/clients/update', numberOfClients).then(function (success) {
 
                 // Handle case when server response is ok
-                vn.loading = false;
+                vn.loading_button = false;
                 vn.number_of_clients = success.data.number_of_clients;
                 swal({
                     type: 'success',
@@ -30137,7 +30138,7 @@ exports.default = {
                 });
             }, function (error) {
 
-                vn.loading = false;
+                vn.loading_button = false;
 
                 if (error.data.errors) {
                     vn.errors = error.data.errors;
@@ -30159,7 +30160,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Numarul de clienti afisati</div>\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        <div class=\"row\">\n            <!-- BEGIN Error -->\n            <div v-show=\"error\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"alert alert-danger\">{{ error }}</div>\n            </div>\n            <!-- END Error -->\n\n            <!-- BEGIN Number of clients form -->\n            <div v-if=\"showForm\" class=\"col-md-6 col-md-offset-3\">\n                <!-- BEGIN Input -->\n                <div class=\"form-group\">\n                    <label for=\"number-of-clients\">Numarul de clienti afisati pe pagina</label>\n                    <input v-model=\"number_of_clients\" @keyup.enter=\"updateNumberOfClients\" type=\"text\" id=\"number-of-clients\" class=\"form-control\">\n                </div>\n                <!-- END Input -->\n\n                <!-- BEGIN Button -->\n                <div @click=\"updateNumberOfClients\" :class=\"{ 'disabled': loading }\" class=\"btn btn-block btn-primary\">\n                    <span v-show=\"!loading\">Salveaza</span>\n                    <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n                </div>\n                <!-- END Button -->\n            </div>\n            <!-- END Number of clients form -->\n        </div>\n    </div>\n    <!-- END Panel body -->\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Numarul de clienti afisati</div>\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        <div class=\"row\">\n            <!-- BEGIN Error -->\n            <div v-show=\"error\" class=\"col-md-6 col-md-offset-3\">\n                <div class=\"alert alert-danger\">{{ error }}</div>\n            </div>\n            <!-- END Error -->\n\n            <div class=\"col-md-6 col-md-offset-3\">\n                <!-- BEGIN Number of clients form -->\n                <div v-if=\"showForm &amp;&amp; !loading\">\n                    <!-- BEGIN Input -->\n                    <div class=\"form-group\">\n                        <label for=\"number-of-clients\">Numarul de clienti afisati pe pagina</label>\n                        <input v-model=\"number_of_clients\" @keyup.enter=\"updateNumberOfClients\" type=\"text\" id=\"number-of-clients\" class=\"form-control\">\n                    </div>\n                    <!-- END Input -->\n\n                    <!-- BEGIN Button -->\n                    <div @click=\"updateNumberOfClients\" :class=\"{ 'disabled': loading_button }\" class=\"btn btn-block btn-primary\">\n                        <span v-show=\"!loading_button\">Salveaza</span>\n                        <img v-show=\"loading_button\" src=\"/img/loading-bubbles.svg\">\n                    </div>\n                    <!-- END Button -->\n                </div>\n                <!-- END Number of clients form -->\n\n                <!-- BEGIN Number of clients loader -->\n                <div v-if=\"loading\" class=\"col-md-12 text-center\">\n                    <img src=\"/img/loading-bubbles-big.svg\">\n                </div>\n                <!-- END Number of clients loader -->\n            </div>\n        </div>\n    </div>\n    <!-- END Panel body -->\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

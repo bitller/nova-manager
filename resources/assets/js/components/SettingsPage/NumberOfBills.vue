@@ -13,24 +13,29 @@
                 <!-- END Error -->
 
                 <div class="col-md-6 col-md-offset-3">
-                    <!-- BEGIN Number of clients form -->
+                    <!-- BEGIN Number of bills form -->
                     <div v-if="showForm && !loading">
+                        <!-- BEGIN Input -->
                         <div class="form-group">
                             <label for="number-of-bills">Numarul de facturi afisate pe pagina</label>
                             <input v-model="number_of_bills" @keyup.enter="updateNumberOfBills" type="text" class="form-control" />
                         </div>
+                        <!-- END Input -->
+
+                        <!-- BEGIN Button -->
                         <div @click="updateNumberOfBills" :class="{ 'disabled': loading_button }" class="btn btn-block btn-primary">
                             <span v-show="!loading_button">Salveaza</span>
                             <img v-show="loading_button" src="/img/loading-bubbles.svg" />
                         </div>
+                        <!-- END Button -->
                     </div>
-                    <!-- END Number of clients form -->
+                    <!-- END Number of bills form -->
 
-                    <!-- BEGIN Number of clients loader -->
-                    <div v-else class="col-md-12 text-center">
+                    <!-- BEGIN Number of bills loader -->
+                    <div v-if="loading" class="col-md-12 text-center">
                         <img src="/img/loading-bubbles-big.svg" />
                     </div>
-                    <!-- END Number of clients loader -->
+                    <!-- END Number of bills loader -->
                 </div>
 
             </div>

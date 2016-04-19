@@ -24,7 +24,7 @@ class NumberOfBillsController extends BaseController {
      * Get number of displayed bills.
      */
     public function get() {
-        sleep(3);
+
         $numberOfBills = Auth::user()->settings()->first()->number_of_bills;
 
         if (!$numberOfBills || !is_numeric($numberOfBills) || $numberOfBills < 1) {
