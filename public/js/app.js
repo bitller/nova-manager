@@ -27434,6 +27434,10 @@ module.exports = Vue;
 },{"_process":3}],33:[function(require,module,exports){
 'use strict';
 
+var _LoginPage = require('./components/LoginPage.vue');
+
+var _LoginPage2 = _interopRequireDefault(_LoginPage);
+
 var _RegisterPage = require('./components/RegisterPage.vue');
 
 var _RegisterPage2 = _interopRequireDefault(_RegisterPage);
@@ -27449,6 +27453,7 @@ window.jQuery = window.$ = require('jquery');
 require('bootstrap-sass');
 var Vue = require('vue');
 
+// Import typeahead, used for auto complete
 var typeahead = require("typeahead.js-browserify");
 typeahead.loadjQueryPlugin();
 
@@ -27463,12 +27468,13 @@ new Vue({
     el: '#app',
 
     components: {
+        'login-page': _LoginPage2.default,
         'register-page': _RegisterPage2.default,
         'bills-page': _BillsPage2.default
     }
 });
 
-},{"./components/BillsPage.vue":34,"./components/RegisterPage.vue":57,"bootstrap-sass":1,"jquery":2,"typeahead.js-browserify":4,"vue":32,"vue-resource":21}],34:[function(require,module,exports){
+},{"./components/BillsPage.vue":34,"./components/LoginPage.vue":57,"./components/RegisterPage.vue":60,"bootstrap-sass":1,"jquery":2,"typeahead.js-browserify":4,"vue":32,"vue-resource":21}],34:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28046,24 +28052,13 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
 
     ready: function ready() {
-        this.initializeTypeahead();
+        this.autocomplete();
     },
 
     methods: {
-        initializeTypeahead: function initializeTypeahead() {
+        autocomplete: function autocomplete() {
 
-            // console.log('called');
             var Bloodhound = require("typeahead.js-browserify").Bloodhound;
-            // var engine = new Bloodhound({
-            //     local: ['dog', 'pig', 'moose'],
-            //     queryTokenizer: Bloodhound.tokenizers.whitespace,
-            //     datumTokenizer: Bloodhound.tokenizers.whitespace
-            // });
-            // $('#client-id').typeahead(null, {
-            //     name: 'engine',
-            //     display: 'value',
-            //     source: engine
-            // });
 
             // Search engine for client suggestions
             var clients = new Bloodhound({
@@ -28190,7 +28185,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<button @click=\"toggleSearchBar\" class=\"btn btn-default\">\n    <i class=\"glyphicon glyphicon-search\"></i>\n</button>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n    <button @click=\"toggleSearchBar\" class=\"btn btn-default\">\n    <i class=\"glyphicon glyphicon-search\"></i>\n</button>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -28203,6 +28198,155 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":32,"vue-hot-reload-api":7}],57:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _LoginIcon = require('../components/LoginPage/LoginIcon.vue');
+
+var _LoginIcon2 = _interopRequireDefault(_LoginIcon);
+
+var _LoginForm = require('../components/LoginPage/LoginForm.vue');
+
+var _LoginForm2 = _interopRequireDefault(_LoginForm);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'login-icon': _LoginIcon2.default,
+        'login-form': _LoginForm2.default
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"well custom-well login-form col-md-6 col-md-offset-3\">\n    <div class=\"col-md-10 col-md-offset-1\">\n\n        <login-icon></login-icon>\n        <login-form></login-form>\n    </div>\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/LoginPage.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../components/LoginPage/LoginForm.vue":58,"../components/LoginPage/LoginIcon.vue":59,"vue":32,"vue-hot-reload-api":7}],58:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    data: function data() {
+        return {
+            email: '',
+            password: '',
+            errors: '',
+            error: '',
+            loading: false
+        };
+    },
+
+    methods: {
+        login: function login() {
+
+            this.loading = true;
+
+            var vn = this;
+            var credentials = {
+                _token: $('#token').attr('content'),
+                email: this.email,
+                password: this.password
+            };
+
+            this.$http.post('/login', credentials).then(function (success) {
+                window.location.replace(success.data.redirect_to);
+            }, function (error) {
+
+                vn.loading = false;
+
+                if (error.data.errors) {
+                    vn.errors = error.data.errors;
+                    vn.error = '';
+                    return;
+                }
+
+                if (error.data.error) {
+                    vn.error = error.data.error;
+                    vn.errors = '';
+                    return;
+                }
+
+                vn.error = 'O eroare a avut loc.';
+                vn.errors = '';
+            });
+        }
+    },
+
+    computed: {
+        displayError: function displayError() {
+            if (this.error && !this.loading) {
+                return true;
+            }
+            return false;
+        },
+
+        displayEmailError: function displayEmailError() {
+            if (this.errors.email && !this.loading) {
+                return true;
+            }
+            return false;
+        },
+
+        displayPasswordError: function displayPasswordError() {
+            if (this.errors.password && !this.loading) {
+                return true;
+            }
+            return false;
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div v-show=\"displayError\" class=\"alert alert-danger\">{{ error }}</div>\n\n<!-- BEGIN Email input -->\n<div :class=\"{ 'has-error': displayEmailError }\" class=\"form-group has-feedback\">\n    <input v-model=\"email\" @keyup.enter=\"login\" id=\"login-email\" type=\"text\" class=\"form-control\" placeholder=\"Emailul dvs\">\n    <span v-show=\"displayEmailError\" class=\"text-danger\">{{ errors.email }}</span>\n    <i class=\"glyphicon glyphicon-user form-control-feedback icon-color\"></i>\n</div>\n<!-- END Email input -->\n\n<!-- BEGIN Password input -->\n<div :class=\"{ 'has-error': displayPasswordError }\" class=\"form-group has-feedback\">\n    <input v-model=\"password\" @keyup.enter=\"login\" type=\"password\" class=\"form-control\" placeholder=\"parola\">\n    <span v-show=\"displayPasswordError\" class=\"text-danger\">{{ errors.password }}</span>\n    <i class=\"glyphicon glyphicon-lock form-control-feedback icon-color\"></i>\n</div>\n<!-- END Password input -->\n\n<!-- BEGIN Login button -->\n<div class=\"form-group login-button\">\n    <button @click=\"login\" :class=\"{ 'disabled': loading }\" class=\"btn-block btn btn-primary\">\n        <img v-show=\"loading\" class=\"img-responsive center-responsive-image\" src=\"/img/loading-bubbles.svg\">\n        <span v-show=\"!loading\">login</span>\n    </button>\n</div>\n<!-- END Login button -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/LoginPage/LoginForm.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":32,"vue-hot-reload-api":7}],59:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = {};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <img class=\"img-responsive center-responsive-image\" src=\"/img/lock.svg\">\n</div>\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/LoginPage/LoginIcon.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":32,"vue-hot-reload-api":7}],60:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28255,7 +28399,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/RegisterPage/CreateAccountForm.vue":58,"../components/RegisterPage/CreateAccountIcon.vue":59,"../components/RegisterPage/FreePeriod.vue":60,"../components/RegisterPage/YourProfile.vue":61,"vue":32,"vue-hot-reload-api":7}],58:[function(require,module,exports){
+},{"../components/RegisterPage/CreateAccountForm.vue":61,"../components/RegisterPage/CreateAccountIcon.vue":62,"../components/RegisterPage/FreePeriod.vue":63,"../components/RegisterPage/YourProfile.vue":64,"vue":32,"vue-hot-reload-api":7}],61:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28347,7 +28491,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div v-show=\"displayError\" class=\"alert alert-danger\">{{ error }}</div>\n\n<!-- BEGIN Email -->\n<div :class=\"{ 'has-error': displayEmailError }\" class=\"form-group\">\n    <input v-model=\"email\" @keyup.enter=\"register\" class=\"form-control border-input\" type=\"text\" placeholder=\"Care este adresa dumneavoastră de email?\">\n    <span v-show=\"displayEmailError\" class=\"text-danger\">{{ errors.email }}</span>\n</div>\n<!-- END Email -->\n\n<!-- BEGIN Password -->\n<div :class=\"{ 'has-error': displayPasswordError }\" class=\"form-group\">\n    <input v-model=\"password\" @keyup.enter=\"register\" class=\"form-control border-input\" type=\"password\" placeholder=\"Alegeți o parolă\">\n    <span v-show=\"displayPasswordError\" class=\"text-danger\">{{ errors.password }}</span>\n</div>\n<!-- END Password -->\n\n<!-- BEGIN Confirm password -->\n<div :class=\"{ 'has-error': displayPasswordConfirmationError }\" class=\"form-group\">\n    <input v-model=\"password_confirmation\" @keyup.enter=\"register\" class=\"form-control border-input\" type=\"password\" placeholder=\"Reintroduceți parola aleasă\">\n    <span v-show=\"displayPasswordConfirmationError\" class=\"text-danger\">{{ errors.password_confirmation }}</span>\n</div>\n<!-- END Confirm password -->\n\n<div class=\"form-group register-button\">\n    <button @click=\"register\" :class=\"{ 'disabled': loading }\" class=\"btn-block btn btn-primary\">\n        <img v-show=\"loading\" class=\"img-responsive center-responsive-image\" src=\"/img/loading-bubbles.svg\">\n        <span v-show=\"!loading\">Creează contul</span>\n    </button>\n</div>\n    \n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div v-show=\"displayError\" class=\"alert alert-danger\">{{ error }}</div>\n\n    <!-- BEGIN Email -->\n    <div :class=\"{ 'has-error': displayEmailError }\" class=\"form-group\">\n    <input v-model=\"email\" @keyup.enter=\"register\" class=\"form-control border-input\" type=\"text\" placeholder=\"Care este adresa dumneavoastră de email?\">\n<span v-show=\"displayEmailError\" class=\"text-danger\">{{ errors.email }}</span>\n</div>\n<!-- END Email -->\n\n<!-- BEGIN Password -->\n<div :class=\"{ 'has-error': displayPasswordError }\" class=\"form-group\">\n<input v-model=\"password\" @keyup.enter=\"register\" class=\"form-control border-input\" type=\"password\" placeholder=\"Alegeți o parolă\">\n<span v-show=\"displayPasswordError\" class=\"text-danger\">{{ errors.password }}</span>\n</div>\n<!-- END Password -->\n\n<!-- BEGIN Confirm password -->\n<div :class=\"{ 'has-error': displayPasswordConfirmationError }\" class=\"form-group\">\n<input v-model=\"password_confirmation\" @keyup.enter=\"register\" class=\"form-control border-input\" type=\"password\" placeholder=\"Reintroduceți parola aleasă\">\n<span v-show=\"displayPasswordConfirmationError\" class=\"text-danger\">{{ errors.password_confirmation }}</span>\n</div>\n<!-- END Confirm password -->\n\n<div class=\"form-group register-button\">\n    <button @click=\"register\" :class=\"{ 'disabled': loading }\" class=\"btn-block btn btn-primary\">\n    <img v-show=\"loading\" class=\"img-responsive center-responsive-image\" src=\"/img/loading-bubbles.svg\">\n    <span v-show=\"!loading\">Creează contul</span>\n</button>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -28359,7 +28503,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":32,"vue-hot-reload-api":7}],59:[function(require,module,exports){
+},{"vue":32,"vue-hot-reload-api":7}],62:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28379,7 +28523,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":32,"vue-hot-reload-api":7}],60:[function(require,module,exports){
+},{"vue":32,"vue-hot-reload-api":7}],63:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28399,7 +28543,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":32,"vue-hot-reload-api":7}],61:[function(require,module,exports){
+},{"vue":32,"vue-hot-reload-api":7}],64:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

@@ -11,15 +11,15 @@
 
 <script>
 
-    import TableHead from '../../components/BillsPage/BillsTable/TableHead.vue';
-    import TableBody from '../../components/BillsPage/BillsTable/TableBody.vue';    
+import TableHead from '../../components/BillsPage/BillsTable/TableHead.vue';
+import TableBody from '../../components/BillsPage/BillsTable/TableBody.vue';
 
-    export default {
+export default {
 
-        components: {
-            'table-head': TableHead,
-            'table-body': TableBody
-        }
-
+    components: {
+        'table-head': TableHead,
+        'table-body': TableBody
     }
+
+}
 </script>

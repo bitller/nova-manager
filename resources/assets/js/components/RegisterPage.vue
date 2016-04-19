@@ -13,27 +13,27 @@
         </div>
     </div>
 </template>
-    
-<script>
-        
-    import FreePeriod from '../components/RegisterPage/FreePeriod.vue';
-    import YourProfile from '../components/RegisterPage/YourProfile.vue';
-    import CreateAccountForm from '../components/RegisterPage/CreateAccountForm.vue';
-    import CreateAccountIcon from '../components/RegisterPage/CreateAccountIcon.vue';
 
-    export default {
-        
-        components: {
-            'free-period': FreePeriod,
-            'your-profile': YourProfile,
-            'create-account-form': CreateAccountForm,
-            'create-account-icon': CreateAccountIcon
-        },
-        
-        data: function() {
-            return {
-                //
-            }
+<script>
+
+import FreePeriod from '../components/RegisterPage/FreePeriod.vue';
+import YourProfile from '../components/RegisterPage/YourProfile.vue';
+import CreateAccountForm from '../components/RegisterPage/CreateAccountForm.vue';
+import CreateAccountIcon from '../components/RegisterPage/CreateAccountIcon.vue';
+
+export default {
+
+    components: {
+        'free-period': FreePeriod,
+        'your-profile': YourProfile,
+        'create-account-form': CreateAccountForm,
+        'create-account-icon': CreateAccountIcon
+    },
+
+    data: function() {
+        return {
+            //
         }
     }
+}
 </script>

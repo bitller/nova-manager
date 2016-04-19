@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Role;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -55,6 +56,8 @@ class RegisterController extends BaseController {
         // Attach role
         $role = Role::where('name', 'user')->first();
         $user->attachRole($role);
+
+        Auth::login($user);
 
         // Return json response
         return response()->json([
