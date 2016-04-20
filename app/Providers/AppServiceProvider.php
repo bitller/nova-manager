@@ -12,8 +12,9 @@ class AppServiceProvider extends ServiceProvider {
      * @return void
      */
     public function boot() {
-        
+
         \Validator::extend('not_exists', 'App\CustomValidationRules\NotExists@validate');
+        \Validator::extend('current_user_password', 'App\CustomValidationRules\CurrentUserPassword@validate');
 
         \Braintree_Configuration::environment(env('BRAINTREE_ENV'));
         \Braintree_Configuration::merchantId(env('BRAINTREE_MERCHANT_ID'));

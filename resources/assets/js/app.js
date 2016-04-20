@@ -30,5 +30,25 @@ new Vue({
         'register-page': RegisterPage,
         'bills-page': BillsPage,
         'settings-page': SettingsPage,
+    },
+
+    methods: {
+        successAlert: function() {
+            alert('works');
+        }
+    },
+
+    events: {
+        'success_alert': function(title, message) {
+            swal({
+                type: 'success',
+                title: title,
+                text: message,
+                timer: 3000,
+                showCancelButton: false,
+                showConfirmButton: false,
+                closeOnConfirm: false
+            });
+        }
     }
 });
