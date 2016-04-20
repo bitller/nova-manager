@@ -26,15 +26,26 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleare' =
         // Update account security
         Route::get('/security', 'SecurityController@index');
 
-        // Set number of bills displayed
-        Route::get('/bills', 'NumberOfBillsController@index');
-        Route::get('/bills/get', 'NumberOfBillsController@get');
-        Route::post('/bills/update', 'NumberOfBillsController@update');
-
-        // Set number of clients displayed
-        Route::get('/clients', 'NumberOfClientsController@index');
-        Route::get('/clients/get', 'NumberOfClientsController@get');
-        Route::post('/clients/update', 'NumberOfClientsController@update');
+        // Update displayed settings
+        Route::group(['prefix' => 'displayed'], function() {
+            Route::get('/', 'DisplayedController@index');
+            Route::get('/get-number-of-clients', 'DisplayedController@getNumberOfClients');
+            Route::get('/get-number-of-bills', 'DisplayedController@getNumberOfBills');
+            Route::post('/update-clients', 'DisplayedController@updateNumberOfClients');
+            Route::post('/update-bills', 'DisplayedController@updateNumberOfBills');
+        });
+        //
+        // //
+        //
+        // // Set number of bills displayed
+        // Route::get('/bills', 'NumberOfBillsController@index');
+        // Route::get('/bills/get', 'NumberOfBillsController@get');
+        // Route::post('/bills/update', 'NumberOfBillsController@update');
+        //
+        // // Set number of clients displayed
+        // Route::get('/clients', 'NumberOfClientsController@index');
+        // Route::get('/clients/get', 'NumberOfClientsController@get');
+        // Route::post('/clients/update', 'NumberOfClientsController@update');
     });
 
 });

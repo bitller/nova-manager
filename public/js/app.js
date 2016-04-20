@@ -29850,14 +29850,6 @@ var _Security = require('../components/SettingsPage/Security.vue');
 
 var _Security2 = _interopRequireDefault(_Security);
 
-var _NumberOfBills = require('../components/SettingsPage/NumberOfBills.vue');
-
-var _NumberOfBills2 = _interopRequireDefault(_NumberOfBills);
-
-var _NumberOfClients = require('../components/SettingsPage/NumberOfClients.vue');
-
-var _NumberOfClients2 = _interopRequireDefault(_NumberOfClients);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
@@ -29874,9 +29866,7 @@ exports.default = {
         'settings': _Settings2.default,
         'profile': _Profile2.default,
         'security': _Security2.default,
-        'displayed': _Displayed2.default,
-        'number-of-bills': _NumberOfBills2.default,
-        'number-of-clients': _NumberOfClients2.default
+        'displayed': _Displayed2.default
     },
 
     events: {
@@ -29891,7 +29881,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"row\">\n\n    <div class=\"col-md-4\">\n        <settings :active=\"active\"></settings>\n        <displayed :active=\"active\"></displayed>\n    </div>\n\n    <div class=\"col-md-8\">\n\n        <!-- BEGIN Settings group -->\n        <profile v-if=\"activeComponent == 'profile'\"></profile>\n        <security v-if=\"activeComponent == 'security'\"></security>\n        <!-- END Settings group -->\n\n        <!-- BEGIN Displayed group -->\n        <number-of-bills v-if=\"activeComponent == 'bills'\"></number-of-bills>\n        <number-of-clients v-if=\"activeComponent == 'clients'\"></number-of-clients>\n        <!-- END Displayed group -->\n\n    </div>\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"row\">\n\n    <div class=\"col-md-4\">\n        <settings :active=\"active\"></settings>\n    </div>\n\n    <div class=\"col-md-8\">\n\n        <!-- BEGIN Settings group -->\n        <profile v-if=\"activeComponent == 'profile'\"></profile>\n        <security v-if=\"activeComponent == 'security'\"></security>\n        <displayed v-if=\"activeComponent == 'displayed'\"></displayed>\n        <!-- END Settings group -->\n\n    </div>\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -29903,43 +29893,33 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/SettingsPage/Displayed.vue":75,"../components/SettingsPage/NumberOfBills.vue":76,"../components/SettingsPage/NumberOfClients.vue":77,"../components/SettingsPage/Profile.vue":78,"../components/SettingsPage/Security.vue":79,"../components/SettingsPage/Settings.vue":80,"vue":41,"vue-hot-reload-api":16}],75:[function(require,module,exports){
+},{"../components/SettingsPage/Displayed.vue":75,"../components/SettingsPage/Profile.vue":78,"../components/SettingsPage/Security.vue":79,"../components/SettingsPage/Settings.vue":80,"vue":41,"vue-hot-reload-api":16}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+
+var _NumberOfBills = require('../../components/SettingsPage/Displayed/NumberOfBills.vue');
+
+var _NumberOfBills2 = _interopRequireDefault(_NumberOfBills);
+
+var _NumberOfClients = require('../../components/SettingsPage/Displayed/NumberOfClients.vue');
+
+var _NumberOfClients2 = _interopRequireDefault(_NumberOfClients);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
 exports.default = {
 
-    props: ['active'],
-
-    methods: {
-        componentClicked: function componentClicked() {
-            this.$dispatch('component_clicked');
-        }
-    },
-
-    computed: {
-        billsIsActive: function billsIsActive() {
-            if (this.active === 'bills') {
-                return true;
-            }
-
-            return false;
-        },
-
-        clientsIsActive: function clientsIsActive() {
-            if (this.active === 'clients') {
-                return true;
-            }
-
-            return false;
-        }
+    components: {
+        'number-of-bills': _NumberOfBills2.default,
+        'number-of-clients': _NumberOfClients2.default
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Afisare</div>\n    <div class=\"list-group\">\n         <a @click=\"componentClicked\" :class=\"{ 'active': billsIsActive }\" href=\"/dashboard/settings/bills\" class=\"list-group-item\">Numarul de facturi afisate</a>\n         <a @click=\"componentClicked\" :class=\"{ 'active': clientsIsActive}\" href=\"/dashboard/settings/clients\" class=\"list-group-item\">Numarul de clienti afisati</a>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<number-of-bills></number-of-bills>\n<number-of-clients></number-of-clients>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -29951,7 +29931,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],76:[function(require,module,exports){
+},{"../../components/SettingsPage/Displayed/NumberOfBills.vue":76,"../../components/SettingsPage/Displayed/NumberOfClients.vue":77,"vue":41,"vue-hot-reload-api":16}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29981,7 +29961,7 @@ exports.default = {
             this.loading = true;
             var vn = this;
 
-            this.$http.get('/dashboard/settings/bills/get').then(function (success) {
+            this.$http.get('/dashboard/settings/displayed/get-number-of-bills').then(function (success) {
 
                 // Handle success case
                 vn.loading = false;
@@ -30011,7 +29991,7 @@ exports.default = {
                 number_of_bills: this.number_of_bills
             };
 
-            this.$http.post('/dashboard/settings/bills/update', numberOfBills).then(function (success) {
+            this.$http.post('/dashboard/settings/displayed/update-bills', numberOfBills).then(function (success) {
 
                 // Server response is ok
                 vn.loading_button = false;
@@ -30054,7 +30034,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/SettingsPage/NumberOfBills.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SettingsPage/Displayed/NumberOfBills.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -30091,7 +30071,7 @@ exports.default = {
             this.loading = true;
             var vn = this;
 
-            this.$http.get('/dashboard/settings/clients/get').then(function (success) {
+            this.$http.get('/dashboard/settings/displayed/get-number-of-clients').then(function (success) {
 
                 // Server response is ok
                 vn.loading = false;
@@ -30122,7 +30102,7 @@ exports.default = {
                 number_of_clients: this.number_of_clients
             };
 
-            this.$http.post('/dashboard/settings/clients/update', numberOfClients).then(function (success) {
+            this.$http.post('/dashboard/settings/displayed/update-clients', numberOfClients).then(function (success) {
 
                 // Handle case when server response is ok
                 vn.loading_button = false;
@@ -30165,7 +30145,7 @@ if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/SettingsPage/NumberOfClients.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SettingsPage/Displayed/NumberOfClients.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -30243,12 +30223,20 @@ exports.default = {
             }
 
             return false;
+        },
+
+        displayedIsActive: function displayedIsActive() {
+            if (this.active === 'displayed') {
+                return true;
+            }
+
+            return false;
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Setari</div>\n    <div class=\"list-group\">\n         <a @click=\"componentClicked\" :class=\"{ 'active': profileIsActive }\" href=\"/dashboard/settings/profile\" class=\"list-group-item\">Profile</a>\n         <a @click=\"componentClicked\" :class=\"{ 'active': securityIsActive }\" href=\"/dashboard/settings/security\" class=\"list-group-item\">Security</a>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Setari</div>\n    <div class=\"list-group\">\n         <a @click=\"componentClicked\" :class=\"{ 'active': profileIsActive }\" href=\"/dashboard/settings/profile\" class=\"list-group-item\">Profile</a>\n         <a @click=\"componentClicked\" :class=\"{ 'active': securityIsActive }\" href=\"/dashboard/settings/security\" class=\"list-group-item\">Securitate</a>\n         <a @click=\"componentClicked\" :class=\"{ 'active': displayedIsActive}\" href=\"/dashboard/settings/displayed\" class=\"list-group-item\">Afisare</a>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

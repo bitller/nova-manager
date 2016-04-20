@@ -1,43 +1,21 @@
 <template>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">Afisare</div>
-        <div class="list-group">
-             <a @click="componentClicked" :class="{ 'active': billsIsActive }" href="/dashboard/settings/bills" class="list-group-item">Numarul de facturi afisate</a>
-             <a @click="componentClicked" :class="{ 'active': clientsIsActive}" href="/dashboard/settings/clients" class="list-group-item">Numarul de clienti afisati</a>
-        </div>
-    </div>
+    <number-of-bills></number-of-bills>
+    <number-of-clients></number-of-clients>
 
 </template>
 
 <script>
+
+import NumberOfBills from '../../components/SettingsPage/Displayed/NumberOfBills.vue';
+import NumberOfClients from '../../components/SettingsPage/Displayed/NumberOfClients.vue';
+
 export default {
 
-    props: ['active'],
-
-    methods: {
-        componentClicked: function() {
-            this.$dispatch('component_clicked');
-        }
-    },
-
-    computed: {
-        billsIsActive: function() {
-            if (this.active === 'bills') {
-                return true;
-            }
-
-            return false;
-        },
-
-        clientsIsActive: function() {
-            if (this.active === 'clients') {
-                return true;
-            }
-
-            return false;
-        }
+    components: {
+        'number-of-bills': NumberOfBills,
+        'number-of-clients': NumberOfClients
     }
-
+    
 }
 </script>
