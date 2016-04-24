@@ -7,7 +7,7 @@
 
         <!-- BEGIN Panel body -->
         <div class="panel-body">
-            fields to add a new user here.
+            
         </div>
         <!-- END Panel body -->
 

@@ -29202,7 +29202,7 @@ exports.default = {
     //
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un utilizator nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        fields to add a new user here.\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un utilizator nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        \n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -32070,16 +32070,102 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":121,"vue":41,"vue-hot-reload-api":16}],121:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    data: function data() {
+        return {
+            error: '',
+            errors: '',
+            loading: false,
+            email: '',
+            loadingEmail: false
+        };
+    },
+
+    ready: function ready() {
+        this.getEmail();
+    },
+
+    methods: {
+
+        getEmail: function getEmail() {
+
+            this.loadingEmail = true;
+            var vn = this;
+
+            this.$http.get('/dashboard/settings/profile/get-email').then(function (success) {
+                vn.loadingEmail = false;
+                vn.email = success.data.email;
+            }, function (error) {
+                //
+            });
+        },
+
+        changeEmail: function changeEmail() {
+
+            this.loading = true;
+            var vn = this;
+            var email = {
+                _token: $('#token').attr('content'),
+                email: this.email
+            };
+
+            this.$http.post('/dashboard/settings/profile/change-email', email).then(function (success) {
+
+                vn.loading = false;
+                vn.error = vn.errors = '';
+                vn.$dispatch('success_alert', success.data.title, success.data.message);
+            }, function (error) {
+
+                vn.loading = false;
+
+                if (error.data.errors) {
+                    this.errors = error.data.errors;
+                    this.error = '';
+                    return;
+                }
+
+                if (error.data.error) {
+                    this.error = error.data.error;
+                    thie.errors = '';
+                    return;
+                }
+
+                this.error = 'O eroare a avut loc.';
+                this.errors = '';
+            });
+        }
+
+    },
+
+    computed: {
+
+        'hasError': function hasError() {
+            if (this.error && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        'emailHasError': function emailHasError() {
+            if (this.errors.email && !this.loading) {
+                return true;
+            }
+
+            return false;
+        }
+
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Schimba adresa de email</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        bla bla\n    </div>\n    <!-- END Panel body -->\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n    <div class=\"panel-heading\">Schimbă adresa de email</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        <div class=\"col-md-6 col-md-offset-3\">\n\n            <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n            <!-- BEGIN Input -->\n            <div :class=\"{ 'has-error': emailHasError }\" class=\"form-group\">\n                <label for=\"email-address\">Email</label>\n                <input v-model=\"email\" @keyup.enter=\"changeEmail\" type=\"text\" class=\"form-control\">\n                <span v-show=\"emailHasError\" class=\"text-danger\">{{ errors.email }}</span>\n            </div>\n            <!-- END Input -->\n\n            <!-- BEGIN Save -->\n            <div @click=\"changeEmail\" :class=\"{ 'disabled': loading }\" class=\"btn btn-primary btn-block\">\n                <span v-show=\"!loading\">Salvează</span>\n                <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n            </div>\n            <!-- END Save -->\n\n        </div>\n    </div>\n    <!-- END Panel body -->\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

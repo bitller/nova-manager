@@ -23,7 +23,11 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         Route::get('/', 'ProfileController@index');
 
         // Update profile information, email in this case
-        Route::get('/profile', 'ProfileController@index');
+        Route::group(['prefix' => 'profile'], function() {
+            Route::get('/', 'ProfileController@index');
+            Route::get('/get-email', 'ProfileController@getEmail');
+            Route::post('/change-email', 'ProfileController@changeEmail');
+        });
 
         // Update displayed settings
         Route::group(['prefix' => 'displayed'], function() {
