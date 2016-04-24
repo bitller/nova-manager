@@ -8,6 +8,7 @@
 @import "fancy-divider.scss";
 @import "helpers.scss";
 @import "transitions.scss";
+@import "divider.scss";
 
 html, body {
   background-color: #EDF1F2;
@@ -43,4 +44,12 @@ html, body {
 
 .table tbody>tr>td.vert-align{
   vertical-align: middle;
+}
+
+.search-result {
+    padding-top: 8px;
+}
+
+.pointer:hover {
+    cursor: pointer;
 }

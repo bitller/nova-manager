@@ -11,7 +11,9 @@ Route::group(['namespace' => 'Auth'], function() {
 
 });
 
-Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleare' => 'auth'], function() {
+// Dashboard
+Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function() {
+
     Route::get('/', 'BillsController@index');
     Route::get('/bills', 'BillsController@index');
     Route::get('/bills/suggest-clients', 'BillsController@suggestClients');
@@ -52,6 +54,48 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleare' =
         Route::group(['prefix' => 'credit-card'], function() {
             Route::get('/', 'CreditCardController@index');
         });
+    });
+
+});
+
+// Admin Center
+Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middleware' => ['auth', 'role:admin']], function() {
+
+    // Users section
+    Route::group(['prefix' => 'users'], function() {
+        Route::get('/', 'UsersController@index');
+        Route::get('/{userId}', 'UsersController@user');
+        Route::post('/search', 'UsersController@search');
+        Route::get('/{userId}/get', 'UsersController@getUser');
+        Route::get('/{userId}/disable-account', 'UsersController@disableAccount');
+        Route::get('/{userId}/enable-account', 'UsersController@enableAccount');
+        Route::get('/{userId}/delete-account', 'UsersController@deleteAccount');
+        Route::post('/{userId}/change-password', 'UsersController@changePassword');
+    });
+
+    // Announcements section
+    Route::group(['prefix' => 'announcements'], function() {
+        Route::get('/', 'AnnouncementsController@index');
+    });
+
+    // Application settings section
+    Route::group(['prefix' => 'application-settings'], function() {
+        Route::get('/', 'ApplicationSettingsController@index');
+    });
+
+    // Users metrics
+    Route::group(['prefix' => 'users-metrics'], function() {
+        Route::get('/', 'UsersMetricsController@index');
+    });
+
+    // Products metrics
+    Route::group(['prefix' => 'products-metrics'], function() {
+        Route::get('/', 'ProductsMetricsController@index');
+    });
+
+    // Subscriptions metrics
+    Route::group(['prefix' => 'subscriptions-metrics'], function() {
+        Route::get('/', 'SubscriptionsMetricsController@index');
     });
 
 });

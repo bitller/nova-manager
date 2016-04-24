@@ -20,6 +20,7 @@ import LoginPage from './components/LoginPage.vue';
 import RegisterPage from './components/RegisterPage.vue';
 import BillsPage from './components/BillsPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
+import AdminCenterPage from './components/AdminCenterPage.vue';
 
 new Vue({
 
@@ -30,6 +31,7 @@ new Vue({
         'register-page': RegisterPage,
         'bills-page': BillsPage,
         'settings-page': SettingsPage,
+        'admin-center-page': AdminCenterPage,
     },
 
     methods: {
@@ -48,6 +50,17 @@ new Vue({
                 showCancelButton: false,
                 showConfirmButton: false,
                 closeOnConfirm: false
+            });
+        },
+
+        'error_alert': function(title, message) {
+            swal({
+                type: 'error',
+                title: title,
+                text: message,
+                closeOnConfirm: false,
+                showConfirmButton: false,
+                timer: 3000
             });
         }
     }

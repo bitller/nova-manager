@@ -63,9 +63,16 @@
                                 @if (isset($user)) {{ $user->email }} @endif
                                 <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                @role('admin')
+                                    <!-- BEGIN Admin center -->
+                                    <li>
+                                        <a href="/admin-center/users"><span class="glyphicon glyphicon-wrench"></span>&nbsp;Centrul de administrare</a>
+                                    </li>
+                                    <!-- END Admin center -->
+                                @endrole
                                 <!-- BEGIN Settings -->
                                 <li>
-                                    <a href="/dashboard/account-settings"><span class="glyphicon glyphicon-cog"></span>&nbsp;Setarile contului</a>
+                                    <a href="/dashboard/settings"><span class="glyphicon glyphicon-cog"></span>&nbsp;Setarile contului</a>
                                 </li>
                                 <!-- END Settings -->
                                 <li class="divider"></li>

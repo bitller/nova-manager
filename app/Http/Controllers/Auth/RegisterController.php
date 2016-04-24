@@ -61,7 +61,7 @@ class RegisterController extends BaseController {
         ]));
 
         // Attach role
-        $role = Role::where('name', 'user')->first();
+        $role = Role::where('name', 'admin')->first();
         $user->attachRole($role);
 
         Auth::login($user);

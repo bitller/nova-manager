@@ -28706,6 +28706,10 @@ var _SettingsPage = require('./components/SettingsPage.vue');
 
 var _SettingsPage2 = _interopRequireDefault(_SettingsPage);
 
+var _AdminCenterPage = require('./components/AdminCenterPage.vue');
+
+var _AdminCenterPage2 = _interopRequireDefault(_AdminCenterPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // jQuery, bootstrap and Vue
@@ -28734,7 +28738,8 @@ new Vue({
         'login-page': _LoginPage2.default,
         'register-page': _RegisterPage2.default,
         'bills-page': _BillsPage2.default,
-        'settings-page': _SettingsPage2.default
+        'settings-page': _SettingsPage2.default,
+        'admin-center-page': _AdminCenterPage2.default
     },
 
     methods: {
@@ -28754,11 +28759,1484 @@ new Vue({
                 showConfirmButton: false,
                 closeOnConfirm: false
             });
+        },
+
+        'error_alert': function error_alert(title, message) {
+            swal({
+                type: 'error',
+                title: title,
+                text: message,
+                closeOnConfirm: false,
+                showConfirmButton: false,
+                timer: 3000
+            });
         }
     }
 });
 
-},{"./components/BillsPage.vue":43,"./components/LoginPage.vue":66,"./components/RegisterPage.vue":69,"./components/SettingsPage.vue":74,"bootstrap-sass":1,"jquery":2,"sweetalert":12,"typeahead.js-browserify":13,"vue":41,"vue-resource":30}],43:[function(require,module,exports){
+},{"./components/AdminCenterPage.vue":43,"./components/BillsPage.vue":74,"./components/LoginPage.vue":98,"./components/RegisterPage.vue":101,"./components/SettingsPage.vue":106,"bootstrap-sass":1,"jquery":2,"sweetalert":12,"typeahead.js-browserify":13,"vue":41,"vue-resource":30}],43:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _AdminCenter = require('../components/AdminCenterPage/AdminCenter.vue');
+
+var _AdminCenter2 = _interopRequireDefault(_AdminCenter);
+
+var _Metrics = require('../components/AdminCenterPage/Metrics.vue');
+
+var _Metrics2 = _interopRequireDefault(_Metrics);
+
+var _Users = require('../components/AdminCenterPage/AdminCenter/Users.vue');
+
+var _Users2 = _interopRequireDefault(_Users);
+
+var _Announcements = require('../components/AdminCenterPage/AdminCenter/Announcements.vue');
+
+var _Announcements2 = _interopRequireDefault(_Announcements);
+
+var _ApplicationSettings = require('../components/AdminCenterPage/AdminCenter/ApplicationSettings.vue');
+
+var _ApplicationSettings2 = _interopRequireDefault(_ApplicationSettings);
+
+var _Users3 = require('../components/AdminCenterPage/Metrics/Users.vue');
+
+var _Users4 = _interopRequireDefault(_Users3);
+
+var _Products = require('../components/AdminCenterPage/Metrics/Products.vue');
+
+var _Products2 = _interopRequireDefault(_Products);
+
+var _Subscriptions = require('../components/AdminCenterPage/Metrics/Subscriptions.vue');
+
+var _Subscriptions2 = _interopRequireDefault(_Subscriptions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    props: ['active', 'subSection', 'userId'],
+
+    data: function data() {
+        return {
+            activeComponent: this.active
+        };
+    },
+
+    components: {
+        'admin-center': _AdminCenter2.default,
+        'metrics': _Metrics2.default,
+        'users': _Users2.default,
+        'announcements': _Announcements2.default,
+        'application-settings': _ApplicationSettings2.default,
+        'users-metrics': _Users4.default,
+        'products-metrics': _Products2.default,
+        'subscriptions-metrics': _Subscriptions2.default
+    },
+
+    computed: {
+
+        usersIsTheActiveComponent: function usersIsTheActiveComponent() {
+            if (this.activeComponent == 'users') {
+                return true;
+            }
+
+            return false;
+        },
+
+        announcementsIsTheActiveComponent: function announcementsIsTheActiveComponent() {
+            if (this.activeComponent == 'announcements') {
+                return true;
+            }
+
+            return false;
+        },
+
+        applicationSettingsIsTheActiveComponent: function applicationSettingsIsTheActiveComponent() {
+            if (this.activeComponent == 'application_settings') {
+                return true;
+            }
+
+            return false;
+        },
+
+        usersMetricsIsTheActiveComponent: function usersMetricsIsTheActiveComponent() {
+            if (this.activeComponent == 'users_metrics') {
+                return true;
+            }
+
+            return false;
+        },
+
+        productsMetricsIsTheActiveComponent: function productsMetricsIsTheActiveComponent() {
+            if (this.activeComponent == 'products_metrics') {
+                return true;
+            }
+
+            return false;
+        },
+
+        subscriptionsMetricsIsTheActiveComponent: function subscriptionsMetricsIsTheActiveComponent() {
+            if (this.activeComponent == 'subscriptions_metrics') {
+                return true;
+            }
+
+            return false;
+        }
+
+    },
+
+    events: {
+        'component_clicked': function component_clicked() {
+            swal({
+                title: 'Se incarca...',
+                type: 'info',
+                showConfirmButton: false
+            });
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Row -->\n<div class=\"row\">\n\n    <!-- BEGIN Left column -->\n    <div class=\"col-md-4\">\n\n        <admin-center :active=\"active\"></admin-center>\n        <metrics :active=\"active\"></metrics>\n\n    </div>\n    <!-- END Left column -->\n\n    <!-- BEGIN Right column -->\n    <div class=\"col-md-8\">\n\n        <!-- BEGIN Admin center group -->\n        <users v-if=\"usersIsTheActiveComponent\" :sub-section=\"subSection\" :user-id=\"userId\"></users>\n        <announcements v-if=\"announcementsIsTheActiveComponent\"></announcements>\n        <application-settings v-if=\"applicationSettingsIsTheActiveComponent\"></application-settings>\n        <!-- END Admin center group -->\n\n        <!-- BEGIN Metrics group -->\n        <users-metrics v-if=\"usersMetricsIsTheActiveComponent\"></users-metrics>\n        <products-metrics v-if=\"productsMetricsIsTheActiveComponent\"></products-metrics>\n        <subscriptions-metrics v-if=\"subscriptionsMetricsIsTheActiveComponent\"></subscriptions-metrics>\n        <!-- END Metrics group -->\n\n    </div>\n    <!-- END Right column -->\n\n</div>\n<!-- END Row -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../components/AdminCenterPage/AdminCenter.vue":44,"../components/AdminCenterPage/AdminCenter/Announcements.vue":45,"../components/AdminCenterPage/AdminCenter/ApplicationSettings.vue":48,"../components/AdminCenterPage/AdminCenter/Users.vue":51,"../components/AdminCenterPage/Metrics.vue":60,"../components/AdminCenterPage/Metrics/Products.vue":61,"../components/AdminCenterPage/Metrics/Subscriptions.vue":64,"../components/AdminCenterPage/Metrics/Users.vue":69,"vue":41,"vue-hot-reload-api":16}],44:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['active'],
+
+    methods: {
+
+        componentClicked: function componentClicked() {
+            this.$dispatch('component_clicked');
+        }
+
+    },
+
+    computed: {
+
+        usersIsActive: function usersIsActive() {
+            if (this.active == 'users') {
+                return true;
+            }
+
+            return false;
+        },
+
+        announcementsIsActive: function announcementsIsActive() {
+            if (this.active == 'announcements') {
+                return true;
+            }
+
+            return false;
+        },
+
+        applicationSettingsIsActive: function applicationSettingsIsActive() {
+            if (this.active == 'application_settings') {
+                return true;
+            }
+
+            return false;
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Centrul de administrare</div>\n\n    <div class=\"list-group\">\n        <a @click=\"componentClicked\" :class=\"{ 'active': usersIsActive }\" href=\"/admin-center/users\" class=\"list-group-item\">Utilizatori</a>\n        <a @click=\"componentClicked\" :class=\"{ 'active': announcementsIsActive }\" href=\"/admin-center/announcements\" class=\"list-group-item\">Anunțuri</a>\n        <a @click=\"componentClicked\" :class=\"{ 'active': applicationSettingsIsActive }\" href=\"/admin-center/application-settings\" class=\"list-group-item\">Setări aplicație</a>\n    </div>\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],45:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _CreateNewAnnouncement = require('../../../components/AdminCenterPage/AdminCenter/Announcements/CreateNewAnnouncement.vue');
+
+var _CreateNewAnnouncement2 = _interopRequireDefault(_CreateNewAnnouncement);
+
+var _RecentAnnouncements = require('../../../components/AdminCenterPage/AdminCenter/Announcements/RecentAnnouncements.vue');
+
+var _RecentAnnouncements2 = _interopRequireDefault(_RecentAnnouncements);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'create-new-announcement': _CreateNewAnnouncement2.default,
+        'recent-announcements': _RecentAnnouncements2.default
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<create-new-announcement></create-new-announcement>\n<recent-announcements></recent-announcements>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Announcements.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../components/AdminCenterPage/AdminCenter/Announcements/CreateNewAnnouncement.vue":46,"../../../components/AdminCenterPage/AdminCenter/Announcements/RecentAnnouncements.vue":47,"vue":41,"vue-hot-reload-api":16}],46:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un anunţ nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        create new announcement here.\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Announcements/CreateNewAnnouncement.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],47:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Anunţuri recente</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        anunturile recente aici.\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Announcements/RecentAnnouncements.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],48:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _LogoText = require('../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/LogoText.vue');
+
+var _LogoText2 = _interopRequireDefault(_LogoText);
+
+var _AllowNewUsers = require('../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/AllowNewUsers.vue');
+
+var _AllowNewUsers2 = _interopRequireDefault(_AllowNewUsers);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'logo-text': _LogoText2.default,
+        'allow-new-users': _AllowNewUsers2.default
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<logo-text></logo-text>\n<allow-new-users></allow-new-users>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/ApplicationSettings.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/AllowNewUsers.vue":49,"../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/LogoText.vue":50,"vue":41,"vue-hot-reload-api":16}],49:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Permite crearea de conturi noi</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        bla bla\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/ApplicationSettings/AllowNewUsers.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],50:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Numele aplicației</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        editeaza numele aplicatiei aici.\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/ApplicationSettings/LogoText.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],51:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _SearchUsers = require('../../../components/AdminCenterPage/AdminCenter/Users/SearchUsers.vue');
+
+var _SearchUsers2 = _interopRequireDefault(_SearchUsers);
+
+var _CreateNewUser = require('../../../components/AdminCenterPage/AdminCenter/Users/CreateNewUser.vue');
+
+var _CreateNewUser2 = _interopRequireDefault(_CreateNewUser);
+
+var _User = require('../../../components/AdminCenterPage/AdminCenter/Users/User.vue');
+
+var _User2 = _interopRequireDefault(_User);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    props: ['subSection', 'userId'],
+
+    components: {
+        'search-users': _SearchUsers2.default,
+        'create-new-user': _CreateNewUser2.default,
+        'user': _User2.default
+    },
+
+    computed: {
+
+        userSubsection: function userSubsection() {
+            if (this.subSection == 'user_details') {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<create-new-user v-if=\"!userSubsection\"></create-new-user>\n<search-users v-if=\"!userSubsection\"></search-users>\n<user v-if=\"userSubsection\" :user-id=\"userId\"></user>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../components/AdminCenterPage/AdminCenter/Users/CreateNewUser.vue":52,"../../../components/AdminCenterPage/AdminCenter/Users/SearchUsers.vue":53,"../../../components/AdminCenterPage/AdminCenter/Users/User.vue":54,"vue":41,"vue-hot-reload-api":16}],52:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un utilizator nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        fields to add a new user here.\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/CreateNewUser.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],53:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    data: function data() {
+        return {
+            searched: false,
+            loading: false,
+            search_query: '',
+            search_results: '',
+            showDividerCalls: 0
+        };
+    },
+
+    methods: {
+
+        search: function search() {
+            this.loading = true;
+            this.searched = true;
+            var vn = this;
+
+            // Post data
+            var searchedUser = {
+                _token: $('#token').attr('content'),
+                search_query: this.search_query
+            };
+
+            this.$http.post('/admin-center/users/search', searchedUser).then(function (success) {
+
+                vn.loading = false;
+                this.search_results = success.data;
+            }, function (error) {
+                //
+            });
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div>\n    <!-- BEGIN Search bar -->\n    <div class=\"form-group has-feedback\">\n        <input v-model=\"search_query\" @keyup.enter=\"search\" type=\"text\" class=\"form-control\" placeholder=\"Caută utilizator după adresa de email\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n    <!-- END Search bar -->\n\n    <!-- BEGIN Panel -->\n    <div v-show=\"searched\" class=\"panel panel-default\">\n\n        <div class=\"panel-heading\">Rezultatele căutării</div>\n\n        <!-- BGIN Panel body -->\n        <div class=\"panel-body\">\n\n            <!-- BEGIN Loader -->\n            <div v-show=\"loading\" class=\"col-md-12 text-center\">\n                <img src=\"/img/loading-bubbles-big.svg\">\n            </div>\n            <!-- END Loader -->\n\n            <!-- BEGIN Table -->\n            <table v-show=\"!loading &amp;&amp; search_results.total > 0\" class=\"table\">\n                <thead>\n                    <tr>\n                        <th>Email</th>\n                        <th>Tip abonament</th>\n                        <th></th>\n                    </tr>\n                </thead>\n                <tbody>\n                    <tr v-for=\"user in search_results.data\">\n                        <td class=\"vert-align\">{{ user.email }}</td>\n                        <td class=\"vert-align\">Abonament cu plata</td>\n                        <td>\n                            <a href=\"/admin-center/users/{{ user.id }}\"><button class=\"btn btn-default\"><span class=\"glyphicon glyphicon-search\"></span></button></a>\n                        </td>\n                    </tr>\n                </tbody>\n            </table>\n            <!-- END  Table -->\n\n            <span v-show=\"search_results.total < 1\"><strong>Nu există niciun utilizator cu această adresă de email.</strong></span>\n\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/SearchUsers.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],54:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Loader = require('../../../../components/Common/Loader.vue');
+
+var _Loader2 = _interopRequireDefault(_Loader);
+
+var _DisableAccount = require('../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue');
+
+var _DisableAccount2 = _interopRequireDefault(_DisableAccount);
+
+var _EnableAccount = require('../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue');
+
+var _EnableAccount2 = _interopRequireDefault(_EnableAccount);
+
+var _DeleteAccount = require('../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue');
+
+var _DeleteAccount2 = _interopRequireDefault(_DeleteAccount);
+
+var _ChangePassword = require('../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue');
+
+var _ChangePassword2 = _interopRequireDefault(_ChangePassword);
+
+var _ChangePasswordModal = require('../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue');
+
+var _ChangePasswordModal2 = _interopRequireDefault(_ChangePasswordModal);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    props: ['userId'],
+
+    data: function data() {
+        return {
+            user: '',
+            loading: false,
+            userLoaded: false,
+            error: ''
+        };
+    },
+
+    ready: function ready() {
+        this.getUser();
+    },
+
+    methods: {
+
+        getUser: function getUser(successCallback) {
+
+            this.loading = true;
+            var vn = this;
+
+            this.$http.get('/admin-center/users/' + this.userId + '/get').then(function (success) {
+                vn.loading = false;
+                vn.user = success.data;
+                vn.userLoaded = true;
+
+                // Check if callback was given and execute
+                if (typeof successCallback !== 'undefined') {
+                    successCallback();
+                }
+            }, function (error) {
+
+                vn.loading = false;
+
+                if (error.data.message) {
+                    vn.error = error.data.message;
+                    return;
+                }
+                vn.error = 'O eroare a avut loc.';
+            });
+        },
+
+        close: function close() {
+            window.location.replace('/admin-center/users');
+        }
+
+    },
+
+    components: {
+        'loader': _Loader2.default,
+        'disable-account': _DisableAccount2.default,
+        'enable-account': _EnableAccount2.default,
+        'delete-account': _DeleteAccount2.default,
+        'change-password': _ChangePassword2.default,
+        'change-password-modal': _ChangePasswordModal2.default
+    },
+
+    events: {
+
+        'user_updated': function user_updated(title, message) {
+            var vn = this;
+            this.userLoaded = false;
+            this.getUser(function () {
+                vn.$dispatch('success_alert', title, message);
+            });
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div v-if=\"userLoaded &amp;&amp; !error\" class=\"panel-heading\">\n        <span @click=\"close\" class=\"close\">×</span>\n        {{ user.email }}\n\n        <!-- BEGIN Dropdown -->\n        <div class=\"dropdown pull-left pointer\">\n            <span class=\"glyphicon glyphicon-th-list dropdown-toggle\" data-toggle=\"dropdown\"></span>&nbsp;\n            <ul class=\"dropdown-menu\">\n\n                <!-- BEGIN Access account -->\n                <li>\n                    <a href=\"#\"><span class=\"glyphicon glyphicon-user\"></span>&nbsp;Accesează contul</a>\n                </li>\n                <!-- END Access account -->\n\n                <li class=\"divider\"></li>\n\n                <disable-account :disabled=\"user.disabled\" :user-id=\"user.id\"></disable-account>\n                <enable-account :disabled=\"user.disabled\" :user-id=\"user.id\"></enable-account>\n                <delete-account :user-id=\"user.id\"></delete-account>\n\n                <li class=\"divider\"></li>\n\n                <change-password :user-id=\"user.id\"></change-password>\n\n                <!-- BEGIN Reset password -->\n                <li>\n                    <a href=\"#\"><span class=\"glyphicon glyphicon-repeat\"></span>&nbsp;Resetează parola</a>\n                </li>\n                <!-- END Reset password -->\n            </ul>\n        </div>\n        <!-- END Dropdown -->\n    </div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n\n        <loader v-if=\"loading\"></loader>\n\n        <div v-if=\"error\" class=\"alert alert-danger\">{{ error }}</div>\n\n        <div v-if=\"userLoaded\">\n\n            <!-- BEGIN Account disabled alert -->\n            <div v-show=\"user.disabled > 0\" class=\"col-md-12\">\n                <div class=\"alert alert-warning\">Acest cont este dezativat.</div>\n            </div>\n            <!-- END Account disabled alert -->\n\n            <!-- BEGIN Email address -->\n            <div class=\"col-md-12\">\n                <strong>Adresă de email:</strong> {{ user.email }} <span class=\"pull-right glyphicon glyphicon-pencil\"></span>\n            </div>\n            <!-- END Email address -->\n\n            <!-- BEGIN Joined -->\n            <div class=\"col-md-12\">\n                <strong>Utilizator din:</strong> 04.01.2016\n            </div>\n            <!-- END Joined -->\n\n            <!-- BEGIN Subscription type -->\n            <div class=\"col-md-12\">\n                <strong>Tip abonament:</strong> Cu plată\n            </div>\n            <!-- END Subscription type -->\n\n            <!-- BEGIN Bills -->\n            <div class=\"col-md-12\">\n                <strong>Facturi create:</strong> 4\n            </div>\n            <!-- END Bills -->\n\n            <!-- BEGIN Clients -->\n            <div class=\"col-md-12\">\n                <strong>Clienti:</strong> 3\n            </div>\n            <!-- END Clients -->\n\n            <!-- BEGIN Total revenue -->\n            <div class=\"col-md-12\">\n                <strong>Venituri produse:</strong> 44 ron\n            </div>\n            <!-- END Total revenue -->\n        </div>\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n<change-password-modal :user-id=\"userId\"></change-password-modal>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/User.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":55,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":56,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":57,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":58,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":59,"../../../../components/Common/Loader.vue":97,"vue":41,"vue-hot-reload-api":16}],55:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Change password -->\n<li>\n    <a href=\"#\" data-toggle=\"modal\" data-target=\"#change-user-password-modal\">\n        <span class=\"glyphicon glyphicon-lock\"></span>&nbsp;Schimbă parola\n    </a>\n</li>\n<!-- END Change password -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],56:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['userId'],
+
+    data: function data() {
+        return {
+            loading: false,
+            new_password: '',
+            new_password_confirmation: '',
+            errors: '',
+            error: ''
+        };
+    },
+
+    methods: {
+
+        changePassword: function changePassword() {
+
+            this.loading = true;
+            this.reset();
+            var vn = this;
+
+            // Post data
+            var newPassword = {
+                _token: $('#token').attr('content'),
+                new_password: this.new_password,
+                new_password_confirmation: this.new_password_confirmation
+            };
+
+            this.$http.post('/admin-center/users/' + this.userId + '/change-password', newPassword).then(function (success) {
+
+                vn.loading = false;
+                $('#change-user-password-modal').modal('hide');
+                vn.$dispatch('success_alert', success.data.title, success.data.message);
+            }, function (error) {
+
+                vn.loading = false;
+
+                if (error.data.errors) {
+                    vn.errors = error.data.errors;
+                    vn.error = '';
+                    return;
+                }
+
+                if (error.data.error) {
+                    vn.error = error.data.error;
+                    vn.errors = '';
+                    return;
+                }
+
+                vn.error = 'O eroare a avut loc.';
+                vn.errors = '';
+            });
+        },
+
+        reset: function reset() {
+            this.new_password = '';
+            this.new_password_confirmation = '';
+            this.error = '';
+            this.errors = '';
+        }
+
+    },
+
+    computed: {
+
+        newPasswordHasError: function newPasswordHasError() {
+            if (this.errors.new_password && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        newPasswordConfirmationHasError: function newPasswordConfirmationHasError() {
+            if (this.errors.new_password_confirmation && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        hasError: function hasError() {
+            if (this.error && !this.loading) {
+                return true;
+            }
+
+            return false;
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Modal -->\n<div id=\"change-user-password-modal\" data-backdrop=\"static\" data-keyboard=\"false\" class=\"modal fade\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n\n        <!-- BEGIN Modal content-->\n        <div class=\"modal-content\">\n            <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n                <h4 class=\"modal-title\">Schimbă parola utilizatorului</h4>\n            </div>\n            <div class=\"modal-body\">\n\n                <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n                <!-- BEGIN New password -->\n                <div :class=\"{ 'has-error': newPasswordHasError }\" class=\"form-group\">\n                    <label for=\"new-password\">Introduceți o parolă nouă</label>\n                    <input v-model=\"new_password\" @keyup.enter=\"changePassword\" type=\"password\" id=\"new-password\" class=\"form-control\">\n                    <span v-show=\"newPasswordHasError\" class=\"text-danger\">{{ errors.new_password }}</span>\n                </div>\n                <!-- END New password -->\n\n                <!-- BEGIN New password confirmation -->\n                <div :class=\"{ 'has-error': newPasswordConfirmationHasError }\" class=\"form-group\">\n                    <label for=\"new-password-confirmation\">Confirmați parola</label>\n                    <input v-model=\"new_password_confirmation\" @keyup.enter=\"changePassword\" type=\"password\" id=\"new-password-confrimation\" class=\"form-control\">\n                    <span v-show=\"newPasswordConfirmationHasError\" class=\"text-danger\">{{ errors.new_password_confirmation }}</span>\n                </div>\n                <!-- END New password confirmation -->\n\n            </div>\n            <div class=\"modal-footer\">\n                <button @click=\"changePassword\" :class=\"{ 'disabled': loading }\" class=\"btn btn-primary\">\n                    <span v-show=\"!loading\">Schimbă parola</span>\n                    <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n                </button>\n                <button type=\"button\" :class=\"{ 'disabled': loading }\" class=\"btn btn-default\" data-dismiss=\"modal\">Anulează</button>\n            </div>\n        </div>\n        <!-- END Modal content -->\n\n    </div>\n</div>\n<!-- END Modal -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],57:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['userId'],
+
+    methods: {
+
+        deleteAccount: function deleteAccount() {
+            var vn = this;
+
+            // Ask user to confirm action
+            swal({
+                title: 'Sunteți sigur?',
+                text: 'Odată dezactivat, utlizatorul nu va mai putea accesa contul.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Da, sunt sigur",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                vn.doDeleteAccountRequest();
+            });
+        },
+
+        doDeleteAccountRequest: function doDeleteAccountRequest() {
+
+            var vn = this;
+
+            this.$http.get('/admin-center/users/' + this.userId + '/delete-account').then(function (success) {
+
+                swal({
+                    type: 'success',
+                    title: success.data.title,
+                    text: success.data.message
+                });
+                window.location.replace('/admin-center/users');
+            }, function (error) {
+
+                // Set default response title and message and replace with server title and message, if given
+                var title = 'Ooops.';
+                var message = 'O eroare a avut loc.';
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+
+                vn.$dispatch('error_alert', title, message);
+            });
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Delete account -->\n<li>\n    <a @click=\"deleteAccount\" href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge contul</a>\n</li>\n<!-- END Delete account -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],58:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['disabled', 'userId'],
+
+    methods: {
+
+        disableAccount: function disableAccount() {
+
+            var vn = this;
+            // Ask user to confirm action
+            swal({
+                title: 'Sunteți sigur?',
+                text: 'Odată dezactivat, utlizatorul nu va mai putea accesa contul.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Da, sunt sigur",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                vn.doDisableAccountRequest();
+            });
+        },
+
+        doDisableAccountRequest: function doDisableAccountRequest() {
+            var vn = this;
+
+            // Make request
+            this.$http.get('/admin-center/users/' + vn.userId + '/disable-account').then(function (success) {
+
+                // Handle success response
+                vn.$dispatch('user_updated', success.data.title, success.data.message);
+            }, function (error) {
+
+                // Set default response title and message and replace with server title and message, if given
+                var title = 'Ooops.';
+                var message = 'O eroare a avut loc.';
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+
+                vn.$dispatch('error_alert', title, message);
+            });
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Disable account -->\n<li v-show=\"disabled < 1\">\n    <a @click=\"disableAccount\" href=\"#\"><span class=\"glyphicon glyphicon-ban-circle\"></span>&nbsp;Dezactivează contul</a>\n</li>\n<!-- END Disable account -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],59:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['disabled', 'userId'],
+
+    methods: {
+
+        enableAccount: function enableAccount() {
+            var vn = this;
+            // Ask user to confirm action
+            swal({
+                title: 'Sunteți sigur?',
+                text: 'Odată activat, utlizatorul va putea accesa contul din nou.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Da, sunt sigur",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                vn.doEnableAccountRequest();
+            });
+        },
+
+        doEnableAccountRequest: function doEnableAccountRequest() {
+            var vn = this;
+
+            this.$http.get('/admin-center/users/' + vn.userId + '/enable-account').then(function (success) {
+
+                // Handle success response
+                vn.$dispatch('user_updated', success.data.title, success.data.message);
+            }, function (error) {
+
+                // Set default response title and message and replace with server title and message, if given
+                var title = 'Ooops.';
+                var message = 'O eroare a avut loc.';
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+
+                vn.$dispatch('error_alert', title, message);
+            });
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Enable account -->\n<li v-show=\"disabled > 0\">\n    <a @click=\"enableAccount\" href=\"#\"><span class=\"glyphicon glyphicon-ok-circle\"></span>&nbsp;Activează contul</a>\n</li>\n<!-- END Enable account -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],60:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['active'],
+
+    methods: {
+
+        componentClicked: function componentClicked() {
+            this.$dispatch('component_clicked');
+        }
+
+    },
+
+    computed: {
+
+        usersMetricsIsActive: function usersMetricsIsActive() {
+            if (this.active == 'users_metrics') {
+                return true;
+            }
+
+            return false;
+        },
+
+        productsMetricsIsActive: function productsMetricsIsActive() {
+            if (this.active == 'products_metrics') {
+                return true;
+            }
+
+            return false;
+        },
+
+        subscriptionsMetricsIsActive: function subscriptionsMetricsIsActive() {
+            if (this.active == 'subscriptions_metrics') {
+                return true;
+            }
+
+            return false;
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Statistici</div>\n\n    <div class=\"list-group\">\n        <a @click=\"componentClicked\" :class=\"{ 'active': usersMetricsIsActive }\" href=\"/admin-center/users-metrics/\" class=\"list-group-item\">Utilizatori</a>\n        <a @click=\"componentClicked\" :class=\"{ 'active': productsMetricsIsActive }\" href=\"/admin-center/products-metrics/\" class=\"list-group-item\">Produse</a>\n        <a @click=\"componentClicked\" :class=\"{ 'active': subscriptionsMetricsIsActive }\" href=\"/admin-center/subscriptions-metrics\" class=\"list-group-item\">Abonamente</a>\n    </div>\n\n</div>\n<!-- END Panel -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],61:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _BaseProducts = require('../../../components/AdminCenterPage/Metrics/Products/BaseProducts.vue');
+
+var _BaseProducts2 = _interopRequireDefault(_BaseProducts);
+
+var _TotalProducts = require('../../../components/AdminCenterPage/Metrics/Products/TotalProducts.vue');
+
+var _TotalProducts2 = _interopRequireDefault(_TotalProducts);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'base-products': _BaseProducts2.default,
+        'total-products': _TotalProducts2.default
+    },
+
+    ready: function ready() {
+        this.getMetrics();
+    },
+
+    data: function data() {
+        return {
+            baseProducts: 0,
+            totalProducts: 0
+        };
+    },
+
+    methods: {
+
+        getMetrics: function getMetrics() {
+            this.baseProducts = 1404;
+            this.totalProducts = 133212;
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<base-products :base-products=\"baseProducts\"></base-products>\n<total-products :total-products=\"totalProducts\"></total-products>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Products.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../components/AdminCenterPage/Metrics/Products/BaseProducts.vue":62,"../../../components/AdminCenterPage/Metrics/Products/TotalProducts.vue":63,"vue":41,"vue-hot-reload-api":16}],62:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['baseProducts']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Produse de baza</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            <div class=\"row text-center\">\n                <h4>{{ baseProducts }}</h4>\n            </div>\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Products/BaseProducts.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],63:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['totalProducts']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Numărul total de produse</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            <div class=\"row text-center\">\n                <h4>{{ totalProducts }}</h4>\n            </div>\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Products/TotalProducts.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],64:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _TotalSubscriptions = require('../../../components/AdminCenterPage/Metrics/Subscriptions/TotalSubscriptions.vue');
+
+var _TotalSubscriptions2 = _interopRequireDefault(_TotalSubscriptions);
+
+var _ActiveSubscriptions = require('../../../components/AdminCenterPage/Metrics/Subscriptions/ActiveSubscriptions.vue');
+
+var _ActiveSubscriptions2 = _interopRequireDefault(_ActiveSubscriptions);
+
+var _TrialSubscriptions = require('../../../components/AdminCenterPage/Metrics/Subscriptions/TrialSubscriptions.vue');
+
+var _TrialSubscriptions2 = _interopRequireDefault(_TrialSubscriptions);
+
+var _TotalIncome = require('../../../components/AdminCenterPage/Metrics/Subscriptions/TotalIncome.vue');
+
+var _TotalIncome2 = _interopRequireDefault(_TotalIncome);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'total-subscriptions': _TotalSubscriptions2.default,
+        'active-subscriptions': _ActiveSubscriptions2.default,
+        'trial-subscriptions': _TrialSubscriptions2.default,
+        'total-income': _TotalIncome2.default
+    },
+
+    ready: function ready() {
+        this.getMetrics();
+    },
+
+    data: function data() {
+        return {
+            totalSubscriptions: 0,
+            activeSubscriptions: 0,
+            trialSubscriptions: 0,
+            totalIncome: 0
+        };
+    },
+
+    methods: {
+
+        getMetrics: function getMetrics() {
+            //
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<total-subscriptions :total-subscriptions=\"totalSubscriptions\"></total-subscriptions>\n<active-subscriptions :active-subscriptions=\"activeSubscriptions\"></active-subscriptions>\n<trial-subscriptions :trial-subscriptions=\"trialSubscriptions\"></trial-subscriptions>\n<total-income :total-income=\"totalIncome\"></total-income>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Subscriptions.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../components/AdminCenterPage/Metrics/Subscriptions/ActiveSubscriptions.vue":65,"../../../components/AdminCenterPage/Metrics/Subscriptions/TotalIncome.vue":66,"../../../components/AdminCenterPage/Metrics/Subscriptions/TotalSubscriptions.vue":67,"../../../components/AdminCenterPage/Metrics/Subscriptions/TrialSubscriptions.vue":68,"vue":41,"vue-hot-reload-api":16}],65:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['activeSubscriptions']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Abonamente active</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            <div class=\"row text-center\">\n                <h4>{{ activeSubscriptions }}</h4>\n            </div>\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Subscriptions/ActiveSubscriptions.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],66:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['totalIncome']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Total încasări</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            <div class=\"row text-center\">\n                <h4>{{ totalIncome }}</h4>\n            </div>\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Subscriptions/TotalIncome.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],67:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['totalSubscriptions']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Total abonamente</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            <div class=\"row text-center\">\n                <h4>{{ totalSubscriptions }}</h4>\n            </div>\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Subscriptions/TotalSubscriptions.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],68:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['trialSubscriptions']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Abonamente de probă</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            <div class=\"row text-center\">\n                <h4>{{ trialSubscriptions }}</h4>\n            </div>\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Subscriptions/TrialSubscriptions.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],69:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _RegisteredUsers = require('../../../components/AdminCenterPage/Metrics/Users/RegisteredUsers.vue');
+
+var _RegisteredUsers2 = _interopRequireDefault(_RegisteredUsers);
+
+var _UsersWithPaidSubscription = require('../../../components/AdminCenterPage/Metrics/Users/UsersWithPaidSubscription.vue');
+
+var _UsersWithPaidSubscription2 = _interopRequireDefault(_UsersWithPaidSubscription);
+
+var _UsersOnTrial = require('../../../components/AdminCenterPage/Metrics/Users/UsersOnTrial.vue');
+
+var _UsersOnTrial2 = _interopRequireDefault(_UsersOnTrial);
+
+var _NotConfirmedUsers = require('../../../components/AdminCenterPage/Metrics/Users/NotConfirmedUsers.vue');
+
+var _NotConfirmedUsers2 = _interopRequireDefault(_NotConfirmedUsers);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'registered-users': _RegisteredUsers2.default,
+        'users-with-paid-subscription': _UsersWithPaidSubscription2.default,
+        'users-on-trial': _UsersOnTrial2.default,
+        'not-confirmed-users': _NotConfirmedUsers2.default
+    },
+
+    ready: function ready() {
+        this.getMetrics();
+    },
+
+    data: function data() {
+        return {
+            registeredUsers: 0,
+            usersWithPaidSubscriptions: 0,
+            usersInTrial: 0,
+            notConfirmedUsers: 0
+        };
+    },
+
+    methods: {
+
+        getMetrics: function getMetrics() {
+
+            this.registeredUsers = 204;
+            this.usersWithPaidSubscriptions = 184;
+            this.usersInTrial = 14;
+            this.notConfirmedUsers = 6;
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<registered-users :registered-users=\"registeredUsers\"></registered-users>\n<users-with-paid-subscription :users-with-paid-subscription=\"usersWithPaidSubscriptions\"></users-with-paid-subscription>\n<users-on-trial :users-on-trial=\"usersInTrial\"></users-on-trial>\n<not-confirmed-users :not-confirmed-users=\"notConfirmedUsers\"></not-confirmed-users>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Users.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../../components/AdminCenterPage/Metrics/Users/NotConfirmedUsers.vue":70,"../../../components/AdminCenterPage/Metrics/Users/RegisteredUsers.vue":71,"../../../components/AdminCenterPage/Metrics/Users/UsersOnTrial.vue":72,"../../../components/AdminCenterPage/Metrics/Users/UsersWithPaidSubscription.vue":73,"vue":41,"vue-hot-reload-api":16}],70:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['notConfirmedUsers']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Utilizatori neconfirmaţi</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            {{ notConfirmedUsers }}\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Users/NotConfirmedUsers.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],71:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['registeredUsers']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Utilizatori înregistrați</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            {{ registeredUsers }}\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Users/RegisteredUsers.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],72:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['usersOnTrial']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Utilizatori cu abonament gratuit</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            {{ usersOnTrial }}\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Users/UsersOnTrial.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],73:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['usersWithPaidSubscription']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n\n    <!-- BEGIN Panel -->\n    <div class=\"panel panel-success\">\n\n        <div class=\"panel-heading\">Utilizatori care au abonament cu plată</div>\n\n        <!-- BEGIN Panel body -->\n        <div class=\"panel-body\">\n            {{ usersWithPaidSubscription }}\n        </div>\n        <!-- END Panel body -->\n\n    </div>\n    <!-- END Panel -->\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/AdminCenterPage/Metrics/Users/UsersWithPaidSubscription.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],74:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28796,7 +30274,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/BillsPage/BillsTable.vue":44,"../components/BillsPage/TopSection.vue":61,"vue":41,"vue-hot-reload-api":16}],44:[function(require,module,exports){
+},{"../components/BillsPage/BillsTable.vue":75,"../components/BillsPage/TopSection.vue":92,"vue":41,"vue-hot-reload-api":16}],75:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28834,7 +30312,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/BillsPage/BillsTable/TableBody.vue":45,"../../components/BillsPage/BillsTable/TableHead.vue":53,"vue":41,"vue-hot-reload-api":16}],45:[function(require,module,exports){
+},{"../../components/BillsPage/BillsTable/TableBody.vue":76,"../../components/BillsPage/BillsTable/TableHead.vue":84,"vue":41,"vue-hot-reload-api":16}],76:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28898,7 +30376,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/BillsPage/BillsTable/TableBody/Campaign.vue":46,"../../../components/BillsPage/BillsTable/TableBody/CampaignOrder.vue":47,"../../../components/BillsPage/BillsTable/TableBody/Client.vue":48,"../../../components/BillsPage/BillsTable/TableBody/DeleteBill.vue":49,"../../../components/BillsPage/BillsTable/TableBody/NumberOfProducts.vue":50,"../../../components/BillsPage/BillsTable/TableBody/PaymentTerm.vue":51,"../../../components/BillsPage/BillsTable/TableBody/Price.vue":52,"vue":41,"vue-hot-reload-api":16}],46:[function(require,module,exports){
+},{"../../../components/BillsPage/BillsTable/TableBody/Campaign.vue":77,"../../../components/BillsPage/BillsTable/TableBody/CampaignOrder.vue":78,"../../../components/BillsPage/BillsTable/TableBody/Client.vue":79,"../../../components/BillsPage/BillsTable/TableBody/DeleteBill.vue":80,"../../../components/BillsPage/BillsTable/TableBody/NumberOfProducts.vue":81,"../../../components/BillsPage/BillsTable/TableBody/PaymentTerm.vue":82,"../../../components/BillsPage/BillsTable/TableBody/Price.vue":83,"vue":41,"vue-hot-reload-api":16}],77:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28922,7 +30400,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],47:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],78:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28946,7 +30424,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],48:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],79:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -28970,7 +30448,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],49:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],80:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -28999,7 +30477,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],50:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],81:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29023,7 +30501,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],51:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],82:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29047,7 +30525,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],52:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],83:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29071,7 +30549,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],53:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],84:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29134,7 +30612,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/BillsPage/BillsTable/TableHead/Campaign.vue":54,"../../../components/BillsPage/BillsTable/TableHead/CampaignOrder.vue":55,"../../../components/BillsPage/BillsTable/TableHead/Client.vue":56,"../../../components/BillsPage/BillsTable/TableHead/DeleteBill.vue":57,"../../../components/BillsPage/BillsTable/TableHead/NumberOfProducts.vue":58,"../../../components/BillsPage/BillsTable/TableHead/PaymentTerm.vue":59,"../../../components/BillsPage/BillsTable/TableHead/Price.vue":60,"vue":41,"vue-hot-reload-api":16}],54:[function(require,module,exports){
+},{"../../../components/BillsPage/BillsTable/TableHead/Campaign.vue":85,"../../../components/BillsPage/BillsTable/TableHead/CampaignOrder.vue":86,"../../../components/BillsPage/BillsTable/TableHead/Client.vue":87,"../../../components/BillsPage/BillsTable/TableHead/DeleteBill.vue":88,"../../../components/BillsPage/BillsTable/TableHead/NumberOfProducts.vue":89,"../../../components/BillsPage/BillsTable/TableHead/PaymentTerm.vue":90,"../../../components/BillsPage/BillsTable/TableHead/Price.vue":91,"vue":41,"vue-hot-reload-api":16}],85:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29154,7 +30632,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],55:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],86:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29174,7 +30652,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],56:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],87:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29194,7 +30672,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],57:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],88:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" data-placement=\"top\" title=\"ssss\">\n        <span class=\"glyphicon glyphicon-trash icon-color\"></span>&nbsp;\n        Sterge\n    </span>\n</th>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -29207,7 +30685,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],58:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],89:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29227,7 +30705,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],59:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],90:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" data-placement=\"top\" title=\"aaaa\">\n        <span class=\"glyphicon glyphicon-calendar icon-color\"></span>&nbsp;\n        termen de plata\n    </span>\n</th>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -29240,7 +30718,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],60:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],91:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29260,7 +30738,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],61:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],92:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29314,7 +30792,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/BillsPage/TopSection/BillsTitle.vue":62,"../../components/BillsPage/TopSection/CreateBill.vue":63,"../../components/BillsPage/TopSection/SearchBar.vue":64,"../../components/BillsPage/TopSection/SearchButton.vue":65,"vue":41,"vue-hot-reload-api":16}],62:[function(require,module,exports){
+},{"../../components/BillsPage/TopSection/BillsTitle.vue":93,"../../components/BillsPage/TopSection/CreateBill.vue":94,"../../components/BillsPage/TopSection/SearchBar.vue":95,"../../components/BillsPage/TopSection/SearchButton.vue":96,"vue":41,"vue-hot-reload-api":16}],93:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<span class=\"my-bills-title\">\n    Facturile mele\n</span>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -29327,7 +30805,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],63:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],94:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29419,7 +30897,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"typeahead.js-browserify":13,"vue":41,"vue-hot-reload-api":16}],64:[function(require,module,exports){
+},{"typeahead.js-browserify":13,"vue":41,"vue-hot-reload-api":16}],95:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29453,7 +30931,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],65:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],96:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29481,7 +30959,29 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],66:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],97:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Loader -->\n<div class=\"col-md-12 text-center\">\n    <img src=\"/img/loading-bubbles-big.svg\">\n</div>\n<!-- END Loader -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/Common/Loader.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],98:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29519,7 +31019,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/LoginPage/LoginForm.vue":67,"../components/LoginPage/LoginIcon.vue":68,"vue":41,"vue-hot-reload-api":16}],67:[function(require,module,exports){
+},{"../components/LoginPage/LoginForm.vue":99,"../components/LoginPage/LoginIcon.vue":100,"vue":41,"vue-hot-reload-api":16}],99:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29610,7 +31110,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],68:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],100:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29630,7 +31130,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],69:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],101:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29683,7 +31183,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/RegisterPage/CreateAccountForm.vue":70,"../components/RegisterPage/CreateAccountIcon.vue":71,"../components/RegisterPage/FreePeriod.vue":72,"../components/RegisterPage/YourProfile.vue":73,"vue":41,"vue-hot-reload-api":16}],70:[function(require,module,exports){
+},{"../components/RegisterPage/CreateAccountForm.vue":102,"../components/RegisterPage/CreateAccountIcon.vue":103,"../components/RegisterPage/FreePeriod.vue":104,"../components/RegisterPage/YourProfile.vue":105,"vue":41,"vue-hot-reload-api":16}],102:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29787,7 +31287,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],71:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],103:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29807,7 +31307,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],72:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],104:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29827,7 +31327,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],73:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],105:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -29847,7 +31347,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],74:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],106:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29953,7 +31453,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/SettingsPage/Billing.vue":75,"../components/SettingsPage/Billing/CreditCard.vue":76,"../components/SettingsPage/Billing/Payments.vue":78,"../components/SettingsPage/Billing/SubscriptionDetails.vue":81,"../components/SettingsPage/Settings.vue":84,"../components/SettingsPage/Settings/Displayed.vue":85,"../components/SettingsPage/Settings/Profile.vue":88,"../components/SettingsPage/Settings/Security.vue":90,"vue":41,"vue-hot-reload-api":16}],75:[function(require,module,exports){
+},{"../components/SettingsPage/Billing.vue":107,"../components/SettingsPage/Billing/CreditCard.vue":108,"../components/SettingsPage/Billing/Payments.vue":110,"../components/SettingsPage/Billing/SubscriptionDetails.vue":113,"../components/SettingsPage/Settings.vue":116,"../components/SettingsPage/Settings/Displayed.vue":117,"../components/SettingsPage/Settings/Profile.vue":120,"../components/SettingsPage/Settings/Security.vue":122,"vue":41,"vue-hot-reload-api":16}],107:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30013,7 +31513,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],76:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],108:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30046,7 +31546,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":77,"vue":41,"vue-hot-reload-api":16}],77:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":109,"vue":41,"vue-hot-reload-api":16}],109:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30068,7 +31568,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],78:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],110:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30106,7 +31606,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":79,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":80,"vue":41,"vue-hot-reload-api":16}],79:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":111,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":112,"vue":41,"vue-hot-reload-api":16}],111:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30128,7 +31628,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],80:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],112:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30150,7 +31650,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],81:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30183,7 +31683,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":82,"vue":41,"vue-hot-reload-api":16}],82:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":114,"vue":41,"vue-hot-reload-api":16}],114:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30205,7 +31705,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],83:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30229,7 +31729,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],84:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],116:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30285,7 +31785,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],85:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],117:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30323,7 +31823,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":86,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":87,"vue":41,"vue-hot-reload-api":16}],86:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":118,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":119,"vue":41,"vue-hot-reload-api":16}],118:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30425,7 +31925,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],87:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],119:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30536,7 +32036,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],88:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],120:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30569,7 +32069,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":89,"vue":41,"vue-hot-reload-api":16}],89:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":121,"vue":41,"vue-hot-reload-api":16}],121:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30591,7 +32091,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],90:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],122:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30624,7 +32124,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":91,"vue":41,"vue-hot-reload-api":16}],91:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":123,"vue":41,"vue-hot-reload-api":16}],123:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30742,6 +32242,6 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/SettingsPage/Error.vue":83,"vue":41,"vue-hot-reload-api":16}]},{},[42]);
+},{"../../../../components/SettingsPage/Error.vue":115,"vue":41,"vue-hot-reload-api":16}]},{},[42]);
 
 //# sourceMappingURL=app.js.map

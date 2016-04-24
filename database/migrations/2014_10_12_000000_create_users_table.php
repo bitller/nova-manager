@@ -5,11 +5,11 @@ use Illuminate\Database\Migrations\Migration;
 
 /**
  * Create users table.
- * 
+ *
  * @author Alexandru Bugarin <alexandru.bugarin@gmail.com>
  */
 class CreateUsersTable extends Migration {
-    
+
     /**
      * Run the migrations.
      *
@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration {
             $table->increments('id');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('disabled')->default(0);
             $table->rememberToken();
             $table->string('braintree_id')->nullable();
             $table->string('paypal_email')->nullable();
