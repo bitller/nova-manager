@@ -3,7 +3,7 @@
 <head>
     <meta id="token" content="{{ csrf_token() }}" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>{{ $title }} - Dent Smart</title>
+    <title>{{ $title }} - Nova Manager</title>
 
     <link rel="stylesheet" type="text/css" href="/css/app.css" />
     <link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
@@ -26,33 +26,43 @@
             <div class="container-fluid">
                 <div class="container">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="/dashboard"><span class="glyphicon glyphicon-tag"></span>&nbsp;Dent Smart</a>
+                        <a class="navbar-brand" href="/dashboard">Nova</a>
                     </div>
                     <ul class="nav navbar-nav">
 
-                        <!-- BEGIN Appointments-->
                         <li>
-                            <a href="/dashboard/appointments"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Programări</a>
+                            <a @click="loadAnnouncements" href="#" data-toggle="modal" data-target="#notifications"><span class="glyphicon glyphicon-bell animated infinite swing"></span></a>
                         </li>
-                        <!-- END Appointments -->
 
-                        <!-- BEGIN Patients -->
+                        <!-- BEGIN Bills-->
                         <li>
-                            <a href="/dashboard/patients"><span class="glyphicon glyphicon-user"></span>&nbsp;Pacienţi</a>
+                            <a href="/dashboard/"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Facturi</a>
                         </li>
-                        <!-- END Patients -->
+                        <!-- END Bills -->
 
-                        <!-- BEGIN Interventions -->
+                        <!-- BEGIN Clients -->
                         <li>
-                            <a href="/dashboard/interventions"><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Intervenţii</a>
+                            <a href="/dashboard/clients"><span class="glyphicon glyphicon-user"></span>&nbsp;Clienţi</a>
                         </li>
-                        <!-- END Interventions -->
+                        <!-- END Clients -->
+
+                        <!-- BEGIN Products -->
+                        <li>
+                            <a href="/dashboard/products"><span class="glyphicon glyphicon-th"></span>&nbsp;Produse</a>
+                        </li>
+                        <!-- END Products -->
 
                         <!-- BEGIN Statistics -->
                         <li>
                             <a href="/dashboard/statistics"><span class="glyphicon glyphicon-stats"></span>&nbsp;Statistici</a>
                         </li>
                         <!-- END Statistics -->
+
+                        <!-- BEGIN Help -->
+                        <li>
+                            <a href="/dashboard/statistics"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Ajutor</a>
+                        </li>
+                        <!-- END Help -->
                     </ul>
 
                     <!-- BEGIN Right content -->
@@ -94,6 +104,7 @@
     <div id="content">
         <div class="container">
             @yield('content')
+            <notifications></notifications>
         </div>
     </div>
 

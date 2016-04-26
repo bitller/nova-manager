@@ -28690,6 +28690,10 @@ module.exports = Vue;
 },{"_process":3}],42:[function(require,module,exports){
 'use strict';
 
+var _Notifications = require('./components/Notifications.vue');
+
+var _Notifications2 = _interopRequireDefault(_Notifications);
+
 var _LoginPage = require('./components/LoginPage.vue');
 
 var _LoginPage2 = _interopRequireDefault(_LoginPage);
@@ -28709,6 +28713,10 @@ var _SettingsPage2 = _interopRequireDefault(_SettingsPage);
 var _AdminCenterPage = require('./components/AdminCenterPage.vue');
 
 var _AdminCenterPage2 = _interopRequireDefault(_AdminCenterPage);
+
+var _ClientsPage = require('./components/ClientsPage.vue');
+
+var _ClientsPage2 = _interopRequireDefault(_ClientsPage);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28734,18 +28742,27 @@ new Vue({
 
     el: '#app',
 
+    ready: function ready() {
+        // Initialize tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+    },
+
     components: {
+        'notifications': _Notifications2.default,
         'login-page': _LoginPage2.default,
         'register-page': _RegisterPage2.default,
         'bills-page': _BillsPage2.default,
         'settings-page': _SettingsPage2.default,
-        'admin-center-page': _AdminCenterPage2.default
+        'admin-center-page': _AdminCenterPage2.default,
+        'clients-page': _ClientsPage2.default
     },
 
     methods: {
-        successAlert: function successAlert() {
-            alert('works');
+
+        loadAnnouncements: function loadAnnouncements() {
+            this.$broadcast('load_announcements');
         }
+
     },
 
     events: {
@@ -28774,7 +28791,7 @@ new Vue({
     }
 });
 
-},{"./components/AdminCenterPage.vue":43,"./components/BillsPage.vue":74,"./components/LoginPage.vue":98,"./components/RegisterPage.vue":101,"./components/SettingsPage.vue":106,"bootstrap-sass":1,"jquery":2,"sweetalert":12,"typeahead.js-browserify":13,"vue":41,"vue-resource":30}],43:[function(require,module,exports){
+},{"./components/AdminCenterPage.vue":43,"./components/BillsPage.vue":74,"./components/ClientsPage.vue":97,"./components/LoginPage.vue":107,"./components/Notifications.vue":110,"./components/RegisterPage.vue":113,"./components/SettingsPage.vue":118,"bootstrap-sass":1,"jquery":2,"sweetalert":12,"typeahead.js-browserify":13,"vue":41,"vue-resource":30}],43:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -29020,7 +29037,7 @@ exports.default = {
     //
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un anunţ nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        create new announcement here.\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un anunţ nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n\n        <div class=\"form-horizontal\" role=\"form\">\n\n            <!-- BEGIN Announcement title -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Titlul anunțului</label>\n                <div class=\"col-md-7\">\n                    <input type=\"text\" class=\"form-control\">\n                </div>\n            </div>\n            <!-- END  Announcement title -->\n\n            <!-- BEGIN Announcement content -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Conținutul anunțului</label>\n                <div class=\"col-md-7\">\n                    <textarea class=\"form-control\"></textarea>\n                </div>\n            </div>\n            <!-- END Announcement content -->\n\n            <!-- BEGIN Action button text -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Text buton</label>\n                <div class=\"col-md-7\">\n                    <input type=\"text\" class=\"form-control\">\n                </div>\n            </div>\n            <!-- END Action button text -->\n\n            <!-- BEGIN Action button url -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Adresă buton</label>\n                <div class=\"col-md-7\">\n                    <input type=\"text\" class=\"form-control\">\n                </div>\n            </div>\n            <!-- END Action button url -->\n\n            <!-- BEGIN Post -->\n            <div class=\"form-group\">\n                <div class=\"col-md-offset-4 col-md-3\">\n                    <div class=\"btn btn-primary\">Publică anunțul</div>\n                </div>\n            </div>\n            <!-- END Post -->\n        </div>\n\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -29387,7 +29404,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":55,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":56,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":57,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":58,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":59,"../../../../components/Common/Loader.vue":97,"vue":41,"vue-hot-reload-api":16}],55:[function(require,module,exports){
+},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":55,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":56,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":57,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":58,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":59,"../../../../components/Common/Loader.vue":106,"vue":41,"vue-hot-reload-api":16}],55:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30960,6 +30977,320 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":41,"vue-hot-reload-api":16}],97:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _SearchClient = require('../components/ClientsPage/SearchClient.vue');
+
+var _SearchClient2 = _interopRequireDefault(_SearchClient);
+
+var _AddClient = require('../components/ClientsPage/AddClient.vue');
+
+var _AddClient2 = _interopRequireDefault(_AddClient);
+
+var _ClientsTable = require('../components/ClientsPage/ClientsTable.vue');
+
+var _ClientsTable2 = _interopRequireDefault(_ClientsTable);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    data: function data() {
+        return {
+            loading: false,
+            searchResults: ''
+        };
+    },
+
+    ready: function ready() {
+        this.getClients();
+    },
+
+    components: {
+        'search-client': _SearchClient2.default,
+        'add-client': _AddClient2.default,
+        'clients-table': _ClientsTable2.default
+    },
+
+    methods: {
+
+        getClients: function getClients(url) {
+
+            this.loading = true;
+            var vn = this;
+
+            if (typeof url === 'undefined') {
+                url = '/dashboard/clients/get';
+            }
+
+            this.$http.get(url).then(function (success) {
+
+                vn.loading = false;
+                vn.searchResults = success.data;
+            }, function (error) {
+                //
+            });
+        }
+
+    },
+
+    events: {
+
+        'previous_page': function previous_page() {
+            if (!this.loading) {
+                this.getClients(this.search_results.next_page_url);
+            }
+        },
+
+        'next_page_url': function next_page_url() {
+            if (!this.loading) {
+                this.getClients(this.search_results.prev_page_url);
+            }
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Title -->\n<div class=\"col-md-12\">\n    <h4>Clienții mei <span class=\"badge\">{{ searchResults.total }}</span></h4>\n</div>\n<!-- END Title -->\n\n<search-client></search-client>\n<add-client></add-client>\n\n<clients-table :results=\"searchResults\"></clients-table>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../components/ClientsPage/AddClient.vue":98,"../components/ClientsPage/ClientsTable.vue":99,"../components/ClientsPage/SearchClient.vue":105,"vue":41,"vue-hot-reload-api":16}],98:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Add client -->\n<div class=\"col-md-2\">\n    <div class=\"btn btn-primary btn-block\">\n        <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adaugă client\n    </div>\n</div>\n<!-- END Add client -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/AddClient.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],99:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Name = require('../../components/ClientsPage/ClientsTable/Name.vue');
+
+var _Name2 = _interopRequireDefault(_Name);
+
+var _PhoneNumber = require('../../components/ClientsPage/ClientsTable/PhoneNumber.vue');
+
+var _PhoneNumber2 = _interopRequireDefault(_PhoneNumber);
+
+var _Email = require('../../components/ClientsPage/ClientsTable/Email.vue');
+
+var _Email2 = _interopRequireDefault(_Email);
+
+var _OrdersMade = require('../../components/ClientsPage/ClientsTable/OrdersMade.vue');
+
+var _OrdersMade2 = _interopRequireDefault(_OrdersMade);
+
+var _Delete = require('../../components/ClientsPage/ClientsTable/Delete.vue');
+
+var _Delete2 = _interopRequireDefault(_Delete);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    props: ['results'],
+
+    components: {
+        'name': _Name2.default,
+        'phone-number': _PhoneNumber2.default,
+        'email': _Email2.default,
+        'orders-made': _OrdersMade2.default,
+        'delete': _Delete2.default
+    },
+
+    methods: {
+
+        previousPage: function previousPage() {
+            this.$dispatch('previous_page');
+        },
+
+        nextPage: function nextPage() {
+            this.$dispatch('next_page');
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div v-if=\"results.total > 0\" class=\"panel panel-default\">\n        <table class=\"table table-hover table-bordered\">\n            <thead>\n                <tr>\n                    <th is=\"name\"></th>\n                    <th is=\"phone-number\"></th>\n                    <th is=\"email\"></th>\n                    <th is=\"orders-made\"></th>\n                    <th is=\"delete\"></th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr v-for=\"client in results.data\">\n                    <td class=\"vert-align text-center\">{{ client.name }}</td>\n                    <td class=\"vert-align text-center\">{{ client.phone_number }}</td>\n                    <td class=\"vert-align text-center\">{{ client.email }}</td>\n                    <td class=\"vert-align text-center\">niy</td>\n                    <td class=\"text-center\"><div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge</div></td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n\n    <ul class=\"pager\">\n        <li @click=\"previousPage\"><a href=\"#\">Pagina anterioară</a></li>\n        <li><a @click=\"nextPage\" href=\"#\">Pagina următoare</a></li>\n    </ul>\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../components/ClientsPage/ClientsTable/Delete.vue":100,"../../components/ClientsPage/ClientsTable/Email.vue":101,"../../components/ClientsPage/ClientsTable/Name.vue":102,"../../components/ClientsPage/ClientsTable/OrdersMade.vue":103,"../../components/ClientsPage/ClientsTable/PhoneNumber.vue":104,"vue":41,"vue-hot-reload-api":16}],100:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Șterge clientul respectiv.\">\n        <span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge\n    </span>\n</th>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/Delete.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],101:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Aveți posibilitatea să trimiteți factura clientului direct pe email.\">\n        <span class=\"glyphicon glyphicon-envelope\"></span>&nbsp;Adresa de email\n    </span>\n</th>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/Email.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],102:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Numele clientului.\">\n        <span class=\"glyphicon glyphicon-user\"></span>&nbsp;Nume\n    </span>\n</th>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/Name.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],103:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Numărul comenzilor efectuate de client.\">\n        <span class=\"glyphicon glyphicon-th\"></span>&nbsp;Comenzi efectuate\n    </span>\n</th>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/OrdersMade.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],104:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+    //
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Este folosit pentru a trimite mesaje clientului de ziua lui sau cu alte ocazii speciale.\">\n        <span class=\"glyphicon glyphicon-phone\"></span>&nbsp;Numărul de telefon\n    </span>\n</th>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/PhoneNumber.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],105:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    //
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Search client -->\n<div class=\"col-md-10\">\n    <div class=\"form-group has-feedback\">\n        <input type=\"text\" class=\"form-control\" placeholder=\"Introduceţi numele, email-ul sau numărul de telefon al clientului apoi apăsaţi tasta enter pentru a efectua o căutare\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n<!-- END Search client -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/SearchClient.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],106:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30981,7 +31312,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],98:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],107:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31019,7 +31350,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/LoginPage/LoginForm.vue":99,"../components/LoginPage/LoginIcon.vue":100,"vue":41,"vue-hot-reload-api":16}],99:[function(require,module,exports){
+},{"../components/LoginPage/LoginForm.vue":108,"../components/LoginPage/LoginIcon.vue":109,"vue":41,"vue-hot-reload-api":16}],108:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31110,7 +31441,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],100:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],109:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31130,7 +31461,154 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],101:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],110:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Warning = require('../components/Notifications/Warning.vue');
+
+var _Warning2 = _interopRequireDefault(_Warning);
+
+var _Info = require('../components/Notifications/Info.vue');
+
+var _Info2 = _interopRequireDefault(_Info);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    data: function data() {
+        return {
+            loading: false,
+            notifications: ''
+        };
+    },
+
+    components: {
+        'warning': _Warning2.default,
+        'info': _Info2.default
+    },
+
+    methods: {
+
+        getNotifications: function getNotifications() {
+
+            this.loading = true;
+            var vn = this;
+            this.$http.get('/dashboard/announcements').then(function (success) {
+
+                vn.loading = false;
+                vn.notifications = success.data.announcements;
+            }, function (error) {
+                //
+            });
+        },
+
+        makeUserNotificationsRead: function makeUserNotificationsRead() {
+
+            var vn = this;
+
+            var postData = {
+                _token: $('#token').attr('content')
+            };
+
+            this.$http.post('/dashboard/announcements/make-read', postData);
+        },
+
+        showDivider: function showDivider(index) {
+            index++;
+            if (this.notifications.length >= index + 1) {
+                return true;
+            }
+
+            return false;
+        }
+
+    },
+
+    computed: {
+        showNoNotificationsAlert: function showNoNotificationsAlert() {
+            if (this.notifications.length === 0) {
+                return true;
+            }
+
+            return false;
+        }
+    },
+
+    events: {
+        'load_announcements': function load_announcements() {
+            this.getNotifications();
+            this.makeUserNotificationsRead();
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div id=\"notifications\" class=\"modal fade\" role=\"dialog\">\n        <div class=\"modal-dialog modal-lg\">\n\n            <!-- Modal content-->\n            <div class=\"modal-content\">\n              <div class=\"modal-header\">\n                <button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n                <h4 class=\"modal-title\">Notificări</h4>\n              </div>\n              <div class=\"modal-body\">\n\n                  <div class=\"row\">\n                      <div v-for=\"notification in notifications\">\n\n                          <warning v-if=\"notification.type == 'warning'\" :notification=\"notification\"></warning>\n                          <info v-if=\"notification.type == 'info'\" :notification=\"notification\"></info>\n\n                          <div class=\"col-md-12\" v-if=\"showDivider($index)\">\n                              <div class=\"col-md-12\"><div class=\"divider\"></div></div>\n                          </div>\n                      </div>\n\n                      <div v-if=\"showNoNotificationsAlert\" class=\"col-md-12\">\n                          <div class=\"alert alert-info\"><strong>Nu sunt notificări noi. Click <a href=\"#\">aici</a> pentru a avedea notificările deja citite.</strong></div>\n                      </div>\n\n                  </div>\n\n              </div>\n              <div class=\"modal-footer\">\n                <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Închide</button>\n              </div>\n            </div>\n\n        </div>\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/Notifications.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../components/Notifications/Info.vue":111,"../components/Notifications/Warning.vue":112,"vue":41,"vue-hot-reload-api":16}],111:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['notification']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12 notification\">\n\n    <div class=\"col-md-2 text-center\">\n        <img src=\"/img/info.svg\">\n    </div>\n\n    <div class=\"col-md-10\">\n        <div class=\"col-md-12\">\n            <h5><strong>{{ notification.title }}</strong></h5>\n        </div>\n        <div class=\"col-md-12\">\n            <span>\n                {{ notification.content }}\n            </span>\n        </div>\n\n        <div v-if=\"notification.action_button_text &amp;&amp; notification.action_button_url\" class=\"col-md-12\">\n            <a href=\"{{ notification.action_button_url }}\" target=\"_blank\">\n                <div class=\"btn btn-primary pull-right read-more\">{{ notification.action_button_text }}</div>\n            </a>\n        </div>\n    </div>\n\n</div>\n\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/Notifications/Info.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],112:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['notification']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12 notification\">\n\n    <div class=\"col-md-2 text-center\">\n        <img src=\"/img/danger.svg\">\n    </div>\n\n    <div class=\"col-md-10\">\n        <div class=\"col-md-12\">\n            <h5><strong>{{ notification.title }}</strong></h5>\n        </div>\n        <div class=\"col-md-12\">\n            <span>\n                {{ notification.content }}\n            </span>\n        </div>\n\n        <div v-if=\"notification.action_button_text &amp;&amp; notification.action_button_url\" class=\"col-md-12\">\n            <a href=\"{{ notification.action_button_url }}\" target=\"_blank\">\n                <div class=\"btn btn-primary pull-right read-more\">{{ notification.action_button_text }}</div>\n            </a>\n        </div>\n    </div>\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/Notifications/Warning.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":41,"vue-hot-reload-api":16}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31183,7 +31661,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/RegisterPage/CreateAccountForm.vue":102,"../components/RegisterPage/CreateAccountIcon.vue":103,"../components/RegisterPage/FreePeriod.vue":104,"../components/RegisterPage/YourProfile.vue":105,"vue":41,"vue-hot-reload-api":16}],102:[function(require,module,exports){
+},{"../components/RegisterPage/CreateAccountForm.vue":114,"../components/RegisterPage/CreateAccountIcon.vue":115,"../components/RegisterPage/FreePeriod.vue":116,"../components/RegisterPage/YourProfile.vue":117,"vue":41,"vue-hot-reload-api":16}],114:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31287,7 +31765,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],103:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],115:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31307,7 +31785,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],104:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],116:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31327,7 +31805,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],105:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],117:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31347,7 +31825,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],106:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],118:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31453,7 +31931,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/SettingsPage/Billing.vue":107,"../components/SettingsPage/Billing/CreditCard.vue":108,"../components/SettingsPage/Billing/Payments.vue":110,"../components/SettingsPage/Billing/SubscriptionDetails.vue":113,"../components/SettingsPage/Settings.vue":116,"../components/SettingsPage/Settings/Displayed.vue":117,"../components/SettingsPage/Settings/Profile.vue":120,"../components/SettingsPage/Settings/Security.vue":122,"vue":41,"vue-hot-reload-api":16}],107:[function(require,module,exports){
+},{"../components/SettingsPage/Billing.vue":119,"../components/SettingsPage/Billing/CreditCard.vue":120,"../components/SettingsPage/Billing/Payments.vue":122,"../components/SettingsPage/Billing/SubscriptionDetails.vue":125,"../components/SettingsPage/Settings.vue":128,"../components/SettingsPage/Settings/Displayed.vue":129,"../components/SettingsPage/Settings/Profile.vue":132,"../components/SettingsPage/Settings/Security.vue":134,"vue":41,"vue-hot-reload-api":16}],119:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31513,7 +31991,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],108:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],120:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31546,7 +32024,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":109,"vue":41,"vue-hot-reload-api":16}],109:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":121,"vue":41,"vue-hot-reload-api":16}],121:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31568,7 +32046,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],110:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],122:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31606,7 +32084,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":111,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":112,"vue":41,"vue-hot-reload-api":16}],111:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":123,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":124,"vue":41,"vue-hot-reload-api":16}],123:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31628,7 +32106,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],112:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],124:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31650,7 +32128,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],113:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],125:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31683,7 +32161,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":114,"vue":41,"vue-hot-reload-api":16}],114:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":126,"vue":41,"vue-hot-reload-api":16}],126:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31705,7 +32183,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],115:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],127:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31729,7 +32207,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],116:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],128:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31785,7 +32263,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],117:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],129:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31823,7 +32301,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":118,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":119,"vue":41,"vue-hot-reload-api":16}],118:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":130,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":131,"vue":41,"vue-hot-reload-api":16}],130:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31925,7 +32403,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],119:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],131:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32036,7 +32514,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],120:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],132:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32069,7 +32547,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":121,"vue":41,"vue-hot-reload-api":16}],121:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":133,"vue":41,"vue-hot-reload-api":16}],133:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32177,7 +32655,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":41,"vue-hot-reload-api":16}],122:[function(require,module,exports){
+},{"vue":41,"vue-hot-reload-api":16}],134:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32210,7 +32688,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":123,"vue":41,"vue-hot-reload-api":16}],123:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":135,"vue":41,"vue-hot-reload-api":16}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32328,6 +32806,6 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/SettingsPage/Error.vue":115,"vue":41,"vue-hot-reload-api":16}]},{},[42]);
+},{"../../../../components/SettingsPage/Error.vue":127,"vue":41,"vue-hot-reload-api":16}]},{},[42]);
 
 //# sourceMappingURL=app.js.map

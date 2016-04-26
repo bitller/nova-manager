@@ -1,4 +1,4 @@
-<template>
+-manage<template>
 
     <!-- BEGIN Panel -->
     <div class="panel panel-default">

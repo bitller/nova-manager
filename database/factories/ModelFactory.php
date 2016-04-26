@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Faker\Generator;
+use App\Announcement;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,7 +28,8 @@ $factory->define(App\Client::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->safeEmail,
-        'phone_number' => $faker->phoneNumber
+        'phone_number' => $faker->phoneNumber,
+        'birth_date' => $faker->date
     ];
 });
 
@@ -42,5 +44,25 @@ $factory->define(App\Setting::class, function () {
     return [
         'number_of_clients' => rand(1, 100),
         'number_of_bills' => rand(1, 100)
+    ];
+});
+
+$factory->defineAs(App\Announcement::class, 'info', function (Faker\Generator $faker) {
+    return [
+        'type' => 'info',
+        'title' => $faker->sentence,
+        'content' => $faker->text,
+        'action_button_text' => $faker->word,
+        'action_button_url' => $faker->url
+    ];
+});
+
+$factory->defineAs(App\Announcement::class, 'warning', function(Faker\Generator $faker) {
+    return [
+        'type' => 'warning',
+        'title' => $faker->sentence,
+        'content' => $faker->text,
+        'action_button_text' => $faker->word,
+        'action_button_url' => $faker->url
     ];
 });

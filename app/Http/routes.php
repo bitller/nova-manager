@@ -18,6 +18,20 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     Route::get('/bills', 'BillsController@index');
     Route::get('/bills/suggest-clients', 'BillsController@suggestClients');
 
+    // User clients
+    Route::group(['prefix' => 'clients'], function() {
+        Route::get('/', 'ClientsController@index');
+        Route::get('/get', 'ClientsController@paginateClients');
+        Route::post('/', 'ClientsController@addClient');
+        Route::delete('/{clientId}', 'ClientsController@deleteClient');
+    });
+
+    // Annoucnements
+    Route::group(['prefix' => 'announcements'], function() {
+        Route::get('/', 'AnnouncementsController@get');
+        Route::post('/make-read', 'AnnouncementsController@makeNotificationsRead');
+    });
+
     // User SettingsPage
     Route::group(['prefix' => 'settings', 'namespace' => 'Settings'], function() {
         Route::get('/', 'ProfileController@index');
@@ -105,3 +119,4 @@ Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middlew
 });
 
 Route::get('/home', 'HomeController@index');
+Route::get('logs', '\Rap2hpoutre\LaravelLogViewer\LogViewerController@index');

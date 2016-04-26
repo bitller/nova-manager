@@ -21,6 +21,7 @@ class CreateClientsTable extends Migration {
             $table->string('name');
             $table->string('email')->nullable()->default('');
             $table->string('phone_number')->nullable()->default('');
+            $table->date('birth_date')->nullable();
             $table->integer('user_id')->unsigned();
             $table->timestamps();
 

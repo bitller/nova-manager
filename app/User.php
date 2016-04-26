@@ -56,9 +56,36 @@ class User extends Authenticatable {
     /**
      * Get user settings.
      *
-     * @return \\Database\Eloquent\Relations\HasOne
+     * @return \Database\Eloquent\Relations\HasOne
      */
     public function settings() {
         return $this->hasOne('App\Setting');
+    }
+
+    /**
+     * Announcements that belongs to the user.
+     *
+     * @return \Database\Eloquent\Relations\BelongsToMany
+     */
+    public function announcements() {
+        return $this->belongsToMany('App\Announcement');
+    }
+
+    /**
+     * Read announcements that belongs to the user.
+     *
+     * @return \Database\Eloquent\Relations\BelongsToMany
+     */
+    public function readAnnouncements() {
+        return $this->belongsToMany('App\Announcement')->wherePivot('read', true);
+    }
+
+    /**
+     * Not read announcements that belongs to the user.
+     *
+     * @return \Database\Eloquent\Relations\BelongsToMany
+     */
+    public function notReadAnnouncements() {
+        return $this->belongsToMany('App\Announcement')->wherePivot('read', false);
     }
 }

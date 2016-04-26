@@ -16,28 +16,39 @@ Vue.use(require('vue-resource'));
 // Enable debug mode
 Vue.config.debug = true;
 
+import Notifications from './components/Notifications.vue';
 import LoginPage from './components/LoginPage.vue';
 import RegisterPage from './components/RegisterPage.vue';
 import BillsPage from './components/BillsPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
 import AdminCenterPage from './components/AdminCenterPage.vue';
+import ClientsPage from './components/ClientsPage.vue';
 
 new Vue({
 
     el: '#app',
 
+    ready: function() {
+        // Initialize tooltips
+        $('[data-toggle="tooltip"]').tooltip();
+    },
+
     components: {
+        'notifications': Notifications,
         'login-page': LoginPage,
         'register-page': RegisterPage,
         'bills-page': BillsPage,
         'settings-page': SettingsPage,
         'admin-center-page': AdminCenterPage,
+        'clients-page': ClientsPage,
     },
 
     methods: {
-        successAlert: function() {
-            alert('works');
+
+        loadAnnouncements: function() {
+            this.$broadcast('load_announcements');
         }
+
     },
 
     events: {
