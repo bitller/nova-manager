@@ -29028,16 +29028,149 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../../../components/AdminCenterPage/AdminCenter/Announcements/CreateNewAnnouncement.vue":46,"../../../components/AdminCenterPage/AdminCenter/Announcements/RecentAnnouncements.vue":47,"vue":41,"vue-hot-reload-api":16}],46:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    ready: function ready() {
+        this.loadPageData();
+    },
+
+    data: function data() {
+        return {
+            type: '',
+            title: '',
+            content: '',
+            actionButtonText: '',
+            actionButtonUrl: '',
+            loading: false,
+            loadingPageData: false,
+            error: '',
+            errors: '',
+            announcementTypes: ''
+        };
+    },
+
+    methods: {
+
+        loadPageData: function loadPageData() {
+
+            this.loadPageData = true;
+            var vn = this;
+
+            this.$http.get('/admin-center/announcements/types').then(function (success) {
+
+                vn.loadingPageData = false;
+                vn.announcementTypes = success.data.types;
+            }, function (error) {
+                //
+            });
+        },
+
+        postAnnouncement: function postAnnouncement() {
+
+            this.loading = true;
+            var vn = this;
+
+            // Post data
+            var announcement = {
+                _token: $('#token').attr('content'),
+                announcement_type: this.type,
+                announcement_title: this.title,
+                announcement_content: this.content,
+                action_button_url: this.actionButtonUrl,
+                action_button_text: this.actionButtonText
+            };
+
+            this.$http.post('/admin-center/announcements', announcement).then(function (success) {
+
+                vn.$dispatch('announcements_updated');
+                vn.$dispatch('success_alert', success.data.title, success.data.message);
+                vn.resetForm();
+            }, function (error) {
+
+                vn.loading = false;
+
+                if (error.data.errors) {
+                    vn.errors = error.data.errors;
+                    vn.error = '';
+                    return;
+                }
+
+                if (error.data.error) {
+                    vn.error = error.data.error;
+                    vn.errors = '';
+                    return;
+                }
+
+                vn.error = 'O eroare a avut loc.';
+                vn.errors = '';
+            });
+        },
+
+        resetForm: function resetForm() {
+            this.errors = this.error = this.title = this.content = this.actionButtonUrl = this.actionButtonText = '';
+        }
+
+    },
+
+    computed: {
+
+        hasError: function hasError() {
+            if (this.error && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        typeHasError: function typeHasError() {
+            if (this.errors.announcement_type && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        titleHasError: function titleHasError() {
+            if (this.errors.announcement_title && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        contentHasError: function contentHasError() {
+            if (this.errors.announcement_content && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        actionButtonUrlHasError: function actionButtonUrlHasError() {
+            if (this.errors.action_button_url && !this.loading) {
+                return true;
+            }
+
+            return false;
+        },
+
+        actionButtonTextHasError: function actionButtonTextHasError() {
+            if (this.errors.action_button_text && !this.loading) {
+                return true;
+            }
+
+            return false;
+        }
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un anunţ nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n\n        <div class=\"form-horizontal\" role=\"form\">\n\n            <!-- BEGIN Announcement title -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Titlul anunțului</label>\n                <div class=\"col-md-7\">\n                    <input type=\"text\" class=\"form-control\">\n                </div>\n            </div>\n            <!-- END  Announcement title -->\n\n            <!-- BEGIN Announcement content -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Conținutul anunțului</label>\n                <div class=\"col-md-7\">\n                    <textarea class=\"form-control\"></textarea>\n                </div>\n            </div>\n            <!-- END Announcement content -->\n\n            <!-- BEGIN Action button text -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Text buton</label>\n                <div class=\"col-md-7\">\n                    <input type=\"text\" class=\"form-control\">\n                </div>\n            </div>\n            <!-- END Action button text -->\n\n            <!-- BEGIN Action button url -->\n            <div class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Adresă buton</label>\n                <div class=\"col-md-7\">\n                    <input type=\"text\" class=\"form-control\">\n                </div>\n            </div>\n            <!-- END Action button url -->\n\n            <!-- BEGIN Post -->\n            <div class=\"form-group\">\n                <div class=\"col-md-offset-4 col-md-3\">\n                    <div class=\"btn btn-primary\">Publică anunțul</div>\n                </div>\n            </div>\n            <!-- END Post -->\n        </div>\n\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">Creează un anunţ nou</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n\n        <div class=\"form-horizontal\" role=\"form\">\n\n            <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n            <!-- BEGIN Announcement type -->\n            <div :class=\"{ 'has-error': typeHasError }\" class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Tip anunț</label>\n                <div class=\"col-md-7\">\n                    <select v-model=\"type\" class=\"form-control\">\n                        <option v-for=\"type in announcementTypes\">{{ type }}</option>\n                    </select>\n                    <span v-show=\"typeHasError\" class=\"text-danger\">{{ errors.announcement_type }}</span>\n                </div>\n            </div>\n            <!-- END Announcement type -->\n\n            <!-- BEGIN Announcement title -->\n            <div :class=\"{ 'has-error': titleHasError }\" class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Titlul anunțului</label>\n                <div class=\"col-md-7\">\n                    <input v-model=\"title\" @keyup.enter=\"postAnnouncement\" type=\"text\" class=\"form-control\">\n                    <span v-show=\"titleHasError\" class=\"text-danger\">{{ errors.announcement_title }}</span>\n                </div>\n            </div>\n            <!-- END  Announcement title -->\n\n            <!-- BEGIN Announcement content -->\n            <div :class=\"{ 'has-error': contentHasError }\" class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Conținutul anunțului</label>\n                <div class=\"col-md-7\">\n                    <textarea v-model=\"content\" @keyup.enter=\"postAnnouncement\" class=\"form-control\"></textarea>\n                    <span v-show=\"contentHasError\" class=\"text-danger\">{{ errors.announcement_content }}</span>\n                </div>\n            </div>\n            <!-- END Announcement content -->\n\n            <!-- BEGIN Action button text -->\n            <div :class=\"{ 'has-error': actionButtonTextHasError }\" class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Text buton</label>\n                <div class=\"col-md-7\">\n                    <input v-model=\"actionButtonText\" @keyup.enter=\"postAnnouncement\" type=\"text\" class=\"form-control\">\n                    <span v-show=\"actionButtonTextHasError\" class=\"text-danger\">{{ errors.action_button_text }}</span>\n                </div>\n            </div>\n            <!-- END Action button text -->\n\n            <!-- BEGIN Action button url -->\n            <div :class=\"{ 'has-error': actionButtonUrlHasError }\" class=\"form-group\">\n                <label class=\"control-label col-md-3 col-md-offset-1\">Adresă buton</label>\n                <div class=\"col-md-7\">\n                    <input v-model=\"actionButtonUrl\" @keyup.enter=\"postAnnouncement\" ype=\"text\" class=\"form-control\">\n                    <span v-show=\"actionButtonUrlHasError\" class=\"text-danger\">{{ errors.action_button_url }}</span>\n                </div>\n            </div>\n            <!-- END Action button url -->\n\n            <!-- BEGIN Post -->\n            <div class=\"form-group\">\n                <div class=\"col-md-offset-4 col-md-3\">\n                    <div @click=\"postAnnouncement\" class=\"btn btn-primary\">Publică anunțul</div>\n                </div>\n            </div>\n            <!-- END Post -->\n        </div>\n\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

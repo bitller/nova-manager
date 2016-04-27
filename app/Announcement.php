@@ -12,6 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 class Announcement extends Model {
 
     /**
+     * @var [type]
+     */
+    protected $fillable = ['title', 'content', 'action_button_url', 'action_button_text'];
+
+    /**
      * Users that belongs to the announcement.
      *
      * @return \Database\Eloquent\Relations\BelongsToMany

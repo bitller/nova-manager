@@ -94,6 +94,8 @@ Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middlew
     // Announcements section
     Route::group(['prefix' => 'announcements'], function() {
         Route::get('/', 'AnnouncementsController@index');
+        Route::get('/types', 'AnnouncementsController@getAnnouncementTypes');
+        Route::post('/', 'AnnouncementsController@postAnnouncement');
     });
 
     // Application settings section

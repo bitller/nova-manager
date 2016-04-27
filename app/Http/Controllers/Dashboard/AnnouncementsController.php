@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\BaseController;
 use Auth;
+use App\Announcement;
+use Illuminate\Http\Request;
 
 /**
  * Handle announcements.
