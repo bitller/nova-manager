@@ -31151,7 +31151,7 @@ exports.default = {
 
     methods: {
 
-        getClients: function getClients(url) {
+        getClients: function getClients(url, callback) {
 
             this.loading = true;
             var vn = this;
@@ -31164,6 +31164,9 @@ exports.default = {
 
                 vn.loading = false;
                 vn.searchResults = success.data;
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
             }, function (error) {
                 //
             });
@@ -31183,12 +31186,19 @@ exports.default = {
             if (!this.loading) {
                 this.getClients(this.search_results.prev_page_url);
             }
+        },
+
+        'clients_updated': function clients_updated(title, message) {
+            var vn = this;
+            this.getClients(undefined, function () {
+                vn.$dispatch('success_alert', title, message);
+            });
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Title -->\n<div class=\"col-md-12\">\n    <h4>Clienții mei <span class=\"badge\">{{ searchResults.total }}</span></h4>\n</div>\n<!-- END Title -->\n\n<search-client></search-client>\n<add-client></add-client>\n\n<clients-table :results=\"searchResults\"></clients-table>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Title -->\n<div v-if=\"!loading\" class=\"col-md-12\">\n    <h4>Clienții mei <span class=\"badge\">{{ searchResults.total }}</span></h4>\n</div>\n<!-- END Title -->\n\n<!-- BEGIN Loader -->\n<div v-if=\"loading\" class=\"col-md-12 text-center\">\n    <img src=\"/img/loading-bubbles-big.svg\">\n</div>\n<!-- END Loader -->\n\n<search-client v-if=\"!loading\"></search-client>\n<add-client v-if=\"!loading\"></add-client>\n\n<clients-table v-if=\"!loading\" :results=\"searchResults\"></clients-table>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -31271,13 +31281,64 @@ exports.default = {
 
         nextPage: function nextPage() {
             this.$dispatch('next_page');
+        },
+
+        deleteClient: function deleteClient(clientId) {
+
+            var vn = this;
+
+            // Ask for confirmation
+            swal({
+                title: 'Sunteți sigur?',
+                text: 'Toate detaliile despre acest client vor fi șterse, inclusiv facturile.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Șterge clientul",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                vn.doDeleteClientRequest(clientId);
+            });
+        },
+
+        doDeleteClientRequest: function doDeleteClientRequest(clientId) {
+
+            var vn = this;
+            var client = {
+                _token: $('#token').attr('content')
+            };
+
+            this.$http.delete('/dashboard/clients/' + clientId, client).then(function (success) {
+
+                this.$dispatch('clients_updated', success.data.title, success.data.message);
+            }, function (error) {
+
+                var title = 'Oooops.';
+                var message = 'O eroare a avut loc.';
+
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+
+                swal({
+                    type: 'error',
+                    title: title,
+                    message: message
+                });
+            });
         }
 
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div v-if=\"results.total > 0\" class=\"panel panel-default\">\n        <table class=\"table table-hover table-bordered\">\n            <thead>\n                <tr>\n                    <th is=\"name\"></th>\n                    <th is=\"phone-number\"></th>\n                    <th is=\"email\"></th>\n                    <th is=\"orders-made\"></th>\n                    <th is=\"delete\"></th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr v-for=\"client in results.data\">\n                    <td class=\"vert-align text-center\">{{ client.name }}</td>\n                    <td class=\"vert-align text-center\">{{ client.phone_number }}</td>\n                    <td class=\"vert-align text-center\">{{ client.email }}</td>\n                    <td class=\"vert-align text-center\">niy</td>\n                    <td class=\"text-center\"><div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge</div></td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n\n    <ul class=\"pager\">\n        <li @click=\"previousPage\"><a href=\"#\">Pagina anterioară</a></li>\n        <li><a @click=\"nextPage\" href=\"#\">Pagina următoare</a></li>\n    </ul>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div v-if=\"results.total > 0\" class=\"panel panel-default\">\n        <table class=\"table table-hover table-bordered\">\n            <thead>\n                <tr>\n                    <th is=\"name\"></th>\n                    <th is=\"phone-number\"></th>\n                    <th is=\"email\"></th>\n                    <th is=\"orders-made\"></th>\n                    <th is=\"delete\"></th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr v-for=\"client in results.data\">\n                    <td class=\"vert-align text-center\">{{ client.name }}</td>\n                    <td class=\"vert-align text-center\">{{ client.phone_number }}</td>\n                    <td class=\"vert-align text-center\">{{ client.email }}</td>\n                    <td class=\"vert-align text-center\">niy</td>\n                    <td @click=\"deleteClient(client.id)\" class=\"text-center\"><div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge</div></td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n\n    <ul class=\"pager\">\n        <li @click=\"previousPage\"><a href=\"#\">Pagina anterioară</a></li>\n        <li><a @click=\"nextPage\" href=\"#\">Pagina următoare</a></li>\n    </ul>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

@@ -1,15 +1,21 @@
-<template>
+er<template>
 
     <!-- BEGIN Title -->
-    <div class="col-md-12">
+    <div v-if="!loading" class="col-md-12">
         <h4>Clienții mei <span class="badge">{{ searchResults.total }}</span></h4>
     </div>
     <!-- END Title -->
 
-    <search-client></search-client>
-    <add-client></add-client>
+    <!-- BEGIN Loader -->
+    <div v-if="loading" class="col-md-12 text-center">
+        <img src="/img/loading-bubbles-big.svg" />
+    </div>
+    <!-- END Loader -->
 
-    <clients-table :results="searchResults"></clients-table>
+    <search-client v-if="!loading"></search-client>
+    <add-client v-if="!loading"></add-client>
+
+    <clients-table v-if="!loading" :results="searchResults"></clients-table>
 
 </template>
 
@@ -40,7 +46,7 @@ export default {
 
     methods: {
 
-        getClients: function(url) {
+        getClients: function(url, callback) {
 
             this.loading = true;
             var vn = this;
@@ -53,6 +59,9 @@ export default {
 
                 vn.loading = false;
                 vn.searchResults = success.data;
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
 
             }, function (error) {
                 //
@@ -74,6 +83,13 @@ export default {
             if (!this.loading) {
                 this.getClients(this.search_results.prev_page_url);
             }
+        },
+
+        'clients_updated': function(title, message) {
+            var vn = this;
+            this.getClients(undefined, function() {
+                vn.$dispatch('success_alert', title, message);
+            });
         }
     }
 

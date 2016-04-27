@@ -50,7 +50,7 @@ class ClientsController extends BaseController {
      * @param  int $clientId
      */
     public function deleteClient($clientId) {
-
+        
         // Make sure the client belong to the current user
         if (!Auth::user()->clients()->where('id', $clientId)->count()) {
             return response()->json([

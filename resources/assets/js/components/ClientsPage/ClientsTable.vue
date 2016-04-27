@@ -1,6 +1,7 @@
 <template>
 
     <div class="col-md-12">
+
         <div v-if="results.total > 0" class="panel panel-default">
             <table class="table table-hover table-bordered">
                 <thead>
@@ -18,7 +19,7 @@
                         <td class="vert-align text-center">{{ client.phone_number }}</td>
                         <td class="vert-align text-center">{{ client.email }}</td>
                         <td class="vert-align text-center">niy</td>
-                        <td class="text-center"><div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Șterge</div></td>
+                        <td @click="deleteClient(client.id)" class="text-center"><div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Șterge</div></td>
                     </tr>
                 </tbody>
             </table>
@@ -61,6 +62,60 @@ export default {
 
         nextPage: function() {
             this.$dispatch('next_page');
+        },
+
+        deleteClient: function(clientId) {
+
+            var vn = this;
+
+            // Ask for confirmation
+            swal({
+                title: 'Sunteți sigur?',
+                text: 'Toate detaliile despre acest client vor fi șterse, inclusiv facturile.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "Șterge clientul",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function() {
+                vn.doDeleteClientRequest(clientId);
+            });
+
+        },
+
+        doDeleteClientRequest: function(clientId) {
+
+            var vn = this;
+            var client = {
+                _token: $('#token').attr('content')
+            };
+
+            this.$http.delete('/dashboard/clients/' + clientId, client).then(function (success) {
+
+                this.$dispatch('clients_updated', success.data.title, success.data.message);
+
+            }, function (error) {
+
+                var title = 'Oooops.';
+                var message = 'O eroare a avut loc.';
+
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+
+                swal({
+                    type: 'error',
+                    title: title,
+                    message: message
+                });
+            });
+
         }
 
     }
