@@ -1,6 +1,15 @@
-@import "sweetalert.scss";
 @import "custom-variables.scss";
+@import "nova/colors.scss";
+@import "sweetalert.scss";
+
+@import "nova/buttons.scss";
+@import "nova/inputs.scss";
+
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "bootstrap-datepicker3.scss";
+@import "node_modules/bootstrap-select/sass/bootstrap-select.scss";
+
 @import "auth/register.scss";
 @import "custom-well.scss";
 @import "custom-jumbotron.scss";

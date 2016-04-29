@@ -15,6 +15,7 @@ require('laravel-elixir-vueify');
 elixir(function(mix) {
     mix.copy('node_modules/sweetalert/dist/sweetalert.css', 'resources/assets/sass/sweetalert.scss');
     mix.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap', 'public/fonts/bootstrap');
+    mix.copy('node_modules/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css', 'resources/assets/sass/bootstrap-datepicker3.scss');
     mix.sass('app.scss');
     mix.browserify('app.js');
 });

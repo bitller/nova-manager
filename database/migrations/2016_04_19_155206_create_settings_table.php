@@ -21,6 +21,7 @@ class CreateSettingsTable extends Migration {
             $table->integer('user_id')->unsigned();
             $table->tinyInteger('number_of_bills')->unsigned()->default(10);
             $table->tinyInteger('number_of_clients')->unsigned()->default(10);
+            $table->string('order_clients_by')->default('created_at_desc');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');

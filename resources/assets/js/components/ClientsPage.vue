@@ -12,16 +12,20 @@ er<template>
     </div>
     <!-- END Loader -->
 
-    <search-client v-if="!loading"></search-client>
-    <add-client v-if="!loading"></add-client>
+    <div v-if="!loading">
+        <search-client></search-client>
+        <order-by></order-by>
+        <add-client></add-client>
+    </div>
 
-    <clients-table v-if="!loading" :results="searchResults"></clients-table>
+    <clients-table v-if="!loading && !loadingSearchResults" :results="searchResults"></clients-table>
 
 </template>
 
 <script>
 
 import SearchClient from '../components/ClientsPage/SearchClient.vue';
+import OrderBy from '../components/ClientsPage/OrderBy.vue';
 import AddClient from '../components/ClientsPage/AddClient.vue';
 import ClientsTable from '../components/ClientsPage/ClientsTable.vue';
 
@@ -40,15 +44,21 @@ export default {
 
     components: {
         'search-client': SearchClient,
+        'order-by': OrderBy,
         'add-client': AddClient,
         'clients-table': ClientsTable,
     },
 
     methods: {
 
-        getClients: function(url, callback) {
+        getClients: function(url, callback, search = false) {
 
-            this.loading = true;
+            if (!search) {
+                this.loading = true;
+            } else {
+                this.loadingSearchResults = true;
+            }
+
             var vn = this;
 
             if (typeof url === 'undefined') {
@@ -57,14 +67,25 @@ export default {
 
             this.$http.get(url).then(function (success) {
 
-                vn.loading = false;
+                if (!search) {
+                    vn.loading = false;
+                } else {
+                    vn.loadingSearchResults = false;
+                }
+
                 vn.searchResults = success.data;
                 if (typeof callback !== 'undefined') {
                     callback();
                 }
 
             }, function (error) {
-                //
+
+                if (!search) {
+                    vn.loading = false;
+                } else {
+                    vn.loadingSearchResults = false;
+                }
+
             });
 
         },
@@ -74,14 +95,14 @@ export default {
     events: {
 
         'previous_page': function() {
-            if (!this.loading) {
-                this.getClients(this.search_results.next_page_url);
+            if (!this.loading && !this.loadingSearchResults && this.searchResults.prev_page_url) {
+                this.getClients(this.searchResults.prev_page_url, undefined, true);
             }
         },
 
-        'next_page_url': function() {
-            if (!this.loading) {
-                this.getClients(this.search_results.prev_page_url);
+        'next_page': function() {
+            if (!this.loading && !this.loadingSearchResults && this.searchResults.next_page_url) {
+                this.getClients(this.searchResults.next_page_url, undefined, true);
             }
         },
 
@@ -90,6 +111,10 @@ export default {
             this.getClients(undefined, function() {
                 vn.$dispatch('success_alert', title, message);
             });
+        },
+
+        'search': function(term) {
+            this.getClients('/dashboard/clients/get?search-query=' + term, undefined, true);
         }
     }
 

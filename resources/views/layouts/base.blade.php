@@ -117,7 +117,7 @@
     </div>
 
     <script src="/js/app.js"></script>
-
+    @yield('scripts')
 </div>
 <!-- END Wrapper -->
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Auth;
+use App\Client;
 
 /**
  * Handle work with clients.
@@ -12,6 +13,11 @@ use Auth;
  * @author Alexandru Bugarin <alexandru.bugarin@gmail.com>
  */
 class ClientsController extends BaseController {
+
+    /**
+     * @var [type]
+     */
+    protected $validatedFields = ['name', 'email', 'phone_number', 'wish_happy_birth_day', 'birth_day'];
 
     /**
      * Render clients page.
@@ -23,9 +29,22 @@ class ClientsController extends BaseController {
     /**
      * Paginate clients.
      */
-    public function paginateClients() {
+    public function paginateClients(Request $request) {
         // return Auth::user()->clients()->paginate(Auth::user()->settings()->first()->number_of_clients);
-        return Auth::user()->clients()->paginate(4);
+        $searchQuery = $request->get('search-query');
+
+        $clients = Auth::user()->clients()
+            ->with('numberOfBills')
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('name', 'like', $searchQuery.'%')
+                    ->orWhere('email', 'like', $searchQuery.'%')
+                    ->orWhere('phone_number', 'like', $searchQuery.'%');
+            })->orderBy('created_at', 'desc')
+            ->paginate(1);
+
+        $clients->appends(['search-query' => $searchQuery]);
+
+        return $clients;
     }
 
     /**
@@ -50,7 +69,7 @@ class ClientsController extends BaseController {
      * @param  int $clientId
      */
     public function deleteClient($clientId) {
-        
+
         // Make sure the client belong to the current user
         if (!Auth::user()->clients()->where('id', $clientId)->count()) {
             return response()->json([
@@ -75,9 +94,24 @@ class ClientsController extends BaseController {
     public function validateAddClientData($request) {
         $this->validate($request, [
             'name' => ['required', 'string', 'between:3,100'],
-            'phone_number' => ['required', 'string', 'size:10', 'not_belongs_to_another_client_of_same_user:phone_number'],
-            'email' => ['required', 'email', 'not_belongs_to_another_client_of_same_user:email']
+            'phone_number' => ['string', 'size:10', 'not_belongs_to_another_client_of_same_user:phone_number'],
+            'email' => ['email', 'not_belongs_to_another_client_of_same_user:email'],
+            'wish_happy_birth_day' => ['boolean'],
+            'birth_day' => ['required_with:wish_happy_birth_day', 'date_format:d-m-Y']
         ]);
+    }
+
+    protected function getClientsOrderMethod() {
+
+        $order = Auth::user()->settings()->first()->order_clients_by;
+
+        if ($order === 'created_at_desc') {
+            return [
+                'column' => 'created_at',
+                'type' => 'desc'
+            ];
+        }
+
     }
 
 }

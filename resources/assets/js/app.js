@@ -9,6 +9,8 @@ typeahead.loadjQueryPlugin();
 
 // Sweetalert, used for alerts
 require('sweetalert');
+require('bootstrap-datepicker');
+require('bootstrap-select');
 
 // Vue resource, used for ajax requests
 Vue.use(require('vue-resource'));

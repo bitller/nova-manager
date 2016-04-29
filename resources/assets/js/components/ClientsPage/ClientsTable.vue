@@ -3,7 +3,7 @@
     <div class="col-md-12">
 
         <div v-if="results.total > 0" class="panel panel-default">
-            <table class="table table-hover table-bordered">
+            <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th is="name"></th>
@@ -18,17 +18,27 @@
                         <td class="vert-align text-center">{{ client.name }}</td>
                         <td class="vert-align text-center">{{ client.phone_number }}</td>
                         <td class="vert-align text-center">{{ client.email }}</td>
-                        <td class="vert-align text-center">niy</td>
+                        <td class="vert-align text-center">
+                            <span v-if="client.number_of_bills">{{ client.number_of_bills.count; }}</span>
+                            <span v-else>0</span>
+                        </td>
                         <td @click="deleteClient(client.id)" class="text-center"><div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span>&nbsp;Șterge</div></td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <ul class="pager">
-            <li @click="previousPage"><a href="#">Pagina anterioară</a></li>
-            <li><a @click="nextPage" href="#">Pagina următoare</a></li>
-        </ul>
+        <div class="col-md-12">
+            <span>Este afișată pagina {{ results.current_page }} din {{ results.last_page }}</span>
+        </div>
+
+        <div v-show="results.next_page_url || results.prev_page_url" class="col-md-6">
+            <div @click="previousPage" :class="{ 'disabled': !results.prev_page_url }" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-chevron-left"></span>&nbsp;Pagina anterioară</div>
+        </div>
+
+        <div v-show="results.next_page_url || results.prev_page_url" class="col-md-6">
+            <div @click="nextPage" :class="{ 'disabled': !results.next_page_url }" class="btn btn-primary pull-left">Pagina următoare&nbsp;<span class="glyphicon glyphicon-chevron-right"></span></div>
+        </div>
 
     </div>
 
@@ -75,7 +85,8 @@ export default {
                 type: "warning",
                 showCancelButton: true,
                 cancelButtonText: 'Anulează',
-                confirmButtonColor: "#DD6B55",
+                cancelButtonColor: '#bdc3c7',
+                confirmButtonColor: "#E05082",
                 confirmButtonText: "Șterge clientul",
                 showLoaderOnConfirm: true,
                 closeOnConfirm: false
@@ -116,6 +127,14 @@ export default {
                 });
             });
 
+        },
+
+        numberOfBills: function(client) {
+            if (client.number_of_bills[0].number_of_bills < 1) {
+                return 0;
+            }
+
+            return client.number_of_bills[0].number_of_bills;
         }
 
     }

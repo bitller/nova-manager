@@ -44,6 +44,10 @@ class User extends Authenticatable {
         return $this->hasMany('App\Client');
     }
 
+    public function searchClients($searchQuery) {
+        return $this->clients()->where('name', 'like', $searchQuery.'%')->orWhere('phone_number', 'like', $searchQuery.'%');
+    }
+
     /**
      * Get all the bills of the user.
      *
