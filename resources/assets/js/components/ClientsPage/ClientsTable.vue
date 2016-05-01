@@ -15,7 +15,7 @@
                 </thead>
                 <tbody>
                     <tr v-for="client in results.data">
-                        <td class="vert-align text-center">{{ client.name }}</td>
+                        <td class="vert-align text-center"><img src="http://placehold.it/30x30" /><a href="/dashboard/clients/{{ client.id }}">{{ client.name }}</a></td>
                         <td class="vert-align text-center">{{ client.phone_number }}</td>
                         <td class="vert-align text-center">{{ client.email }}</td>
                         <td class="vert-align text-center">

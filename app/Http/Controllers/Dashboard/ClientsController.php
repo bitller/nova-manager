@@ -22,8 +22,15 @@ class ClientsController extends BaseController {
     /**
      * Render clients page.
      */
-    public function index(Request $request) {
+    public function index() {
         return view('pages.dashboard.clients.index');
+    }
+
+    /**
+     * Render client page.
+     */
+    public function client() {
+        return view('pages.dashboard.clients.client');
     }
 
     /**
@@ -40,7 +47,7 @@ class ClientsController extends BaseController {
                     ->orWhere('email', 'like', $searchQuery.'%')
                     ->orWhere('phone_number', 'like', $searchQuery.'%');
             })->orderBy('created_at', 'desc')
-            ->paginate(1);
+            ->paginate(Auth::user()->settings()->first()->number_of_clients);
 
         $clients->appends(['search-query' => $searchQuery]);
 

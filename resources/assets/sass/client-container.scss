@@ -1,0 +1,55 @@
+.client-container {
+    border-top: 1px solid #e3e3e3;
+    border-left: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+    border-bottom: 2px solid #e3e3e3;
+    border-radius: 3px;
+}
+
+.client-container .white {
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.client-container .primary {
+    background-color: #60C5BA;
+    color: #ffffff;
+}
+
+.client-container .first {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.client-container .last {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+.client-container .client-picture {
+    border-radius: 100%;
+}
+
+.client-container .client-name {
+    display: block;
+    font-size: 20px;
+}
+
+.client-container .client-since {
+    display: block;
+}
+
+.client-container .primary-title {
+    display: inline-block;
+    font-size: 18px;
+    padding: 6px 0;
+}
+
+.client-container .client-info-title {
+    font-size: 19px;
+}
+
+.client-container .client-info {
+    display: inline-block;
+    padding-left: 23px;
+}

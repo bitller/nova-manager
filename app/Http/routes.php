@@ -23,6 +23,8 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         Route::get('/', 'ClientsController@index');
         Route::get('/get', 'ClientsController@paginateClients');
         Route::post('/', 'ClientsController@addClient');
+
+        Route::get('/{clientId}', 'ClientsController@client');
         Route::delete('/{clientId}', 'ClientsController@deleteClient');
     });
 

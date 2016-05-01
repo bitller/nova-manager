@@ -25,6 +25,7 @@ import BillsPage from './components/BillsPage.vue';
 import SettingsPage from './components/SettingsPage.vue';
 import AdminCenterPage from './components/AdminCenterPage.vue';
 import ClientsPage from './components/ClientsPage.vue';
+import ClientPage from './components/ClientPage.vue';
 
 new Vue({
 
@@ -43,6 +44,7 @@ new Vue({
         'settings-page': SettingsPage,
         'admin-center-page': AdminCenterPage,
         'clients-page': ClientsPage,
+        'client-page': ClientPage,
     },
 
     methods: {

@@ -1,7 +1,7 @@
 <template>
 
     <!-- BEGIN Search client -->
-    <div class="col-md-7">
+    <div class="col-md-6">
         <div class="form-group has-feedback">
             <input v-model="searchTerm" type="text" class="form-control" placeholder="Căutaţi după numele, email-ul sau numărul de telefon al clientului" />
             <i class="glyphicon glyphicon-search form-control-feedback grey"></i>

@@ -37,7 +37,7 @@ class UsersTableSeeder extends Seeder {
      *
      * @var integer
      */
-    protected $clientsPerUser = 15;
+    protected $clientsPerUser = 1500;
 
     /**
      * Number of bills to attach at each client.

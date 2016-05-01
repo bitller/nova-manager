@@ -21,6 +21,8 @@
 @import "animate.scss";
 @import "announcements.scss";
 
+@import "client-container.scss";
+
 html, body {
   background-color: #EDF1F2;
   overflow-x: hidden;
@@ -67,4 +69,8 @@ html, body {
 
 textarea {
     resize: none;
+}
+
+.center-image {
+    margin: 0 auto;
 }
