@@ -1,6 +1,6 @@
 <template>
 
-    <div class="panel panel-success">
+    <div class="panel panel-info">
         <div class="panel-heading">
             {{ title }}
         </div>

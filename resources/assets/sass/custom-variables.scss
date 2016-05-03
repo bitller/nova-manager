@@ -1,7 +1,7 @@
 $brand-primary: #EE7785;
 $brand-warning: #F0AD4E;
-$brand-info: #60C5BA;
-$brand-success: #26C281;
+$brand-info: #D499B9;
+$brand-success: #60C5BA;
 $default-grey: #E1E1E1;
 $danger-color: #e74c3c;
 $brand-gray: #C1C1C1;
@@ -57,9 +57,9 @@ $pager-disabled-bg: lighten($brand-primary, 9%);
 //$alert-warning-border: $warning-bg;
 //$alert-warning-text: #ffffff;
 //
-//$alert-danger-bg: $danger-color;
-//$alert-danger-text: #ffffff;
-//$alert-danger-border: $danger-color;
+// $alert-danger-bg: $brand-primary;
+// $alert-danger-text: #ffffff;
+// $alert-danger-border: $brand-primary;
 //
 //$alert-success-bg: #06D6A0;
 //$alert-success-text: #ffffff;

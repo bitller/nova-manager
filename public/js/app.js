@@ -35409,7 +35409,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-success\">\n    <div class=\"panel-heading\">\n        {{ title }}\n    </div>\n    <div class=\"panel-body\">\n        <div class=\"row text-center\"><h4>{{ content }}</h4></div>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"panel panel-info\">\n    <div class=\"panel-heading\">\n        {{ title }}\n    </div>\n    <div class=\"panel-body\">\n        <div class=\"row text-center\"><h4>{{ content }}</h4></div>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
