@@ -14,9 +14,13 @@ Route::group(['namespace' => 'Auth'], function() {
 // Dashboard
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function() {
 
+    // Bills
     Route::get('/', 'BillsController@index');
-    Route::get('/bills', 'BillsController@index');
-    Route::get('/bills/suggest-clients', 'BillsController@suggestClients');
+    Route::group(['prefix' => 'bills'], function() {
+        Route::get('/', 'BillsController@index');
+        Route::get('/suggest-clients', 'BillsController@suggestClients');
+        Route::get('/{billId}', 'BillsController@bill');
+    });
 
     // User clients
     Route::group(['prefix' => 'clients'], function() {
@@ -26,6 +30,11 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
 
         Route::get('/{clientId}', 'ClientsController@client');
         Route::delete('/{clientId}', 'ClientsController@deleteClient');
+    });
+
+    // Products
+    Route::group(['prefix' => 'products'], function() {
+        Route::get('/', 'ProductsController@index');
     });
 
     // Annoucnements

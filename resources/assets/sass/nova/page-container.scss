@@ -1,0 +1,55 @@
+.page-container {
+    border-top: 1px solid #e3e3e3;
+    border-left: 1px solid #e3e3e3;
+    border-right: 1px solid #e3e3e3;
+    border-bottom: 2px solid #e3e3e3;
+    border-radius: 3px;
+}
+
+.page-container .white {
+    background-color: #ffffff;
+    padding: 20px;
+}
+
+.page-container .primary {
+    background-color: $brand-info;
+    color: #ffffff;
+}
+
+.page-container .first {
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.page-container .last {
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+// .client-container .client-picture {
+//     border-radius: 100%;
+// }
+//
+// .client-container .client-name {
+//     display: block;
+//     font-size: 20px;
+// }
+//
+// .client-container .client-since {
+//     display: block;
+// }
+
+.page-container .primary-title {
+    display: inline-block;
+    font-size: 18px;
+    padding: 6px 0;
+}
+
+.page-container .page-description {
+    display: block;
+}
+
+.page-container .page-title {
+        display: block;
+        font-size: 20px;
+}

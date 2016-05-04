@@ -52,6 +52,10 @@ class BillsController extends BaseController {
         ]);
     }
 
+    public function bill($billId, Request $request) {
+        return view('pages.dashboard.bills.bill');
+    }
+
     public function suggestClients(Request $request) {
         return Auth::user()->clients()->paginate(10);
     }
