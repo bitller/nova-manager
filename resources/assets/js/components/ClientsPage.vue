@@ -1,33 +1,40 @@
-er<template>
+<template>
+
+    <div class="page-container">
+
+        <div class="row">
+            <clients-header></clients-header>
+            <clients></clients>
+        </div>
+
+    </div>
 
     <!-- BEGIN Title -->
-    <div v-if="!loading" class="col-md-12">
-        <h4>Clienții mei <span class="badge">{{ searchResults.total }}</span></h4>
-    </div>
+    <!-- <div v-if="!loading" class="col-md-12"> -->
+        <!-- <h4>Clienții mei <span class="badge">{{ searchResults.total }}</span></h4> -->
+    <!-- </div> -->
     <!-- END Title -->
 
     <!-- BEGIN Loader -->
-    <div v-if="loading" class="col-md-12 text-center">
-        <img src="/img/loading-bubbles-big.svg" />
-    </div>
+    <!-- <div v-if="loading" class="col-md-12 text-center"> -->
+        <!-- <img src="/img/loading-bubbles-big.svg" /> -->
+    <!-- </div> -->
     <!-- END Loader -->
 
-    <div v-if="!loading">
-        <search-client></search-client>
-        <order-by></order-by>
-        <add-client></add-client>
-    </div>
+    <!-- <div v-if="!loading"> -->
+        <!-- <search-client></search-client> -->
+        <!-- <order-by></order-by> -->
+        <!-- <add-client></add-client> -->
+    <!-- </div> -->
 
-    <clients-table v-if="!loading && !loadingSearchResults" :results="searchResults"></clients-table>
+    <!-- <clients-table v-if="!loading && !loadingSearchResults" :results="searchResults"></clients-table> -->
 
 </template>
 
 <script>
 
-import SearchClient from '../components/ClientsPage/SearchClient.vue';
-import OrderBy from '../components/ClientsPage/OrderBy.vue';
-import AddClient from '../components/ClientsPage/AddClient.vue';
-import ClientsTable from '../components/ClientsPage/ClientsTable.vue';
+import ClientsHeader from '../components/ClientsPage/ClientsHeader.vue';
+import Clients from '../components/ClientsPage/Clients.vue';
 
 export default {
 
@@ -43,10 +50,8 @@ export default {
     },
 
     components: {
-        'search-client': SearchClient,
-        'order-by': OrderBy,
-        'add-client': AddClient,
-        'clients-table': ClientsTable,
+        'clients-header': ClientsHeader,
+        'clients': Clients,
     },
 
     methods: {

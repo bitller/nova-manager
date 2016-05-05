@@ -32672,7 +32672,7 @@ new Vue({
     }
 });
 
-},{"./components/AdminCenterPage.vue":45,"./components/BillPage.vue":76,"./components/BillsPage.vue":81,"./components/ClientPage.vue":86,"./components/ClientsPage.vue":100,"./components/LoginPage.vue":111,"./components/Notifications.vue":114,"./components/ProductsPage.vue":117,"./components/RegisterPage.vue":124,"./components/SettingsPage.vue":129,"bootstrap-datepicker":1,"bootstrap-sass":2,"bootstrap-select":3,"jquery":4,"sweetalert":14,"typeahead.js-browserify":15,"vue":43,"vue-resource":32}],45:[function(require,module,exports){
+},{"./components/AdminCenterPage.vue":45,"./components/BillPage.vue":76,"./components/BillsPage.vue":81,"./components/ClientPage.vue":86,"./components/ClientsPage.vue":100,"./components/LoginPage.vue":107,"./components/Notifications.vue":110,"./components/ProductsPage.vue":113,"./components/RegisterPage.vue":120,"./components/SettingsPage.vue":125,"bootstrap-datepicker":1,"bootstrap-sass":2,"bootstrap-select":3,"jquery":4,"sweetalert":14,"typeahead.js-browserify":15,"vue":43,"vue-resource":32}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -33418,7 +33418,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":57,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":58,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":59,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":60,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":61,"../../../../components/Common/Loader.vue":110,"vue":43,"vue-hot-reload-api":18}],57:[function(require,module,exports){
+},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":57,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":58,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":59,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":60,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":61,"../../../../components/Common/Loader.vue":106,"vue":43,"vue-hot-reload-api":18}],57:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -34994,21 +34994,13 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _SearchClient = require('../components/ClientsPage/SearchClient.vue');
+var _ClientsHeader = require('../components/ClientsPage/ClientsHeader.vue');
 
-var _SearchClient2 = _interopRequireDefault(_SearchClient);
+var _ClientsHeader2 = _interopRequireDefault(_ClientsHeader);
 
-var _OrderBy = require('../components/ClientsPage/OrderBy.vue');
+var _Clients = require('../components/ClientsPage/Clients.vue');
 
-var _OrderBy2 = _interopRequireDefault(_OrderBy);
-
-var _AddClient = require('../components/ClientsPage/AddClient.vue');
-
-var _AddClient2 = _interopRequireDefault(_AddClient);
-
-var _ClientsTable = require('../components/ClientsPage/ClientsTable.vue');
-
-var _ClientsTable2 = _interopRequireDefault(_ClientsTable);
+var _Clients2 = _interopRequireDefault(_Clients);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -35026,10 +35018,8 @@ exports.default = {
     },
 
     components: {
-        'search-client': _SearchClient2.default,
-        'order-by': _OrderBy2.default,
-        'add-client': _AddClient2.default,
-        'clients-table': _ClientsTable2.default
+        'clients-header': _ClientsHeader2.default,
+        'clients': _Clients2.default
     },
 
     methods: {
@@ -35102,7 +35092,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Title -->\n<div v-if=\"!loading\" class=\"col-md-12\">\n    <h4>Clienții mei <span class=\"badge\">{{ searchResults.total }}</span></h4>\n</div>\n<!-- END Title -->\n\n<!-- BEGIN Loader -->\n<div v-if=\"loading\" class=\"col-md-12 text-center\">\n    <img src=\"/img/loading-bubbles-big.svg\">\n</div>\n<!-- END Loader -->\n\n<div v-if=\"!loading\">\n    <search-client></search-client>\n    <order-by></order-by>\n    <add-client></add-client>\n</div>\n\n<clients-table v-if=\"!loading &amp;&amp; !loadingSearchResults\" :results=\"searchResults\"></clients-table>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <clients-header></clients-header>\n        <clients></clients>\n    </div>\n\n</div>\n\n<!-- BEGIN Title -->\n<!-- <div v-if=\"!loading\" class=\"col-md-12\"> -->\n    <!-- <h4>Clienții mei <span class=\"badge\">{{ searchResults.total }}</span></h4> -->\n<!-- </div> -->\n<!-- END Title -->\n\n<!-- BEGIN Loader -->\n<!-- <div v-if=\"loading\" class=\"col-md-12 text-center\"> -->\n    <!-- <img src=\"/img/loading-bubbles-big.svg\" /> -->\n<!-- </div> -->\n<!-- END Loader -->\n\n<!-- <div v-if=\"!loading\"> -->\n    <!-- <search-client></search-client> -->\n    <!-- <order-by></order-by> -->\n    <!-- <add-client></add-client> -->\n<!-- </div> -->\n\n<!-- <clients-table v-if=\"!loading && !loadingSearchResults\" :results=\"searchResults\"></clients-table> -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -35114,121 +35104,22 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/ClientsPage/AddClient.vue":101,"../components/ClientsPage/ClientsTable.vue":102,"../components/ClientsPage/OrderBy.vue":108,"../components/ClientsPage/SearchClient.vue":109,"vue":43,"vue-hot-reload-api":18}],101:[function(require,module,exports){
-'use strict';
+},{"../components/ClientsPage/Clients.vue":101,"../components/ClientsPage/ClientsHeader.vue":102,"vue":43,"vue-hot-reload-api":18}],101:[function(require,module,exports){
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-
-    ready: function ready() {
-        $('.client-birthday').datepicker();
-    },
-
-    data: function data() {
-        return {
-            name: '',
-            email: '',
-            phoneNumber: '',
-            birthDay: '',
-            wishHappyBirthDay: '',
-            error: '',
-            errors: '',
-            loading: ''
-        };
-    },
-
-    methods: {
-
-        addClient: function addClient() {
-
-            this.loading = true;
-            var vn = this;
-
-            var client = {
-                _token: $('#token').attr('content'),
-                name: this.name,
-                email: this.email,
-                phone_number: this.phoneNumber,
-                wish_happy_birth_day: this.wishHappyBirthDay,
-                birth_day: this.birthDay
-            };
-
-            this.$http.post('/dashboard/clients', client).then(function (success) {
-
-                $('#add-client-modal').modal('hide');
-                this.$dispatch('clients_updated', success.data.title, success.data.message);
-            }, function (error) {
-
-                vn.loading = false;
-
-                if (error.data.errors) {
-                    vn.errors = error.data.errors;
-                    vn.error = '';
-                    return;
-                }
-
-                if (error.data.message) {
-                    vn.errors = '';
-                    vn.error = error.data.message;
-                    return;
-                }
-
-                vn.errors = '';
-                vn.error = 'O eroare a avut loc.';
-            });
-        }
-
-    },
-
-    computed: {
-
-        hasError: function hasError() {
-            if (this.error && !this.loading) {
-                return true;
-            }
-            return false;
-        },
-
-        nameHasError: function nameHasError() {
-            if (this.errors.name && !this.loading) {
-                return true;
-            }
-            return false;
-        },
-
-        emailHasError: function emailHasError() {
-            if (this.errors.email && !this.loading) {
-                return true;
-            }
-            return false;
-        },
-
-        phoneNumberHasError: function phoneNumberHasError() {
-            if (this.errors.phone_number && !this.loading) {
-                return true;
-            }
-            return false;
-        },
-
-        birthDayHasError: function birthDayHasError() {
-            if (this.errors.birth_day && !this.loading) {
-                return true;
-            }
-            return false;
-        }
-
-    }
-
+    //
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Add client -->\n<div class=\"col-md-2\">\n    <div data-toggle=\"modal\" data-target=\"#add-client-modal\" class=\"btn btn-primary btn-block\">\n        <span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adaugă client\n    </div>\n</div>\n<!-- END Add client -->\n\n<!-- BEGIN Modal -->\n<div id=\"add-client-modal\" class=\"modal fade\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n            <h4 class=\"modal-title\">Adaugă client</h4>\n          </div>\n          <div class=\"modal-body\">\n\n              <div class=\"row\">\n                  <div class=\"col-md-10 col-md-offset-1\">\n\n                      <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n                      <!-- BEGIN Client name -->\n                      <div :class=\"{ 'has-error': nameHasError }\" class=\"form-group\">\n                          <label>Numele clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"name\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"nameHasError\" class=\"text-danger\">{{ errors.name }}</span>\n                      </div>\n                      <!-- END Client name -->\n\n                      <!-- BEGIN Client email -->\n                      <div :class=\"{ 'has-error': emailHasError }\" class=\"form-group\">\n                          <label>Email-ul clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"email\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"emailHasError\" class=\"text-danger\">{{ errors.email }}</span>\n                      </div>\n                      <!-- END Client email -->\n\n                      <!-- BEGIN Client phone number -->\n                      <div :class=\"{ 'has-error': phoneNumberHasError }\" class=\"form-group\">\n                          <label>Numărul de telefon al clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"phoneNumber\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"phoneNumberHasError\" class=\"text-danger\">{{ errors.phone_number }}</span>\n                      </div>\n                      <!-- END Client phone number -->\n\n                      <div class=\"checkbox\">\n                          <label><input v-model=\"wishHappyBirthDay\" type=\"checkbox\">Doresc ca clientul să primescă o urare de ziua lui</label>\n                      </div>\n\n                      <div :class=\"{ 'has-error': birthDayHasError }\" class=\"form-group\">\n                          <label>Data de naștere a clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"birthDay\" type=\"text\" class=\"form-control client-birthday\">\n                          <span v-show=\"birthDayHasError\" class=\"text-danger\">{{ errors.birth_day }}</span>\n                      </div>\n\n                  </div>\n              </div>\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Anulează</button>\n            <button @click=\"addClient\" type=\"button\" class=\"btn btn-primary\">Adaugă client</button>\n          </div>\n    </div>\n\n    </div>\n</div>\n<!-- END Modal -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n                <div class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"1 in 10\">\n                                <td class=\"text-center vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\">John Doe</span></td>\n                                <td class=\"text-center vert-align\">21313</td>\n                                <td class=\"text-center vert-align\">john@example.com</td>\n                                <td class=\"text-center vert-align\">john@example.com</td>\n                                <td class=\"text-center vert-align\">\n                                    <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina 1 din 4</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div class=\"col-md-6\">\n                <div class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/AddClient.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/Clients.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -35242,127 +35133,43 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
-var _Name = require('../../components/ClientsPage/ClientsTable/Name.vue');
+var _SearchClient = require('../../components/ClientsPage/ClientsHeader/SearchClient.vue');
 
-var _Name2 = _interopRequireDefault(_Name);
+var _SearchClient2 = _interopRequireDefault(_SearchClient);
 
-var _PhoneNumber = require('../../components/ClientsPage/ClientsTable/PhoneNumber.vue');
+var _OrderBy = require('../../components/ClientsPage/ClientsHeader/OrderBy.vue');
 
-var _PhoneNumber2 = _interopRequireDefault(_PhoneNumber);
+var _OrderBy2 = _interopRequireDefault(_OrderBy);
 
-var _Email = require('../../components/ClientsPage/ClientsTable/Email.vue');
+var _AddClient = require('../../components/ClientsPage/ClientsHeader/AddClient.vue');
 
-var _Email2 = _interopRequireDefault(_Email);
-
-var _OrdersMade = require('../../components/ClientsPage/ClientsTable/OrdersMade.vue');
-
-var _OrdersMade2 = _interopRequireDefault(_OrdersMade);
-
-var _Delete = require('../../components/ClientsPage/ClientsTable/Delete.vue');
-
-var _Delete2 = _interopRequireDefault(_Delete);
+var _AddClient2 = _interopRequireDefault(_AddClient);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
-    props: ['results'],
-
     components: {
-        'name': _Name2.default,
-        'phone-number': _PhoneNumber2.default,
-        'email': _Email2.default,
-        'orders-made': _OrdersMade2.default,
-        'delete': _Delete2.default
-    },
-
-    methods: {
-
-        previousPage: function previousPage() {
-            this.$dispatch('previous_page');
-        },
-
-        nextPage: function nextPage() {
-            this.$dispatch('next_page');
-        },
-
-        deleteClient: function deleteClient(clientId) {
-
-            var vn = this;
-
-            // Ask for confirmation
-            swal({
-                title: 'Sunteți sigur?',
-                text: 'Toate detaliile despre acest client vor fi șterse, inclusiv facturile.',
-                type: "warning",
-                showCancelButton: true,
-                cancelButtonText: 'Anulează',
-                cancelButtonColor: '#bdc3c7',
-                confirmButtonColor: "#E05082",
-                confirmButtonText: "Șterge clientul",
-                showLoaderOnConfirm: true,
-                closeOnConfirm: false
-            }, function () {
-                vn.doDeleteClientRequest(clientId);
-            });
-        },
-
-        doDeleteClientRequest: function doDeleteClientRequest(clientId) {
-
-            var vn = this;
-            var client = {
-                _token: $('#token').attr('content')
-            };
-
-            this.$http.delete('/dashboard/clients/' + clientId, client).then(function (success) {
-
-                this.$dispatch('clients_updated', success.data.title, success.data.message);
-            }, function (error) {
-
-                var title = 'Oooops.';
-                var message = 'O eroare a avut loc.';
-
-                if (error.data.message) {
-                    message = error.data.message;
-                }
-
-                if (error.data.title) {
-                    title = error.data.title;
-                }
-
-                swal({
-                    type: 'error',
-                    title: title,
-                    message: message
-                });
-            });
-        },
-
-        numberOfBills: function numberOfBills(client) {
-            if (client.number_of_bills[0].number_of_bills < 1) {
-                return 0;
-            }
-
-            return client.number_of_bills[0].number_of_bills;
-        }
-
+        'search-client': _SearchClient2.default,
+        'order-by': _OrderBy2.default,
+        'add-client': _AddClient2.default
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div v-if=\"results.total > 0\" class=\"panel panel-default\">\n        <table class=\"table table-bordered\">\n            <thead>\n                <tr>\n                    <th is=\"name\"></th>\n                    <th is=\"phone-number\"></th>\n                    <th is=\"email\"></th>\n                    <th is=\"orders-made\"></th>\n                    <th is=\"delete\"></th>\n                </tr>\n            </thead>\n            <tbody>\n                <tr v-for=\"client in results.data\">\n                    <td class=\"vert-align text-center\"><img src=\"http://placehold.it/30x30\"><a href=\"/dashboard/clients/{{ client.id }}\">{{ client.name }}</a></td>\n                    <td class=\"vert-align text-center\">{{ client.phone_number }}</td>\n                    <td class=\"vert-align text-center\">{{ client.email }}</td>\n                    <td class=\"vert-align text-center\">\n                        <span v-if=\"client.number_of_bills\">{{ client.number_of_bills.count; }}</span>\n                        <span v-else=\"\">0</span>\n                    </td>\n                    <td @click=\"deleteClient(client.id)\" class=\"text-center\"><div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge</div></td>\n                </tr>\n            </tbody>\n        </table>\n    </div>\n\n    <div class=\"col-md-12\">\n        <span>Este afișată pagina {{ results.current_page }} din {{ results.last_page }}</span>\n    </div>\n\n    <div v-show=\"results.next_page_url || results.prev_page_url\" class=\"col-md-6\">\n        <div @click=\"previousPage\" :class=\"{ 'disabled': !results.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-chevron-left\"></span>&nbsp;Pagina anterioară</div>\n    </div>\n\n    <div v-show=\"results.next_page_url || results.prev_page_url\" class=\"col-md-6\">\n        <div @click=\"nextPage\" :class=\"{ 'disabled': !results.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina următoare&nbsp;<span class=\"glyphicon glyphicon-chevron-right\"></span></div>\n    </div>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-2\">\n            <span class=\"page-title grey-dark\">Clienţi</span>\n            <span class=\"page-description grey\">1002 (de) clienţi</span>\n        </div>\n        <!-- END Page title and description -->\n\n        <search-client></search-client>\n        <order-by></order-by>\n        <add-client></add-client>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsHeader.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ClientsPage/ClientsTable/Delete.vue":103,"../../components/ClientsPage/ClientsTable/Email.vue":104,"../../components/ClientsPage/ClientsTable/Name.vue":105,"../../components/ClientsPage/ClientsTable/OrdersMade.vue":106,"../../components/ClientsPage/ClientsTable/PhoneNumber.vue":107,"vue":43,"vue-hot-reload-api":18}],103:[function(require,module,exports){
+},{"../../components/ClientsPage/ClientsHeader/AddClient.vue":103,"../../components/ClientsPage/ClientsHeader/OrderBy.vue":104,"../../components/ClientsPage/ClientsHeader/SearchClient.vue":105,"vue":43,"vue-hot-reload-api":18}],103:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35372,12 +35179,12 @@ exports.default = {
     //
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Șterge clientul respectiv.\">\n        <span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge\n    </span>\n</th>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-2\">\n    <div class=\"btn btn-success pull-right\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n        <span>Adaugă client</span>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/Delete.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsHeader/AddClient.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
@@ -35385,94 +35192,6 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":43,"vue-hot-reload-api":18}],104:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    //
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Aveți posibilitatea să trimiteți factura clientului direct pe email.\">\n        <span class=\"glyphicon glyphicon-envelope\"></span>&nbsp;Adresa de email\n    </span>\n</th>\n\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/Email.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":43,"vue-hot-reload-api":18}],105:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    //
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Numele clientului.\">\n        <span class=\"glyphicon glyphicon-user\"></span>&nbsp;Nume\n    </span>\n</th>\n\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/Name.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":43,"vue-hot-reload-api":18}],106:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    //
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Numărul comenzilor efectuate de client.\">\n        <span class=\"glyphicon glyphicon-th\"></span>&nbsp;Comenzi efectuate\n    </span>\n</th>\n\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/OrdersMade.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":43,"vue-hot-reload-api":18}],107:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-    //
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<th class=\"text-center\">\n    <span data-toggle=\"tooltip\" title=\"Este folosit pentru a trimite mesaje clientului de ziua lui sau cu alte ocazii speciale.\">\n        <span class=\"glyphicon glyphicon-phone\"></span>&nbsp;Numărul de telefon\n    </span>\n</th>\n\n"
-if (module.hot) {(function () {  module.hot.accept()
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), true)
-  if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsTable/PhoneNumber.vue"
-  if (!module.hot.data) {
-    hotAPI.createRecord(id, module.exports)
-  } else {
-    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
-  }
-})()}
-},{"vue":43,"vue-hot-reload-api":18}],108:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35481,81 +35200,37 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = {
 
     ready: function ready() {
-        $('.order-by').selectpicker({
-            'style': 'form-control'
-        });
-    },
-
-    data: function data() {
-        return {
-            filter: ''
-        };
-    },
-
-    watch: {
-        'filter': function filter(value, oldValue) {
-            console.log(this.filter);
-        }
+        $('.order-by').selectpicker();
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Order by -->\n<div class=\"col-md-4\">\n    <div class=\"form-group\">\n        <select v-model=\"filter\" class=\"form-control input input-default order-by\" style=\"display:none\">\n            <option value=\"created_at_asc\">Ordoneaza dupa cei mai vechi clienti</option>\n            <option value=\"created_at_desc\">Ordoneaza dupa cei mai noi clienti</option>\n            <option value=\"alphabetic\">Ordoneaza dupa nume in ordine alfabetica</option>\n        </select>\n    </div>\n</div>\n<!-- END Order by -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-2 col-md-offset-1\">\n    <div class=\"pull-right\">\n    <select class=\"order-by\" style=\"display:none\">\n        <option>Bau</option>\n        <option>Bau</option>\n    </select>\n</div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/OrderBy.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsHeader/OrderBy.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],109:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-exports.default = {
-
-    data: function data() {
-        return {
-            searchTerm: ''
-        };
-    },
-
-    watch: {
-        'searchTerm': function searchTerm(value, oldValue) {
-
-            if (value.length < 1) {
-                this.$dispatch('search', '');
-            }
-
-            if (value.length < 3) {
-                return;
-            }
-
-            this.$dispatch('search', value);
-        }
-    }
-
-};
-if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Search client -->\n<div class=\"col-md-6\">\n    <div class=\"form-group has-feedback\">\n        <input v-model=\"searchTerm\" type=\"text\" class=\"form-control\" placeholder=\"Căutaţi după numele, email-ul sau numărul de telefon al clientului\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback grey\"></i>\n    </div>\n</div>\n<!-- END Search client -->\n\n"
+},{"vue":43,"vue-hot-reload-api":18}],105:[function(require,module,exports){
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-5\">\n    <div class=\"form-group has-feedback\">\n        <input type=\"text\" class=\"form-control\" placeholder=\"Caută după nume, email sau număr de telefon\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
-  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/SearchClient.vue"
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/ClientsPage/ClientsHeader/SearchClient.vue"
   if (!module.hot.data) {
     hotAPI.createRecord(id, module.exports)
   } else {
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],110:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],106:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35577,7 +35252,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],111:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],107:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35615,7 +35290,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/LoginPage/LoginForm.vue":112,"../components/LoginPage/LoginIcon.vue":113,"vue":43,"vue-hot-reload-api":18}],112:[function(require,module,exports){
+},{"../components/LoginPage/LoginForm.vue":108,"../components/LoginPage/LoginIcon.vue":109,"vue":43,"vue-hot-reload-api":18}],108:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35706,7 +35381,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],113:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],109:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -35726,7 +35401,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],114:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],110:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35825,7 +35500,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/Notifications/Info.vue":115,"../components/Notifications/Warning.vue":116,"vue":43,"vue-hot-reload-api":18}],115:[function(require,module,exports){
+},{"../components/Notifications/Info.vue":111,"../components/Notifications/Warning.vue":112,"vue":43,"vue-hot-reload-api":18}],111:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35849,7 +35524,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],116:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],112:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35873,7 +35548,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],117:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],113:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35911,7 +35586,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/ProductsPage/Products.vue":118,"../components/ProductsPage/ProductsHeader.vue":123,"vue":43,"vue-hot-reload-api":18}],118:[function(require,module,exports){
+},{"../components/ProductsPage/Products.vue":114,"../components/ProductsPage/ProductsHeader.vue":119,"vue":43,"vue-hot-reload-api":18}],114:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35959,7 +35634,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ProductsPage/Products/Displayed.vue":119,"../../components/ProductsPage/Products/OrderBy.vue":120,"../../components/ProductsPage/Products/Product.vue":121,"../../components/ProductsPage/Products/Search.vue":122,"vue":43,"vue-hot-reload-api":18}],119:[function(require,module,exports){
+},{"../../components/ProductsPage/Products/Displayed.vue":115,"../../components/ProductsPage/Products/OrderBy.vue":116,"../../components/ProductsPage/Products/Product.vue":117,"../../components/ProductsPage/Products/Search.vue":118,"vue":43,"vue-hot-reload-api":18}],115:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -35987,7 +35662,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],120:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],116:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36015,7 +35690,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],121:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],117:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36039,7 +35714,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],122:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],118:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36061,7 +35736,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],123:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],119:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Products text -->\n        <div class=\"col-md-8\">\n            <span class=\"page-title grey-dark\">Produse</span>\n            <span class=\"page-description grey\">Produsele din catalogul Avon, 1231 mai exact.</span>\n        </div>\n        <!-- END Products text -->\n\n        <!-- BEGIN Add product -->\n        <div class=\"col-md-4\">\n            <div class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>Adauga produs</div>\n        </div>\n        <!-- END Add product -->\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -36074,7 +35749,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],124:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],120:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36127,7 +35802,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/RegisterPage/CreateAccountForm.vue":125,"../components/RegisterPage/CreateAccountIcon.vue":126,"../components/RegisterPage/FreePeriod.vue":127,"../components/RegisterPage/YourProfile.vue":128,"vue":43,"vue-hot-reload-api":18}],125:[function(require,module,exports){
+},{"../components/RegisterPage/CreateAccountForm.vue":121,"../components/RegisterPage/CreateAccountIcon.vue":122,"../components/RegisterPage/FreePeriod.vue":123,"../components/RegisterPage/YourProfile.vue":124,"vue":43,"vue-hot-reload-api":18}],121:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36231,7 +35906,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],126:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],122:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36251,7 +35926,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],127:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],123:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36271,7 +35946,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],128:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],124:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36291,7 +35966,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],129:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],125:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36397,7 +36072,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/SettingsPage/Billing.vue":130,"../components/SettingsPage/Billing/CreditCard.vue":131,"../components/SettingsPage/Billing/Payments.vue":133,"../components/SettingsPage/Billing/SubscriptionDetails.vue":136,"../components/SettingsPage/Settings.vue":139,"../components/SettingsPage/Settings/Displayed.vue":140,"../components/SettingsPage/Settings/Profile.vue":143,"../components/SettingsPage/Settings/Security.vue":145,"vue":43,"vue-hot-reload-api":18}],130:[function(require,module,exports){
+},{"../components/SettingsPage/Billing.vue":126,"../components/SettingsPage/Billing/CreditCard.vue":127,"../components/SettingsPage/Billing/Payments.vue":129,"../components/SettingsPage/Billing/SubscriptionDetails.vue":132,"../components/SettingsPage/Settings.vue":135,"../components/SettingsPage/Settings/Displayed.vue":136,"../components/SettingsPage/Settings/Profile.vue":139,"../components/SettingsPage/Settings/Security.vue":141,"vue":43,"vue-hot-reload-api":18}],126:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36457,7 +36132,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],131:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],127:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36490,7 +36165,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":132,"vue":43,"vue-hot-reload-api":18}],132:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":128,"vue":43,"vue-hot-reload-api":18}],128:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36512,7 +36187,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],133:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],129:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36550,7 +36225,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":134,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":135,"vue":43,"vue-hot-reload-api":18}],134:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":130,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":131,"vue":43,"vue-hot-reload-api":18}],130:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36572,7 +36247,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],135:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],131:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36594,7 +36269,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],136:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],132:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36627,7 +36302,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":137,"vue":43,"vue-hot-reload-api":18}],137:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":133,"vue":43,"vue-hot-reload-api":18}],133:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -36649,7 +36324,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],138:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],134:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36673,7 +36348,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],139:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36729,7 +36404,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],140:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],136:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36767,7 +36442,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":141,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":142,"vue":43,"vue-hot-reload-api":18}],141:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":137,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":138,"vue":43,"vue-hot-reload-api":18}],137:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36869,7 +36544,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],142:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],138:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36980,7 +36655,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],143:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37013,7 +36688,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":144,"vue":43,"vue-hot-reload-api":18}],144:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":140,"vue":43,"vue-hot-reload-api":18}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37121,7 +36796,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":43,"vue-hot-reload-api":18}],145:[function(require,module,exports){
+},{"vue":43,"vue-hot-reload-api":18}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37154,7 +36829,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":146,"vue":43,"vue-hot-reload-api":18}],146:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":142,"vue":43,"vue-hot-reload-api":18}],142:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -37272,6 +36947,6 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/SettingsPage/Error.vue":138,"vue":43,"vue-hot-reload-api":18}]},{},[44]);
+},{"../../../../components/SettingsPage/Error.vue":134,"vue":43,"vue-hot-reload-api":18}]},{},[44]);
 
 //# sourceMappingURL=app.js.map
