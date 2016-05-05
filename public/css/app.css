@@ -953,6 +953,9 @@ body.stop-scrolling {
   border-bottom-left-radius: 3px;
   border-bottom-right-radius: 3px; }
 
+.page-container .client-name-in-table {
+  padding-left: 10px; }
+
 .page-container .primary-title {
   display: inline-block;
   font-size: 18px;

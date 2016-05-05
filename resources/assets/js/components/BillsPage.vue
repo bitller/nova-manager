@@ -1,25 +1,27 @@
 <template>
 
-<div id="bills">
-    <div id="table">
-    <top-section></top-section>
-    <bills-table></bills-table>
+    <div class="page-container">
+
+        <div class="row">
+            <bills-header></bills-header>
+            <bills></bills>
+        </div>
+
     </div>
-    </div>
 
-    </template>
+</template>
 
-    <script>
+<script>
 
-import BillsTable from '../components/BillsPage/BillsTable.vue';
-import TopSection from '../components/BillsPage/TopSection.vue';
+import BillsHeader from '../components/BillsPage/BillsHeader.vue';
+import Bills from '../components/BillsPage/Bills.vue';
 
 export default {
 
     components: {
-        'bills-table': BillsTable,
-        'top-section': TopSection
-    }
+        'bills-header': BillsHeader,
+        'bills': Bills,
+    },
 
 }
 </script>
