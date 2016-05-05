@@ -32594,6 +32594,10 @@ var _BillPage = require('./components/BillPage.vue');
 
 var _BillPage2 = _interopRequireDefault(_BillPage);
 
+var _SupportPage = require('./components/SupportPage.vue');
+
+var _SupportPage2 = _interopRequireDefault(_SupportPage);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // jQuery, bootstrap and Vue
@@ -32635,7 +32639,8 @@ new Vue({
         'clients-page': _ClientsPage2.default,
         'client-page': _ClientPage2.default,
         'products-page': _ProductsPage2.default,
-        'bill-page': _BillPage2.default
+        'bill-page': _BillPage2.default,
+        'support-page': _SupportPage2.default
     },
 
     methods: {
@@ -32672,7 +32677,7 @@ new Vue({
     }
 });
 
-},{"./components/AdminCenterPage.vue":45,"./components/BillPage.vue":76,"./components/BillsPage.vue":81,"./components/ClientPage.vue":86,"./components/ClientsPage.vue":100,"./components/LoginPage.vue":107,"./components/Notifications.vue":110,"./components/ProductsPage.vue":113,"./components/RegisterPage.vue":120,"./components/SettingsPage.vue":125,"bootstrap-datepicker":1,"bootstrap-sass":2,"bootstrap-select":3,"jquery":4,"sweetalert":14,"typeahead.js-browserify":15,"vue":43,"vue-resource":32}],45:[function(require,module,exports){
+},{"./components/AdminCenterPage.vue":45,"./components/BillPage.vue":76,"./components/BillsPage.vue":81,"./components/ClientPage.vue":86,"./components/ClientsPage.vue":100,"./components/LoginPage.vue":107,"./components/Notifications.vue":110,"./components/ProductsPage.vue":113,"./components/RegisterPage.vue":120,"./components/SettingsPage.vue":125,"./components/SupportPage.vue":143,"bootstrap-datepicker":1,"bootstrap-sass":2,"bootstrap-select":3,"jquery":4,"sweetalert":14,"typeahead.js-browserify":15,"vue":43,"vue-resource":32}],45:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -36947,6 +36952,132 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/SettingsPage/Error.vue":134,"vue":43,"vue-hot-reload-api":18}]},{},[44]);
+},{"../../../../components/SettingsPage/Error.vue":134,"vue":43,"vue-hot-reload-api":18}],143:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _SupportHeader = require('../components/SupportPage/SupportHeader.vue');
+
+var _SupportHeader2 = _interopRequireDefault(_SupportHeader);
+
+var _FrequentQuestions = require('../components/SupportPage/FrequentQuestions.vue');
+
+var _FrequentQuestions2 = _interopRequireDefault(_FrequentQuestions);
+
+var _AskQuestion = require('../components/SupportPage/AskQuestion.vue');
+
+var _AskQuestion2 = _interopRequireDefault(_AskQuestion);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'support-header': _SupportHeader2.default,
+        'frequent-questions': _FrequentQuestions2.default,
+        'ask-question': _AskQuestion2.default
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <support-header></support-header>\n        <frequent-questions></frequent-questions>\n        <ask-question></ask-question>\n    </div>\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SupportPage.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../components/SupportPage/AskQuestion.vue":144,"../components/SupportPage/FrequentQuestions.vue":145,"../components/SupportPage/SupportHeader.vue":147,"vue":43,"vue-hot-reload-api":18}],144:[function(require,module,exports){
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Nu ai găsit un răspuns la problema ta? Contactează-ne!</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white last\">\n\n        <div class=\"col-md-6 col-md-offset-3\">\n            <div class=\"form-horizontal\" role=\"form\">\n                <div class=\"form-group\">\n                    <label class=\"control-label col-md-2\" for=\"subject\">Subiect:</label>\n                    <div class=\"col-md-10\">\n                        <input type=\"text\" class=\"form-control\" id=\"subject\">\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label class=\"control-label col-md-2\" for=\"message\">Mesaj:</label>\n                    <div class=\"col-md-10\">\n                        <textarea class=\"form-control\"></textarea>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <div class=\"col-md-offset-2 col-md-10\">\n                      <button type=\"submit\" class=\"btn btn-success\"><span class=\"glyphicon glyphicon-envelope\"></span>&nbsp;Trimite</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SupportPage/AskQuestion.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":43,"vue-hot-reload-api":18}],145:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _Question = require('../../components/SupportPage/FrequentQuestions/Question.vue');
+
+var _Question2 = _interopRequireDefault(_Question);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = {
+
+    components: {
+        'question': _Question2.default
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Întrebări frecvente</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n        <div class=\"col-md-10 col-md-offset-1\">\n            <question title=\"Cum creez o factura?\"></question>\n            <question title=\"Cum creez o factura?\"></question>\n            <question title=\"Cum creez o factura?\"></question>\n\n        </div>\n    </div>\n\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SupportPage/FrequentQuestions.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"../../components/SupportPage/FrequentQuestions/Question.vue":146,"vue":43,"vue-hot-reload-api":18}],146:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['title']
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-6\">\n    <span class=\"glyphicon glyphicon-info-sign grey\"></span>&nbsp;\n    <span class=\"question grey-dark\">{{ title }}</span>\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SupportPage/FrequentQuestions/Question.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":43,"vue-hot-reload-api":18}],147:[function(require,module,exports){
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\">Ai nevoie de ajutor?</span>\n            <span class=\"page-description grey\">Caută prin întrebările comune sau contactează-ne.</span>\n        </div>\n        <!-- END Page title and description -->\n\n    </div>\n</div>\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  var id = "/var/www/html/nova-manager/resources/assets/js/components/SupportPage/SupportHeader.vue"
+  if (!module.hot.data) {
+    hotAPI.createRecord(id, module.exports)
+  } else {
+    hotAPI.update(id, module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":43,"vue-hot-reload-api":18}]},{},[44]);
 
 //# sourceMappingURL=app.js.map

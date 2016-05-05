@@ -28,6 +28,7 @@ import ClientsPage from './components/ClientsPage.vue';
 import ClientPage from './components/ClientPage.vue';
 import ProductsPage from './components/ProductsPage.vue';
 import BillPage from './components/BillPage.vue';
+import SupportPage from './components/SupportPage.vue';
 
 new Vue({
 
@@ -49,6 +50,7 @@ new Vue({
         'client-page': ClientPage,
         'products-page': ProductsPage,
         'bill-page': BillPage,
+        'support-page': SupportPage,
     },
 
     methods: {

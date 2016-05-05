@@ -60,7 +60,7 @@
 
                         <!-- BEGIN Help -->
                         <li>
-                            <a href="/dashboard/statistics"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Ajutor</a>
+                            <a href="/dashboard/support"><span class="glyphicon glyphicon-question-sign"></span>&nbsp;Ajutor</a>
                         </li>
                         <!-- END Help -->
                     </ul>
