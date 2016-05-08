@@ -11,6 +11,7 @@ typeahead.loadjQueryPlugin();
 require('sweetalert');
 require('bootstrap-datepicker');
 require('bootstrap-select');
+require('chart.js');
 
 // Vue resource, used for ajax requests
 Vue.use(require('vue-resource'));
@@ -29,6 +30,7 @@ import ClientPage from './components/ClientPage.vue';
 import ProductsPage from './components/ProductsPage.vue';
 import BillPage from './components/BillPage.vue';
 import SupportPage from './components/SupportPage.vue';
+import StatisticsPage from './components/StatisticsPage.vue';
 
 new Vue({
 
@@ -51,6 +53,7 @@ new Vue({
         'products-page': ProductsPage,
         'bill-page': BillPage,
         'support-page': SupportPage,
+        'statistics-page': StatisticsPage,
     },
 
     methods: {

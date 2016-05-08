@@ -1,5 +1,4 @@
 <?php
-use Illuminate\Support\Arr;
 
 Route::group(['namespace' => 'Auth'], function() {
 
@@ -36,6 +35,48 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     // Products
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductsController@index');
+    });
+
+    // Statistics
+    Route::group(['prefix' => 'statistics', 'namespace' => 'Statistics'], function() {
+
+        // General statistics
+        Route::group(['prefix' => 'general'], function() {
+
+            // Clients
+            Route::group(['prefix' => 'clients'], function() {
+                Route::get('/', 'ClientsStatisticsController@general');
+            });
+
+            // Earnings
+            Route::group(['prefix' => 'earnings'], function() {
+                Route::get('/', 'EarningsStatisticsController@general');
+            });
+
+            // Products
+            Route::group(['prefix' => 'products'], function() {
+                Route::get('/', 'ProductsStatisticsController@general');
+            });
+        });
+
+        // Campaign statistics
+        Route::group(['prefix' => 'campaign'], function() {
+
+            // Clients
+            Route::group(['prefix' => 'clients'], function() {
+                Route::get('/', 'ClientsStatisticsController@campaign');
+            });
+
+            // Earnings
+            Route::group(['prefix' => 'earnings'], function() {
+                Route::get('/', 'EarningsStatisticsController@campaign');
+            });
+
+            // Products
+            Route::group(['prefix' => 'products'], function() {
+                Route::get('/', 'ProductsStatisticsController@campaign');
+            });
+        });
     });
 
     // Support

@@ -10,13 +10,13 @@
         <div class="col-md-8">
 
             <!-- BEGIN Settings group -->
-            <profile v-if="activeComponent == 'profile'"></profile>
-            <security v-if="activeComponent == 'security'"></security>
-            <displayed v-if="activeComponent == 'displayed'"></displayed>
+            <profile v-if="profileIsTheActiveComponent"></profile>
+            <security v-if="securityIsTheActiveComponent"></security>
+            <displayed v-if="displayedIsTheActiveComponent"></displayed>
             <!-- END Settings group -->
 
             <!-- BEGIN Billing group -->
-            <subscription-details v-if="activeComponent == 'subscription_details'"></subscription-details>
+            <subscription-details v-if="subscriptionDetailsIsTheActiveComponent"></subscription-details>
             <payments v-if="paymentsIsTheActiveComponent"></payments>
             <credit-card v-if="creditCardIsTheActiveComponent"></credit-card>
             <!-- END Billing group -->
@@ -69,6 +69,38 @@ export default {
     },
 
     computed: {
+
+        profileIsTheActiveComponent: function() {
+            if (this.activeComponent == 'profile') {
+                return true;
+            }
+
+            return false;
+        },
+
+        securityIsTheActiveComponent: function() {
+            if (this.activeComponent == 'security') {
+                return true;
+            }
+
+            return false;
+        },
+
+        displayedIsTheActiveComponent: function() {
+            if (this.activeComponent == 'displayed') {
+                return true;
+            }
+
+            return false;
+        },
+
+        subscriptionDetailsIsTheActiveComponent: function() {
+            if (this.activeComponent == 'subscription_details') {
+                return true;
+            }
+
+            return false;
+        },
 
         paymentsIsTheActiveComponent: function() {
             if (this.activeComponent == 'payments') {

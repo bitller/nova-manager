@@ -54,7 +54,7 @@
 
                         <!-- BEGIN Statistics -->
                         <li>
-                            <a href="/dashboard/statistics"><span class="glyphicon glyphicon-stats"></span>&nbsp;Statistici</a>
+                            <a href="/dashboard/statistics/general/clients"><span class="glyphicon glyphicon-stats"></span>&nbsp;Statistici</a>
                         </li>
                         <!-- END Statistics -->
 
