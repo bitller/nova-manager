@@ -1,6 +1,6 @@
 <template>
 
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">Setari</div>
         <div class="list-group">
              <a @click="componentClicked" :class="{ 'active': profileIsActive }" href="/dashboard/settings/profile" class="list-group-item">Profile</a>

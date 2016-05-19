@@ -3,6 +3,8 @@ window.jQuery = window.$ = require('jquery');
 require('bootstrap-sass');
 var Vue = require('vue');
 
+window.braintree = require('braintree-web');
+
 // Import typeahead, used for auto complete
 var typeahead = require("typeahead.js-browserify");
 typeahead.loadjQueryPlugin();

@@ -119,6 +119,11 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         // Subscription details and settings
         Route::group(['prefix' => 'subscription-details'], function() {
             Route::get('/', 'SubscriptionDetailsController@index');
+            Route::get('/generate-client-token', 'SubscriptionDetailsController@generateClientToken');
+            Route::get('/get-current-subscription', 'SubscriptionDetailsController@currentSubscription');
+            Route::get('/cancel', 'SubscriptionDetailsController@cancelSubscription');
+            Route::get('/resume', 'SubscriptionDetailsController@resumeSubscription');
+            Route::post('/new', 'SubscriptionDetailsController@createNewSubscription');
         });
 
         // Payments history and extra billing information

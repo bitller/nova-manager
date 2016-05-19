@@ -1,7 +1,7 @@
 -manage<template>
 
     <!-- BEGIN Panel -->
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">Schimbă adresa de email</div>
 
         <!-- BEGIN Panel body -->

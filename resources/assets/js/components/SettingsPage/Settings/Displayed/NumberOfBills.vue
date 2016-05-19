@@ -1,6 +1,6 @@
 <template>
 
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">Numarul de facturi afisate</div>
         <!-- BEGIN Panel body -->
         <div class="panel-body">

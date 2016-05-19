@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\ApplicationSetting;
 
 /**
  * Seeds the database.
@@ -15,6 +16,7 @@ class DatabaseSeeder extends Seeder {
      * @return void
      */
     public function run() {
+        $this->call(ApplicationSettingsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(CampaignsTableSeeder::class);
         $this->call(AnnouncementsTableSeeder::class);

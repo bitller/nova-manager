@@ -54,6 +54,7 @@ class UsersTableSeeder extends Seeder {
         factory(App\User::class, $this->usersToCreate)->create()->each(function($user) {
 
             info('Generated user ' . $user->email);
+            $this->command->info('Creating user with email ' . $user->email);
 
             // User settings
             $user->settings()->save(factory(App\Setting::class)->make());

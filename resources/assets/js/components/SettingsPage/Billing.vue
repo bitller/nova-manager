@@ -1,7 +1,7 @@
 <template>
 
     <!-- BEGIN Panel -->
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">Facturare</div>
 
         <!-- BEGIN List group -->

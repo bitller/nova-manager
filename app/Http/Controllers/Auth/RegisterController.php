@@ -51,7 +51,7 @@ class RegisterController extends BaseController {
         $user = User::create([
             'email' => $request->get('email'),
             'password' => bcrypt($request->get('password')),
-            'trial_ends_at' => Carbon::now()->addDays(10),
+            'trial_ends_at' => Carbon::now()->addMinutes(10),
         ]);
 
         // Save user settings
