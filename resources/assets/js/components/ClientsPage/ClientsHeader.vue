@@ -6,8 +6,10 @@
             <!-- BEGIN Page title and description -->
             <div class="col-md-2">
                 <span class="page-title grey-dark">Clienţi</span>
-                <span v-show="!searched" class="page-description grey">Aveţi {{ numberOfClients }} {{ bound }} clienţi</span>
-                <span v-show="searched" class="page-description grey">{{ numberOfClients }} {{ bound }} clienţi găsiți</span>
+                <span v-show="!searched && numberOfClients != 1" class="page-description grey">Aveţi {{ numberOfClients }} {{ bound }} clienţi</span>
+                <span v-show="!searched && numberOfClients == 1" class="page-description grey">Aveţi {{ numberOfClients }} client</span>
+                <span v-show="searched && numberOfClients != 1" class="page-description grey">{{ numberOfClients }} {{ bound }} clienţi găsiți</span>
+                <span v-show="searched && numberOfClients == 1" class="page-description grey">{{ numberOfClients }} client găsit</span>
             </div>
             <!-- END Page title and description -->
 
