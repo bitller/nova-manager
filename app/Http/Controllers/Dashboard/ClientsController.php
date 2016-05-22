@@ -37,8 +37,9 @@ class ClientsController extends BaseController {
      * Paginate clients.
      */
     public function paginateClients(Request $request) {
-        // return Auth::user()->clients()->paginate(Auth::user()->settings()->first()->number_of_clients);
+
         $searchQuery = $request->get('search-query');
+        $perPage = Auth::user()->settings()->first()->number_of_clients;
 
         $clients = Auth::user()->clients()
             ->with('numberOfBills')
@@ -47,7 +48,7 @@ class ClientsController extends BaseController {
                     ->orWhere('email', 'like', $searchQuery.'%')
                     ->orWhere('phone_number', 'like', $searchQuery.'%');
             })->orderBy('created_at', 'desc')
-            ->paginate(Auth::user()->settings()->first()->number_of_clients);
+            ->paginate($perPage);
 
         $clients->appends(['search-query' => $searchQuery]);
 

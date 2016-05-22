@@ -11,7 +11,7 @@
             <!-- END Page title and description -->
 
             <search-client></search-client>
-            <order-by></order-by>
+            <!-- <order-by></order-by> -->
             <add-client></add-client>
 
         </div>

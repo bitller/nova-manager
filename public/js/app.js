@@ -48835,93 +48835,20 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
-    data: function data() {
-        return {
-            loading: false,
-            searchResults: ''
-        };
-    },
-
-    ready: function ready() {
-        this.getClients();
-    },
-
     components: {
         'clients-header': _ClientsHeader2.default,
         'clients': _Clients2.default
     },
 
-    methods: {
-
-        getClients: function getClients(url, callback) {
-            var search = arguments.length <= 2 || arguments[2] === undefined ? false : arguments[2];
-
-
-            if (!search) {
-                this.loading = true;
-            } else {
-                this.loadingSearchResults = true;
-            }
-
-            var vn = this;
-
-            if (typeof url === 'undefined') {
-                url = '/dashboard/clients/get';
-            }
-
-            this.$http.get(url).then(function (success) {
-
-                if (!search) {
-                    vn.loading = false;
-                } else {
-                    vn.loadingSearchResults = false;
-                }
-
-                vn.searchResults = success.data;
-                if (typeof callback !== 'undefined') {
-                    callback();
-                }
-            }, function (error) {
-
-                if (!search) {
-                    vn.loading = false;
-                } else {
-                    vn.loadingSearchResults = false;
-                }
-            });
-        }
-
-    },
-
     events: {
-
-        'previous_page': function previous_page() {
-            if (!this.loading && !this.loadingSearchResults && this.searchResults.prev_page_url) {
-                this.getClients(this.searchResults.prev_page_url, undefined, true);
-            }
-        },
-
-        'next_page': function next_page() {
-            if (!this.loading && !this.loadingSearchResults && this.searchResults.next_page_url) {
-                this.getClients(this.searchResults.next_page_url, undefined, true);
-            }
-        },
-
-        'clients_updated': function clients_updated(title, message) {
-            var vn = this;
-            this.getClients(undefined, function () {
-                vn.$dispatch('success_alert', title, message);
-            });
-        },
-
         'search': function search(term) {
-            this.getClients('/dashboard/clients/get?search-query=' + term, undefined, true);
+            this.$broadcast('search', term);
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <clients-header></clients-header>\n        <clients></clients>\n    </div>\n\n</div>\n\n<!-- BEGIN Title -->\n<!-- <div v-if=\"!loading\" class=\"col-md-12\"> -->\n    <!-- <h4>Clienții mei <span class=\"badge\">{{ searchResults.total }}</span></h4> -->\n<!-- </div> -->\n<!-- END Title -->\n\n<!-- BEGIN Loader -->\n<!-- <div v-if=\"loading\" class=\"col-md-12 text-center\"> -->\n    <!-- <img src=\"/img/loading-bubbles-big.svg\" /> -->\n<!-- </div> -->\n<!-- END Loader -->\n\n<!-- <div v-if=\"!loading\"> -->\n    <!-- <search-client></search-client> -->\n    <!-- <order-by></order-by> -->\n    <!-- <add-client></add-client> -->\n<!-- </div> -->\n\n<!-- <clients-table v-if=\"!loading && !loadingSearchResults\" :results=\"searchResults\"></clients-table> -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <clients-header></clients-header>\n        <clients :clients=\"searchResults\"></clients>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -48934,16 +48861,110 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../components/ClientsPage/Clients.vue":144,"../components/ClientsPage/ClientsHeader.vue":145,"vue":86,"vue-hot-reload-api":61}],144:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    data: function data() {
+        return {
+            loading: false,
+            clients: '',
+            searched: false
+        };
+    },
+
+    ready: function ready() {
+        this.getClients();
+    },
+
+    methods: {
+
+        getClients: function getClients(url) {
+
+            this.loading = true;
+            var vn = this;
+
+            // Assign default url if required
+            if (typeof url === 'undefined') {
+                url = '/dashboard/clients/get';
+            }
+
+            this.$http.get(url).then(function (success) {
+                vn.clients = success.data;
+            }, function (error) {
+                //
+            });
+        },
+
+        previousPage: function previousPage() {
+            if (!this.clients.prev_page_url) {
+                return false;
+            }
+
+            this.getClients(this.clients.prev_page_url);
+        },
+
+        nextPage: function nextPage() {
+            if (!this.clients.next_page_url) {
+                return false;
+            }
+
+            this.getClients(this.clients.next_page_url);
+        }
+
+    },
+
+    computed: {
+
+        showClientsTable: function showClientsTable() {
+            if (this.clients.total > 0) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showNoSearchResults: function showNoSearchResults() {
+            if (this.clients.total < 1 && this.searched) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showPagination: function showPagination() {
+            if (this.clients.next_page_url || this.clients.prev_page_url) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showPageNumber: function showPageNumber() {
+            if (this.clients.last_page > 0) {
+                return true;
+            }
+
+            return false;
+        }
+
+    },
+
+    events: {
+
+        'search': function search(term) {
+            this.getClients('/dashboard/clients/get?search-query=' + term);
+            this.searched = term;
+        }
+
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n                <div class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"1 in 10\">\n                                <td class=\"text-center vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\">John Doe</span></td>\n                                <td class=\"text-center vert-align\">21313</td>\n                                <td class=\"text-center vert-align\">john@example.com</td>\n                                <td class=\"text-center vert-align\">john@example.com</td>\n                                <td class=\"text-center vert-align\">\n                                    <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina 1 din 4</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div class=\"col-md-6\">\n                <div class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div class=\"col-md-6\">\n                <div class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\">{{ client.name }}</span></td>\n                                <td class=\"text-center vert-align\">{{ client.phone_number }}</td>\n                                <td class=\"text-center vert-align\">{{ client.email }}</td>\n                                <td class=\"text-center vert-align\">{{ client.number_of_bills.count }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -48986,7 +49007,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-2\">\n            <span class=\"page-title grey-dark\">Clienţi</span>\n            <span class=\"page-description grey\">1002 (de) clienţi</span>\n        </div>\n        <!-- END Page title and description -->\n\n        <search-client></search-client>\n        <order-by></order-by>\n        <add-client></add-client>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-2\">\n            <span class=\"page-title grey-dark\">Clienţi</span>\n            <span class=\"page-description grey\">1002 (de) clienţi</span>\n        </div>\n        <!-- END Page title and description -->\n\n        <search-client></search-client>\n        <!-- <order-by></order-by> -->\n        <add-client></add-client>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49008,7 +49029,7 @@ exports.default = {
     //
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-2\">\n    <div class=\"btn btn-success pull-right\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n        <span>Adaugă client</span>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-2 col-md-offset-3\">\n    <div class=\"btn btn-success pull-right\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n        <span>Adaugă client</span>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49047,7 +49068,34 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":86,"vue-hot-reload-api":61}],148:[function(require,module,exports){
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-5\">\n    <div class=\"form-group has-feedback\">\n        <input type=\"text\" class=\"form-control\" placeholder=\"Caută după nume, email sau număr de telefon\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    data: function data() {
+        return {
+            searchTerm: ''
+        };
+    },
+
+    watch: {
+        'searchTerm': function searchTerm(value, oldValue) {
+
+            if (value.length >= 3) {
+                this.$dispatch('search', value);
+                return;
+            }
+
+            this.$dispatch('search', '');
+        }
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-5\">\n    <div class=\"form-group has-feedback\">\n        <input v-model=\"searchTerm\" type=\"text\" class=\"form-control\" placeholder=\"Caută după nume, email sau număr de telefon\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

@@ -1,7 +1,7 @@
 <template>
 
     <!-- BEGIN Add client -->
-    <div class="col-md-2">
+    <div class="col-md-2 col-md-offset-4">
         <div data-toggle="modal" data-target="#add-client-modal" class="btn btn-primary btn-block">
             <span class="glyphicon glyphicon-plus"></span>&nbsp;Adaugă client
         </div>
