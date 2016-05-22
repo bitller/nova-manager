@@ -34,7 +34,7 @@
                                 <td class="text-center vert-align">{{ client.email }}</td>
                                 <td class="text-center vert-align">{{ client.number_of_bills.count }}</td>
                                 <td class="text-center vert-align">
-                                    <div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
+                                    <div @click="askForDeleteClientConfirmation(client.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
                             </tr>
 
@@ -113,6 +113,51 @@ export default {
             }
 
             this.getClients(this.clients.next_page_url);
+        },
+
+        askForDeleteClientConfirmation: function(clientId) {
+
+            var vn = this;
+
+            swal({
+                title: "Sigur doriți să ștergeți acest client?",
+                text: "Deasemenea toate facturile clientului vor fi șterse.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: colors.warning,
+                confirmButtonText: "Șterge clientul",
+                cancelButtonText: "Anulează",
+                cancelButtonColor: colors.grey,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true,
+            }, function(){
+                vn.deleteClient(clientId);
+            });
+        },
+
+        deleteClient: function(clientId) {
+
+            var vn = this;
+            var data = {
+                _token: $('#token').attr('content'),
+            }
+
+            this.$http.delete('/dashboard/clients/' + clientId, data).then(function (success) {
+                vn.$dispatch('success_alert', success.data.title, success.data.message);
+            }, function (error) {
+
+                var title = 'Ooops.';
+                var message = 'O eroare a avut loc. Reimrpospatati pagina si incercati din nou.';
+
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+                vn.$dispatch('error_alert', title, message);
+            });
+
         },
 
     },

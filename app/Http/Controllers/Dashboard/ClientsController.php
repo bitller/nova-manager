@@ -15,7 +15,7 @@ use App\Client;
 class ClientsController extends BaseController {
 
     /**
-     * @var [type]
+     * @var array
      */
     protected $validatedFields = ['name', 'email', 'phone_number', 'wish_happy_birth_day', 'birth_day'];
 
@@ -78,20 +78,24 @@ class ClientsController extends BaseController {
      */
     public function deleteClient($clientId) {
 
-        // Make sure the client belong to the current user
-        if (!Auth::user()->clients()->where('id', $clientId)->count()) {
+        $user = Auth::user();
+        $client = $user->clients()->where('id', $clientId)->first();
+
+        // Make sure user has the authorization to delete the client
+        if (!$client) {
             return response()->json([
                 'title' => 'O eroare a avut loc.',
-                'message' => 'Acest client nu vă aparține',
+                'message' => 'Acest client nu vă aparține.',
             ], 422);
         }
 
-        Auth::user()->clients()->where('id', $clientId)->delete();
+        $user->clients()->where('id', $clientId)->delete();
 
         return response()->json([
             'title' => 'Succes!',
-            'message' => 'Clientul a fost șters, împreună cu toate facturile sale',
+            'message' => 'Clientul a fost șters, împreună cu toate facturile sale.',
         ]);
+
     }
 
     /**

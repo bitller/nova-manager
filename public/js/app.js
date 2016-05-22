@@ -46437,6 +46437,12 @@ require('bootstrap-datepicker');
 require('bootstrap-select');
 require('chart.js');
 
+window.colors = {
+    success: '#60C5BA',
+    warning: '#F0AD4E',
+    danger: '#e74c3c'
+};
+
 // Vue resource, used for ajax requests
 Vue.use(require('vue-resource'));
 
@@ -48913,6 +48919,50 @@ exports.default = {
             }
 
             this.getClients(this.clients.next_page_url);
+        },
+
+        askForDeleteClientConfirmation: function askForDeleteClientConfirmation(clientId) {
+
+            var vn = this;
+
+            swal({
+                title: "Sigur doriți să ștergeți acest client?",
+                text: "Deasemenea toate facturile clientului vor fi șterse.",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: colors.warning,
+                confirmButtonText: "Șterge clientul",
+                cancelButtonText: "Anulează",
+                cancelButtonColor: colors.grey,
+                closeOnConfirm: false,
+                showLoaderOnConfirm: true
+            }, function () {
+                vn.deleteClient(clientId);
+            });
+        },
+
+        deleteClient: function deleteClient(clientId) {
+
+            var vn = this;
+            var data = {
+                _token: $('#token').attr('content')
+            };
+
+            this.$http.delete('/dashboard/clients/' + clientId, data).then(function (success) {
+                vn.$dispatch('success_alert', success.data.title, success.data.message);
+            }, function (error) {
+
+                var title = 'Ooops.';
+                var message = 'O eroare a avut loc. Reimrpospatati pagina si incercati din nou.';
+
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+                vn.$dispatch('error_alert', title, message);
+            });
         }
 
     },
@@ -48964,7 +49014,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\">{{ client.name }}</span></td>\n                                <td class=\"text-center vert-align\">{{ client.phone_number }}</td>\n                                <td class=\"text-center vert-align\">{{ client.email }}</td>\n                                <td class=\"text-center vert-align\">{{ client.number_of_bills.count }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\">{{ client.name }}</span></td>\n                                <td class=\"text-center vert-align\">{{ client.phone_number }}</td>\n                                <td class=\"text-center vert-align\">{{ client.email }}</td>\n                                <td class=\"text-center vert-align\">{{ client.number_of_bills.count }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <div @click=\"askForDeleteClientConfirmation(client.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

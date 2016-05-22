@@ -15,6 +15,12 @@ require('bootstrap-datepicker');
 require('bootstrap-select');
 require('chart.js');
 
+window.colors = {
+    success: '#60C5BA',
+    warning: '#F0AD4E',
+    danger: '#e74c3c',
+}
+
 // Vue resource, used for ajax requests
 Vue.use(require('vue-resource'));
 
