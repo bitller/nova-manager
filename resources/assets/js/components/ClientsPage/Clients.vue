@@ -93,6 +93,7 @@ export default {
 
             this.$http.get(url).then(function (success) {
                 vn.clients = success.data;
+                vn.$dispatch('clients_updated', success.data.total, vn.searched);
 
                 // Check if a callback was given
                 if (typeof callback !== 'undefined') {

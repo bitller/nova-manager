@@ -3,7 +3,7 @@
     <div class="page-container">
 
         <div class="row">
-            <clients-header></clients-header>
+            <clients-header :number-of-clients="numberOfClients" :searched="searched"></clients-header>
             <clients :clients="searchResults"></clients>
         </div>
 
@@ -18,6 +18,13 @@ import Clients from '../components/ClientsPage/Clients.vue';
 
 export default {
 
+    data: function() {
+        return {
+            numberOfClients: 0,
+            searched: false,
+        }
+    },
+
     components: {
         'clients-header': ClientsHeader,
         'clients': Clients,
@@ -26,6 +33,11 @@ export default {
     events: {
         'search': function(term) {
             this.$broadcast('search', term);
+        },
+
+        'clients_updated': function(total, searched) {
+            this.numberOfClients = total;
+            this.searched = searched;
         },
     },
 

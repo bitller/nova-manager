@@ -48841,6 +48841,13 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
+    data: function data() {
+        return {
+            numberOfClients: 0,
+            searched: false
+        };
+    },
+
     components: {
         'clients-header': _ClientsHeader2.default,
         'clients': _Clients2.default
@@ -48849,12 +48856,17 @@ exports.default = {
     events: {
         'search': function search(term) {
             this.$broadcast('search', term);
+        },
+
+        'clients_updated': function clients_updated(total, searched) {
+            this.numberOfClients = total;
+            this.searched = searched;
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <clients-header></clients-header>\n        <clients :clients=\"searchResults\"></clients>\n    </div>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <clients-header :number-of-clients=\"numberOfClients\" :searched=\"searched\"></clients-header>\n        <clients :clients=\"searchResults\"></clients>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -48900,6 +48912,7 @@ exports.default = {
 
             this.$http.get(url).then(function (success) {
                 vn.clients = success.data;
+                vn.$dispatch('clients_updated', success.data.total, vn.searched);
 
                 // Check if a callback was given
                 if (typeof callback !== 'undefined') {
@@ -49070,15 +49083,38 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
+    props: ['numberOfClients', 'searched'],
+
+    data: function data() {
+        return {
+            bound: ''
+        };
+    },
+
     components: {
         'search-client': _SearchClient2.default,
         'order-by': _OrderBy2.default,
         'add-client': _AddClient2.default
+    },
+
+    computed: {
+
+        bound: function bound() {
+            if (this.numberOfClients < 19) {
+                return '';
+            }
+
+            var lastTwo = this.numberOfClients % 100;
+            if (lastTwo > 19) {
+                return 'de';
+            }
+        }
+
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-2\">\n            <span class=\"page-title grey-dark\">Clienţi</span>\n            <span class=\"page-description grey\">1002 (de) clienţi</span>\n        </div>\n        <!-- END Page title and description -->\n\n        <search-client></search-client>\n        <!-- <order-by></order-by> -->\n        <add-client></add-client>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-2\">\n            <span class=\"page-title grey-dark\">Clienţi</span>\n            <span v-show=\"!searched\" class=\"page-description grey\">Aveţi {{ numberOfClients }} {{ bound }} clienţi</span>\n            <span v-show=\"searched\" class=\"page-description grey\">{{ numberOfClients }} {{ bound }} clienţi găsiți</span>\n        </div>\n        <!-- END Page title and description -->\n\n        <search-client></search-client>\n        <!-- <order-by></order-by> -->\n        <add-client></add-client>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

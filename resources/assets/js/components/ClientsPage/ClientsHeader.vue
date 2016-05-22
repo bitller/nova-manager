@@ -6,7 +6,8 @@
             <!-- BEGIN Page title and description -->
             <div class="col-md-2">
                 <span class="page-title grey-dark">Clienţi</span>
-                <span class="page-description grey">1002 (de) clienţi</span>
+                <span v-show="!searched" class="page-description grey">Aveţi {{ numberOfClients }} {{ bound }} clienţi</span>
+                <span v-show="searched" class="page-description grey">{{ numberOfClients }} {{ bound }} clienţi găsiți</span>
             </div>
             <!-- END Page title and description -->
 
@@ -27,11 +28,34 @@ import AddClient from '../../components/ClientsPage/ClientsHeader/AddClient.vue'
 
 export default {
 
+    props: ['numberOfClients', 'searched'],
+
+    data: function() {
+        return {
+            bound: '',
+        }
+    },
+
     components: {
         'search-client': SearchClient,
         'order-by': OrderBy,
         'add-client': AddClient,
     },
+
+    computed: {
+
+        bound: function() {
+            if (this.numberOfClients < 19) {
+                return '';
+            }
+
+            var lastTwo = this.numberOfClients % 100;
+            if (lastTwo > 19) {
+                return 'de';
+            }
+        },
+
+    }
 
 }
 
