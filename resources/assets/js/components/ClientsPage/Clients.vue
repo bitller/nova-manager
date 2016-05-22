@@ -81,7 +81,7 @@ export default {
 
     methods: {
 
-        getClients: function(url) {
+        getClients: function(url, callback) {
 
             this.loading = true;
             var vn = this;
@@ -93,6 +93,11 @@ export default {
 
             this.$http.get(url).then(function (success) {
                 vn.clients = success.data;
+
+                // Check if a callback was given
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
             }, function (error) {
                 //
             });
@@ -143,7 +148,24 @@ export default {
             }
 
             this.$http.delete('/dashboard/clients/' + clientId, data).then(function (success) {
-                vn.$dispatch('success_alert', success.data.title, success.data.message);
+
+                // Build ajax url
+                var currentPage = vn.clients.current_page;
+
+                if ((vn.clients.to - vn.clients.from) + 1 < 2) {
+                    currentPage--;
+                }
+
+                var url = '/dashboard/clients/get?page=' + currentPage;
+
+                if (vn.searched) {
+                    url += '&search-query=' + vn.searched;
+                }
+
+                vn.getClients(url, function() {
+                    vn.$dispatch('success_alert', success.data.title, success.data.message);
+                });
+
             }, function (error) {
 
                 var title = 'Ooops.';
