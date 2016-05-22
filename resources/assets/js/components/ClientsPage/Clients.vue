@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="client in clients.data">
-                                <td class="vert-align"><img src="http://lorempixel.com/40/40" class="client-picture" /><span class="client-name-in-table">{{ client.name }}</span></td>
+                                <td class="vert-align"><img src="http://lorempixel.com/40/40" class="client-picture" /><span class="client-name-in-table"><a href="/dashboard/clients/{{client.id}}">{{ client.name }}</a></span></td>
                                 <td class="text-center vert-align">{{ client.phone_number }}</td>
                                 <td class="text-center vert-align">{{ client.email }}</td>
                                 <td class="text-center vert-align">{{ client.number_of_bills.count }}</td>

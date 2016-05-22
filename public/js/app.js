@@ -49048,7 +49048,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\">{{ client.name }}</span></td>\n                                <td class=\"text-center vert-align\">{{ client.phone_number }}</td>\n                                <td class=\"text-center vert-align\">{{ client.email }}</td>\n                                <td class=\"text-center vert-align\">{{ client.number_of_bills.count }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <div @click=\"askForDeleteClientConfirmation(client.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\"><a href=\"/dashboard/clients/{{client.id}}\">{{ client.name }}</a></span></td>\n                                <td class=\"text-center vert-align\">{{ client.phone_number }}</td>\n                                <td class=\"text-center vert-align\">{{ client.email }}</td>\n                                <td class=\"text-center vert-align\">{{ client.number_of_bills.count }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <div @click=\"askForDeleteClientConfirmation(client.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49127,16 +49127,112 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../../components/ClientsPage/ClientsHeader/AddClient.vue":146,"../../components/ClientsPage/ClientsHeader/OrderBy.vue":147,"../../components/ClientsPage/ClientsHeader/SearchClient.vue":148,"vue":86,"vue-hot-reload-api":61}],146:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    ready: function ready() {
+        $('.client-birthday').datepicker();
+    },
+
+    data: function data() {
+        return {
+            name: '',
+            email: '',
+            phoneNumber: '',
+            birthDay: '',
+            wishHappyBirthDay: '',
+            error: '',
+            errors: '',
+            loading: ''
+        };
+    },
+
+    methods: {
+        addClient: function addClient() {
+
+            this.loading = true;
+            var vn = this;
+
+            var client = {
+                _token: $('#token').attr('content'),
+                name: this.name,
+                email: this.email,
+                phone_number: this.phoneNumber,
+                wish_happy_birth_day: this.wishHappyBirthDay,
+                birth_day: this.birthDay
+            };
+
+            this.$http.post('/dashboard/clients', client).then(function (success) {
+
+                $('#add-client-modal').modal('hide');
+                this.$dispatch('clients_updated', success.data.title, success.data.message);
+            }, function (error) {
+
+                vn.loading = false;
+
+                if (error.data.errors) {
+                    vn.errors = error.data.errors;
+                    vn.error = '';
+                    return;
+                }
+
+                if (error.data.message) {
+                    vn.errors = '';
+                    vn.error = error.data.message;
+                    return;
+                }
+
+                vn.errors = '';
+                vn.error = 'O eroare a avut loc.';
+            });
+        }
+    },
+
+    computed: {
+
+        hasError: function hasError() {
+            if (this.error && !this.loading) {
+                return true;
+            }
+            return false;
+        },
+
+        nameHasError: function nameHasError() {
+            if (this.errors.name && !this.loading) {
+                return true;
+            }
+            return false;
+        },
+
+        emailHasError: function emailHasError() {
+            if (this.errors.email && !this.loading) {
+                return true;
+            }
+            return false;
+        },
+
+        phoneNumberHasError: function phoneNumberHasError() {
+            if (this.errors.phone_number && !this.loading) {
+                return true;
+            }
+            return false;
+        },
+
+        birthDayHasError: function birthDayHasError() {
+            if (this.errors.birth_day && !this.loading) {
+                return true;
+            }
+            return false;
+        }
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-2 col-md-offset-3\">\n    <div class=\"btn btn-success pull-right\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n        <span>Adaugă client</span>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-2 col-md-offset-3\">\n    <div class=\"btn btn-success pull-right\" data-toggle=\"modal\" data-target=\"#add-client-modal\">\n        <span class=\"glyphicon glyphicon-plus\"></span>\n        <span>Adaugă client</span>\n    </div>\n</div>\n\n<!-- BEGIN Modal -->\n<div id=\"add-client-modal\" class=\"modal fade\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\">×</button>\n            <h4 class=\"modal-title\">Adaugă client</h4>\n          </div>\n          <div class=\"modal-body\">\n\n              <div class=\"row\">\n                  <div class=\"col-md-10 col-md-offset-1\">\n\n                      <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n                      <!-- BEGIN Client name -->\n                      <div :class=\"{ 'has-error': nameHasError }\" class=\"form-group\">\n                          <label>Numele clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"name\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"nameHasError\" class=\"text-danger\">{{ errors.name }}</span>\n                      </div>\n                      <!-- END Client name -->\n\n                      <!-- BEGIN Client email -->\n                      <div :class=\"{ 'has-error': emailHasError }\" class=\"form-group\">\n                          <label>Email-ul clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"email\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"emailHasError\" class=\"text-danger\">{{ errors.email }}</span>\n                      </div>\n                      <!-- END Client email -->\n\n                      <!-- BEGIN Client phone number -->\n                      <div :class=\"{ 'has-error': phoneNumberHasError }\" class=\"form-group\">\n                          <label>Numărul de telefon al clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"phoneNumber\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"phoneNumberHasError\" class=\"text-danger\">{{ errors.phone_number }}</span>\n                      </div>\n                      <!-- END Client phone number -->\n\n                      <div class=\"checkbox\">\n                          <label><input v-model=\"wishHappyBirthDay\" type=\"checkbox\">Doresc ca clientul să primescă o urare de ziua lui</label>\n                      </div>\n\n                      <div :class=\"{ 'has-error': birthDayHasError }\" class=\"form-group\">\n                          <label>Data de naștere a clientului</label>\n                          <input @keyup.enter=\"addClient\" v-model=\"birthDay\" type=\"text\" class=\"form-control client-birthday\">\n                          <span v-show=\"birthDayHasError\" class=\"text-danger\">{{ errors.birth_day }}</span>\n                      </div>\n\n                  </div>\n              </div>\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Anulează</button>\n            <button @click=\"addClient\" type=\"button\" class=\"btn btn-primary\">Adaugă client</button>\n          </div>\n    </div>\n\n    </div>\n</div>\n<!-- END Modal -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
