@@ -30,9 +30,10 @@
                         <tbody>
                             <tr v-for="client in clients.data">
                                 <td class="vert-align"><img src="http://lorempixel.com/40/40" class="client-picture" /><span class="client-name-in-table"><a href="/dashboard/clients/{{client.id}}">{{ client.name }}</a></span></td>
-                                <td class="text-center vert-align">{{ client.phone_number }}</td>
-                                <td class="text-center vert-align">{{ client.email }}</td>
-                                <td class="text-center vert-align">{{ client.number_of_bills.count }}</td>
+                                <td class="text-center vert-align">{{ showClientPhoneNumber(client) }}</td>
+                                <td class="text-center vert-align">{{ showClientEmail(client) }}</td>
+                                <td class="text-center vert-align">{{ showClientNumberOfBills(client) }}</td>
+
                                 <td class="text-center vert-align">
                                     <div @click="askForDeleteClientConfirmation(client.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
@@ -183,6 +184,36 @@ export default {
 
         },
 
+        /**
+         * Return number of bills for given client. 0 is returned if client does not have bills.
+         *
+         * @param  client
+         * @return int
+         */
+        showClientNumberOfBills: function(client) {
+            if (client.number_of_bills == null) {
+                return 0;
+            }
+
+            return client.number_of_bills.count;
+        },
+
+        showClientPhoneNumber: function(client) {
+            if (client.phone_number == null) {
+                return 'Nu a fost setat';
+            }
+
+            return client.phone_number;
+        },
+
+        showClientEmail: function(client) {
+            if (client.email == null || client.email == "") {
+                return 'Nu a fost setat';
+            }
+
+            return client.email;
+        },
+
     },
 
     computed: {
@@ -226,6 +257,13 @@ export default {
         'search': function(term) {
             this.getClients('/dashboard/clients/get?search-query=' + term);
             this.searched = term;
+        },
+
+        'reload_clients': function (title, message) {
+            var vn = this;
+            this.getClients('/dashboard/clients/get', function () {
+                vn.$dispatch('success_alert', title, message);
+            });
         },
 
     },

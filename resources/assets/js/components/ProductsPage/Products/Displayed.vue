@@ -2,9 +2,8 @@
 
     <div class="col-md-3">
         <select class="displayed pull-right" style="display:none">
-            <option>10</option>
-            <option>20</option>
-            <option>50</option>
+            <option>Afiseaza 10 produse</option>
+            <option>Afiseaza 20 de produse</option>
         </select>
     </div>
 
@@ -15,9 +14,7 @@
 export default {
 
     ready: function() {
-        $('.displayed').selectpicker({
-            'style': 'form-control'
-        });
+        $('.displayed').selectpicker();
     },
 
 }

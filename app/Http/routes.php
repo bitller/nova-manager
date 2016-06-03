@@ -29,6 +29,11 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         Route::post('/', 'ClientsController@addClient');
 
         Route::get('/{clientId}', 'ClientsController@client');
+        Route::get('/{clientId}/basic-informations', 'ClientsController@getBasicInformations');
+        Route::get('/{clientId}/personal-informations', 'ClientsController@getPersonalInformations');
+        Route::group(['prefix' => '{clientId}'], function() {
+            Route::post('/update-name', 'ClientsController@updateName');
+        });
         Route::delete('/{clientId}', 'ClientsController@deleteClient');
     });
 

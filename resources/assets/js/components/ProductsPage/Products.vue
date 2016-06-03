@@ -14,6 +14,7 @@
                 <div class="col-md-12">
                     <search></search>
                     <order-by></order-by>
+                    <order-type></order-type>
                     <displayed></displayed>
                 </div>
             </div>
@@ -46,6 +47,7 @@
 
 import Search from '../../components/ProductsPage/Products/Search.vue';
 import OrderBy from '../../components/ProductsPage/Products/OrderBy.vue';
+import OrderType from '../../components/ProductsPage/Products/OrderType.vue';
 import Displayed from '../../components/ProductsPage/Products/Displayed.vue';
 import Product from '../../components/ProductsPage/Products/Product.vue';
 
@@ -54,6 +56,7 @@ export default {
     components: {
         'search': Search,
         'order-by': OrderBy,
+        'order-type': OrderType,
         'displayed': Displayed,
         'product': Product,
     },

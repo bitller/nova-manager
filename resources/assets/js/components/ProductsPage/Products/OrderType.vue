@@ -2,9 +2,8 @@
 
     <div class="col-md-3">
         <select class="order-by pull-right" style="display:none">
-            <option selected disabled>Ordoneaza dupa</option>
-            <option>Nume</option>
-            <option>cod</option>
+            <option>Crescator</option>
+            <option>Descrescator</option>
         </select>
     </div>
 
@@ -15,9 +14,7 @@
 export default {
 
     ready: function() {
-        $('.order-by').selectpicker({
-            // 'style': 'form-control'
-        });
+        $('.order-by').selectpicker();
     },
 
 }

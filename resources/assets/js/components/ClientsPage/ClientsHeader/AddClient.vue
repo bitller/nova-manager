@@ -1,20 +1,20 @@
 <template>
 
-    <div class="col-md-2 col-md-offset-3">
-        <div class="btn btn-success pull-right" data-toggle="modal" data-target="#add-client-modal">
+    <div class="col-md-2">
+        <div @click="showModal" class="btn btn-success pull-right">
             <span class="glyphicon glyphicon-plus"></span>
             <span>Adaugă client</span>
         </div>
     </div>
 
     <!-- BEGIN Modal -->
-    <div id="add-client-modal" class="modal fade" role="dialog">
+    <div id="add-client-modal" data-backdrop="static" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
               <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <button @click="hideModal" type="button" class="close">&times;</button>
                 <h4 class="modal-title">Adaugă client</h4>
               </div>
               <div class="modal-body">
@@ -28,7 +28,7 @@
                           <div :class="{ 'has-error': nameHasError }" class="form-group">
                               <label>Numele clientului</label>
                               <input @keyup.enter="addClient" v-model="name" type="text" class="form-control" />
-                              <span v-show="nameHasError" class="text-danger">{{ errors.name }}</span>
+                              <span v-show="nameHasError" class="text-danger">{{ errors.client_name }}</span>
                           </div>
                           <!-- END Client name -->
 
@@ -36,7 +36,7 @@
                           <div :class="{ 'has-error': emailHasError }" class="form-group">
                               <label>Email-ul clientului</label>
                               <input @keyup.enter="addClient" v-model="email" type="text" class="form-control" />
-                              <span v-show="emailHasError" class="text-danger">{{ errors.email }}</span>
+                              <span v-show="emailHasError" class="text-danger">{{ errors.client_email }}</span>
                           </div>
                           <!-- END Client email -->
 
@@ -44,12 +44,12 @@
                           <div :class="{ 'has-error': phoneNumberHasError }" class="form-group">
                               <label>Numărul de telefon al clientului</label>
                               <input @keyup.enter="addClient" v-model="phoneNumber" type="text" class="form-control" />
-                              <span v-show="phoneNumberHasError" class="text-danger">{{ errors.phone_number }}</span>
+                              <span v-show="phoneNumberHasError" class="text-danger">{{ errors.client_phone_number }}</span>
                           </div>
                           <!-- END Client phone number -->
 
                           <div class="checkbox">
-                              <label><input v-model="wishHappyBirthDay" type="checkbox" />Doresc ca clientul să primescă o urare de ziua lui</label>
+                              <label><input v-model="wishHappyBirthDay" type="checkbox" /><strong>Doresc ca clientul să primescă o urare de ziua lui</strong></label>
                           </div>
 
                           <div :class="{ 'has-error': birthDayHasError }" class="form-group">
@@ -62,7 +62,7 @@
                   </div>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Anulează</button>
+                <button @click="hideModal" type="button" class="btn btn-default">Anulează</button>
                 <button @click="addClient" type="button" class="btn btn-primary">Adaugă client</button>
               </div>
         </div>
@@ -90,11 +90,25 @@ export default {
             wishHappyBirthDay: '',
             error: '',
             errors: '',
-            loading: ''
+            loading: '',
+            modalSelector: '#add-client-modal',
         }
     },
 
     methods: {
+
+        showModal: function() {
+            $(this.modalSelector).modal('show');
+        },
+
+        hideModal: function() {
+            if (this.loading) {
+                return false;
+            }
+            this.emptyInputs();
+            $(this.modalSelector).modal('hide');
+        },
+
         addClient: function() {
 
             this.loading = true;
@@ -102,17 +116,18 @@ export default {
 
             var client = {
                 _token: $('#token').attr('content'),
-                name: this.name,
-                email: this.email,
-                phone_number: this.phoneNumber,
+                client_name: this.name,
+                client_email: this.email,
+                client_phone_number: this.phoneNumber,
                 wish_happy_birth_day: this.wishHappyBirthDay,
                 birth_day: this.birthDay
             };
 
             this.$http.post('/dashboard/clients', client).then(function (success) {
 
-                $('#add-client-modal').modal('hide');
-                this.$dispatch('clients_updated', success.data.title, success.data.message);
+                vn.loading = false;
+                vn.hideModal();
+                vn.$dispatch('reload_clients', success.data.title, success.data.message);
 
             }, function (error) {
 
@@ -135,7 +150,11 @@ export default {
 
             });
 
-        }
+        },
+
+        emptyInputs: function() {
+            this.email = this.phoneNumber = this.name = this.birthDay = '';
+        },
     },
 
     computed: {
@@ -148,21 +167,21 @@ export default {
         },
 
         nameHasError: function() {
-            if (this.errors.name && !this.loading) {
+            if (this.errors.client_name && !this.loading) {
                 return true;
             }
             return false;
         },
 
         emailHasError: function() {
-            if (this.errors.email && !this.loading) {
+            if (this.errors.client_email && !this.loading) {
                 return true;
             }
             return false;
         },
 
         phoneNumberHasError: function() {
-            if (this.errors.phone_number && !this.loading) {
+            if (this.errors.client_phone_number && !this.loading) {
                 return true;
             }
             return false;

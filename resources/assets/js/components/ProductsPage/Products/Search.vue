@@ -1,8 +1,8 @@
 <template>
 
-    <div class="col-md-6">
+    <div class="col-md-3">
         <div class="form-group has-feedback">
-            <input type="text" class="form-control" placeholder="Caută un produs după cod sau nume" />
+            <input type="text" class="form-control" placeholder="Caută după cod sau nume" />
             <i class="glyphicon glyphicon-search form-control-feedback"></i>
         </div>
     </div>

@@ -39,6 +39,11 @@ export default {
             this.numberOfClients = total;
             this.searched = searched;
         },
+
+        'reload_clients': function(title, message) {
+            console.log('called');
+            this.$broadcast('reload_clients', title, message);
+        },
     },
 
     // data: function() {

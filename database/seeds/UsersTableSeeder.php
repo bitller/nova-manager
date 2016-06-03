@@ -3,6 +3,8 @@
 use Illuminate\Database\Seeder;
 use App\Client;
 use App\Announcement;
+use App\InitialProduct;
+use App\Product;
 
 /**
  * Seeds users table.
@@ -94,6 +96,18 @@ class UsersTableSeeder extends Seeder {
                     break;
                 }
             }
+
+            // Attach products to the user
+            $this->command->info('Populating products table.');
+            $initialProducts = InitialProduct::all();
+            foreach ($initialProducts as $product) {
+                Product::create([
+                    'user_id' => $user->id,
+                    'name' => $product->name,
+                    'code' => $product->code
+                ]);
+            }
+            $this->command->info('Products table populated.');
         });
     }
 }

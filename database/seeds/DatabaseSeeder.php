@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\InitialProduct;
 use App\ApplicationSetting;
 
 /**
@@ -19,6 +20,8 @@ class DatabaseSeeder extends Seeder {
         $this->call(ApplicationSettingsTableSeeder::class);
         $this->call(RolesTableSeeder::class);
         $this->call(CampaignsTableSeeder::class);
+        // $this->call(ProductsTableSeeder::class);
+        $this->call(InitialProductsTableSeeder::class);
         $this->call(AnnouncementsTableSeeder::class);
         $this->call(UsersTableSeeder::class);
     }
