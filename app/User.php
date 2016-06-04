@@ -51,6 +51,15 @@ class User extends Authenticatable {
         return $this->hasMany('App\Client');
     }
 
+    /**
+     * Products of the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function products() {
+        return $this->hasMany('App\Product');
+    }
+
     public function searchClients($searchQuery) {
         return $this->clients()->where('name', 'like', $searchQuery.'%')->orWhere('phone_number', 'like', $searchQuery.'%');
     }

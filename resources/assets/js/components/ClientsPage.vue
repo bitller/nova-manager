@@ -31,6 +31,7 @@ export default {
     },
 
     events: {
+
         'search': function(term) {
             this.$broadcast('search', term);
         },
@@ -41,95 +42,9 @@ export default {
         },
 
         'reload_clients': function(title, message) {
-            console.log('called');
             this.$broadcast('reload_clients', title, message);
         },
     },
-
-    // data: function() {
-    //     return {
-    //         loading: false,
-    //         searchResults: '',
-    //     }
-    // },
-    //
-    // ready: function() {
-    //     // this.getClients();
-    // },
-    //
-    // components: {
-    //     'clients-header': ClientsHeader,
-    //     'clients': Clients,
-    // },
-    //
-    // methods: {
-    //
-    //     getClients: function(url, callback, search = false) {
-    //
-    //         if (!search) {
-    //             this.loading = true;
-    //         } else {
-    //             this.loadingSearchResults = true;
-    //         }
-    //
-    //         var vn = this;
-    //
-    //         if (typeof url === 'undefined') {
-    //             url = '/dashboard/clients/get';
-    //         }
-    //
-    //         this.$http.get(url).then(function (success) {
-    //
-    //             if (!search) {
-    //                 vn.loading = false;
-    //             } else {
-    //                 vn.loadingSearchResults = false;
-    //             }
-    //
-    //             vn.searchResults = success.data;
-    //             if (typeof callback !== 'undefined') {
-    //                 callback();
-    //             }
-    //
-    //         }, function (error) {
-    //
-    //             if (!search) {
-    //                 vn.loading = false;
-    //             } else {
-    //                 vn.loadingSearchResults = false;
-    //             }
-    //
-    //         });
-    //
-    //     },
-    //
-    // },
-    //
-    // events: {
-    //
-    //     'previous_page': function() {
-    //         if (!this.loading && !this.loadingSearchResults && this.searchResults.prev_page_url) {
-    //             this.getClients(this.searchResults.prev_page_url, undefined, true);
-    //         }
-    //     },
-    //
-    //     'next_page': function() {
-    //         if (!this.loading && !this.loadingSearchResults && this.searchResults.next_page_url) {
-    //             this.getClients(this.searchResults.next_page_url, undefined, true);
-    //         }
-    //     },
-    //
-    //     'clients_updated': function(title, message) {
-    //         var vn = this;
-    //         this.getClients(undefined, function() {
-    //             vn.$dispatch('success_alert', title, message);
-    //         });
-    //     },
-    //
-    //     'search': function(term) {
-    //         this.getClients('/dashboard/clients/get?search-query=' + term, undefined, true);
-    //     }
-    // }
 
 }
 

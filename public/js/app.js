@@ -49129,6 +49129,7 @@ exports.default = {
     },
 
     events: {
+
         'search': function search(term) {
             this.$broadcast('search', term);
         },
@@ -49139,7 +49140,6 @@ exports.default = {
         },
 
         'reload_clients': function reload_clients(title, message) {
-            console.log('called');
             this.$broadcast('reload_clients', title, message);
         }
     }
@@ -49983,14 +49983,33 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
+    data: function data() {
+        return {
+            numberOfProducts: 0,
+            searched: false
+        };
+    },
+
     components: {
         'products-header': _ProductsHeader2.default,
         'products': _Products2.default
+    },
+
+    events: {
+
+        'search': function search(term) {
+            this.$broadcast('search', term);
+        },
+
+        'products_updated': function products_updated(total, searched) {
+            this.numberOfProducts = total;
+            this.searched = searched;
+        }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <products-header></products-header>\n        <products></products>\n    </div>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <products-header :number-of-products=\"numberOfProducts\" :searched=\"searched\"></products-header>\n        <products></products>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50033,17 +50052,108 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
+    data: function data() {
+        return {
+            loadingProducts: false,
+            products: '',
+            searched: false
+        };
+    },
+
+    ready: function ready() {
+        this.paginateProducts();
+    },
+
     components: {
         'search': _Search2.default,
         'order-by': _OrderBy2.default,
         'order-type': _OrderType2.default,
         'displayed': _Displayed2.default,
         'product': _Product2.default
+    },
+
+    methods: {
+
+        paginateProducts: function paginateProducts(url, callback) {
+
+            this.loadingProducts = true;
+            var vn = this;
+
+            if (typeof url === 'undefined') {
+                url = '/dashboard/products/paginate';
+            }
+
+            this.$http.get(url).then(function (success) {
+
+                vn.loadingProducts = false;
+                vn.products = success.data;
+                vn.$dispatch('products_updated', success.data.total, vn.searched);
+
+                // Check if a callback was given
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+            }, function (error) {
+                //
+            });
+        },
+
+        previousPage: function previousPage() {
+            if (!this.products.prev_page_url) {
+                return false;
+            }
+            this.paginateProducts(this.products.prev_page_url);
+        },
+
+        nextPage: function nextPage() {
+            if (!this.products.next_page_url) {
+                return false;
+            }
+            this.paginateProducts(this.products.next_page_url);
+        }
+    },
+
+    computed: {
+
+        /**
+         * Check if pagination buttons should be displayed or not.
+         */
+        showPagination: function showPagination() {
+            if (this.products.next_page_url || this.products.prev_page_url) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showNoSearchResults: function showNoSearchResults() {
+            if (this.products.total < 1 && this.searched) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showCurrentPageText: function showCurrentPageText() {
+            if (this.products.current_page > this.products.last_page) {
+                return false;
+            }
+
+            return true;
+        }
+
+    },
+
+    events: {
+        'search': function search(term) {
+            this.paginateProducts('/dashboard/products/paginate?search-term=' + term);
+            this.searched = term;
+        }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <search></search>\n                <order-by></order-by>\n                <order-type></order-type>\n                <displayed></displayed>\n            </div>\n        </div>\n\n        <product name=\"test\" code=\"bau\" id=\"4\"></product>\n        <product name=\"test\" code=\"bau\" id=\"4\"></product>\n        <product name=\"test\" code=\"bau\" id=\"4\"></product>\n\n        <div class=\"col-md-12\">\n            <span class=\"grey\">Este afișată pagina 1 din 2</span>\n        </div>\n\n        <!-- BEGIN Pagination -->\n        <div class=\"col-md-6\">\n            <div class=\"btn btn-info pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n        </div>\n\n        <div class=\"col-md-6\">\n            <div class=\"btn btn-info pull-left\">Pagina următoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span></div>\n        </div>\n        <!-- END Pagination -->\n\n    </div>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <search></search>\n                <order-by></order-by>\n                <order-type></order-type>\n                <displayed></displayed>\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume sau alt cod.\n            </div>\n        </div>\n\n        <product v-for=\"product in products.data\" :name=\"product.name\" :code=\"product.code\" :id=\"product.id\"></product>\n\n        <div v-show=\"showCurrentPageText\" class=\"col-md-12\">\n            <span class=\"grey\">Este afișată pagina {{ products.current_page }} din {{ products.last_page }}</span>\n        </div>\n\n        <!-- BEGIN Pagination -->\n        <div v-show=\"showPagination\">\n            <div class=\"col-md-6\">\n                <div @click=\"previousPage\" class=\"btn btn-info pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n\n            <div class=\"col-md-6\">\n                <div @click=\"nextPage\" class=\"btn btn-info pull-left\">Pagina următoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span></div>\n            </div>\n        </div>\n        <!-- END Pagination -->\n\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50143,11 +50253,23 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
 
-    props: ['name', 'code', 'id']
+    props: ['name', 'code', 'id'],
+
+    methods: {
+
+        showProductName: function showProductName(name) {
+            if (name.length > 39) {
+                return name.substring(0, 38) + '...';
+            }
+
+            return name;
+        }
+
+    }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-4\">\n    <div class=\"panel panel-info\">\n        <div class=\"panel-heading\">\n            {{ name }}\n        </div>\n        <div class=\"panel-body\">\n            <div class=\"row text-center\"><span class=\"product-code grey\">{{ code }}</span></div>\n        </div>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-4\">\n    <div class=\"panel panel-info\">\n        <div class=\"panel-heading\">\n            {{ showProductName(name) }}\n        </div>\n        <div class=\"panel-body\">\n            <div class=\"row text-center\"><span class=\"product-code grey\">{{ code }}</span></div>\n        </div>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50160,16 +50282,33 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":86,"vue-hot-reload-api":61}],166:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    data: function data() {
+        return {
+            searchTerm: ''
+        };
+    },
+
+    watch: {
+        'searchTerm': function searchTerm(value, oldValue) {
+            if (value.length >= 3) {
+                this.$dispatch('search', value);
+                return;
+            }
+
+            this.$dispatch('search', value);
+        }
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n    <div class=\"form-group has-feedback\">\n        <input type=\"text\" class=\"form-control\" placeholder=\"Caută după cod sau nume\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n    <div class=\"form-group has-feedback\">\n        <input v-model=\"searchTerm\" type=\"text\" class=\"form-control\" placeholder=\"Caută după cod sau nume\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50182,7 +50321,39 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":86,"vue-hot-reload-api":61}],167:[function(require,module,exports){
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Products text -->\n        <div class=\"col-md-8\">\n            <span class=\"page-title grey-dark\">Produse</span>\n            <span class=\"page-description grey\">Produsele din catalogul Avon, 1231 mai exact.</span>\n        </div>\n        <!-- END Products text -->\n\n        <!-- BEGIN Add product -->\n        <div class=\"col-md-4\">\n            <div class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>Adauga produs</div>\n        </div>\n        <!-- END Add product -->\n\n    </div>\n</div>\n\n"
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
+    props: ['numberOfProducts', 'searched'],
+
+    data: function data() {
+        return {
+            bound: ''
+        };
+    },
+
+    computed: {
+
+        bound: function bound() {
+            if (this.numberOfProducts < 19) {
+                return '';
+            }
+
+            var lastTwo = this.numberOfProducts % 100;
+            if (lastTwo > 19) {
+                return 'de';
+            }
+        }
+
+    }
+
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Products text -->\n        <div class=\"col-md-8\">\n            <span class=\"page-title grey-dark\">Produse</span>\n            <span class=\"page-description grey\">\n                <span v-show=\"!searched &amp;&amp; numberOfProducts != 1\" class=\"page-description grey\">Aveţi {{ numberOfProducts }} {{ bound }} produse</span>\n                <span v-show=\"!searched &amp;&amp; numberOfProducts == 1\" class=\"page-description grey\">Aveţi {{ numberOfProducts }} produs</span>\n                <span v-show=\"searched &amp;&amp; numberOfProducts != 1\" class=\"page-description grey\">{{ numberOfProducts }} {{ bound }} produse găsite</span>\n                <span v-show=\"searched &amp;&amp; numberOfProducts == 1\" class=\"page-description grey\">{{ numberOfProducts }} produs găsit</span>\n            </span>\n        </div>\n        <!-- END Products text -->\n\n        <!-- BEGIN Add product -->\n        <div class=\"col-md-4\">\n            <div class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adauga produs</div>\n        </div>\n        <!-- END Add product -->\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

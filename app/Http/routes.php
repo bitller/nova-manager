@@ -40,6 +40,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     // Products
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductsController@index');
+        Route::get('/paginate', 'ProductsController@paginate');
     });
 
     // Statistics

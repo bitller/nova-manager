@@ -19,21 +19,27 @@
                 </div>
             </div>
 
-            <product name="test" code="bau" id="4"></product>
-            <product name="test" code="bau" id="4"></product>
-            <product name="test" code="bau" id="4"></product>
-
             <div class="col-md-12">
-                <span class="grey">Este afișată pagina 1 din 2</span>
+                <div v-show="showNoSearchResults" class="alert alert-warning">
+                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume sau alt cod.
+                </div>
+            </div>
+
+            <product v-for="product in products.data" :name="product.name" :code="product.code" :id="product.id"></product>
+
+            <div v-show="showCurrentPageText" class="col-md-12">
+                <span class="grey">Este afișată pagina {{ products.current_page }} din {{ products.last_page }}</span>
             </div>
 
             <!-- BEGIN Pagination -->
-            <div class="col-md-6">
-                <div class="btn btn-info pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
-            </div>
+            <div v-show="showPagination">
+                <div class="col-md-6">
+                    <div @click="previousPage" class="btn btn-info pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
+                </div>
 
-            <div class="col-md-6">
-                <div class="btn btn-info pull-left">Pagina următoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></div>
+                <div class="col-md-6">
+                    <div @click="nextPage" class="btn btn-info pull-left">Pagina următoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></div>
+                </div>
             </div>
             <!-- END Pagination -->
 
@@ -53,6 +59,18 @@ import Product from '../../components/ProductsPage/Products/Product.vue';
 
 export default {
 
+    data: function() {
+        return {
+            loadingProducts: false,
+            products: '',
+            searched: false,
+        }
+    },
+
+    ready: function() {
+        this.paginateProducts();
+    },
+
     components: {
         'search': Search,
         'order-by': OrderBy,
@@ -60,6 +78,86 @@ export default {
         'displayed': Displayed,
         'product': Product,
     },
+
+    methods: {
+
+        paginateProducts: function(url, callback) {
+
+            this.loadingProducts = true;
+            var vn = this;
+
+            if (typeof url === 'undefined') {
+                url = '/dashboard/products/paginate';
+            }
+
+            this.$http.get(url).then(function (success) {
+
+                vn.loadingProducts = false;
+                vn.products = success.data;
+                vn.$dispatch('products_updated', success.data.total, vn.searched);
+
+                // Check if a callback was given
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+
+            }, function (error) {
+                //
+            });
+        },
+
+        previousPage: function() {
+            if (!this.products.prev_page_url) {
+                return false;
+            }
+            this.paginateProducts(this.products.prev_page_url);
+        },
+
+        nextPage: function() {
+            if (!this.products.next_page_url) {
+                return false;
+            }
+            this.paginateProducts(this.products.next_page_url);
+        },
+    },
+
+    computed: {
+
+        /**
+         * Check if pagination buttons should be displayed or not.
+         */
+        showPagination: function() {
+            if (this.products.next_page_url || this.products.prev_page_url) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showNoSearchResults: function() {
+            if (this.products.total < 1 && this.searched) {
+                return true;
+            }
+
+            return false;
+        },
+
+        showCurrentPageText: function() {
+            if (this.products.current_page > this.products.last_page) {
+                return false;
+            }
+
+            return true;
+        },
+
+    },
+
+    events: {
+        'search': function (term) {
+            this.paginateProducts('/dashboard/products/paginate?search-term=' + term);
+            this.searched = term;
+        }
+    }
 
 }
 
