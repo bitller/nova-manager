@@ -15,11 +15,7 @@
             </div>
             <!-- END Products text -->
 
-            <!-- BEGIN Add product -->
-            <div class="col-md-4">
-                <div class="btn btn-primary pull-right"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adauga produs</div>
-            </div>
-            <!-- END Add product -->
+            <add-product></add-product>
 
         </div>
     </div>
@@ -27,6 +23,8 @@
 </template>
 
 <script>
+
+import AddProduct from '../../components/ProductsPage/ProductsHeader/AddProduct.vue';
 
 export default {
 
@@ -36,6 +34,10 @@ export default {
         return {
             bound: '',
         }
+    },
+
+    components: {
+        'add-product': AddProduct,
     },
 
     computed: {

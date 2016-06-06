@@ -106,6 +106,7 @@ export default {
                 return false;
             }
             this.emptyInputs();
+            this.emptyErrors();
             $(this.modalSelector).modal('hide');
         },
 

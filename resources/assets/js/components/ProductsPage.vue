@@ -39,6 +39,10 @@ export default {
         'products_updated': function (total, searched) {
             this.numberOfProducts = total;
             this.searched = searched;
+        },
+
+        'reload_products': function(title, message) {
+            this.$broadcast('reload_products', title, message);
         }
     }
 

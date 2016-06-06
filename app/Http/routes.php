@@ -41,6 +41,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductsController@index');
         Route::get('/paginate', 'ProductsController@paginate');
+        Route::post('/add', 'ProductsController@add');
     });
 
     // Statistics

@@ -79,6 +79,7 @@ return [
     'timezone'             => 'The :attribute must be a valid zone.',
     'unique'               => 'The :attribute has already been taken.',
     'url'                  => 'The :attribute format is invalid.',
+    'unique_product_code_for_current_user' => 'Deja există un produs cu acest cod.',
 
     /*
     |--------------------------------------------------------------------------
@@ -95,6 +96,16 @@ return [
         'client_name' => [
             'required' => 'Numele clientului este necesar.',
         ],
+
+        'product_name' => [
+            'required' => 'Numele produsului este necesar.',
+        ],
+
+        'product_code' => [
+            'required' => 'Codul produsului este necesar.',
+            'digits' => 'Codul produsului trebuie să conțină exact 5 cifre.'
+        ],
+
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

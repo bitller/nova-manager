@@ -13,9 +13,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <search></search>
-                    <order-by></order-by>
-                    <order-type></order-type>
-                    <displayed></displayed>
+                    <!-- <order-by ordered-by="code"></order-by> -->
+                    <!-- <order-type order-type="asc"></order-type> -->
+                    <!-- <displayed display="12"></displayed> -->
                 </div>
             </div>
 
@@ -134,6 +134,9 @@ export default {
             return false;
         },
 
+        /**
+         * Check if "No search results" alert should be displayed.
+         */
         showNoSearchResults: function() {
             if (this.products.total < 1 && this.searched) {
                 return true;
@@ -142,6 +145,9 @@ export default {
             return false;
         },
 
+        /**
+         * Check if page number info should be displayed.
+         */
         showCurrentPageText: function() {
             if (this.products.current_page > this.products.last_page) {
                 return false;
@@ -156,6 +162,13 @@ export default {
         'search': function (term) {
             this.paginateProducts('/dashboard/products/paginate?search-term=' + term);
             this.searched = term;
+        },
+
+        'reload_products': function(title, message) {
+            var vn = this;
+            this.paginateProducts('/dashboard/products/paginate', function() {
+                vn.$dispatch('success_alert', title, message);
+            });
         }
     }
 

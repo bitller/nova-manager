@@ -2,9 +2,10 @@
 
     <div class="col-md-3">
         <select class="order-by pull-right" style="display:none">
-            <option selected disabled>Ordoneaza dupa</option>
-            <option>Nume</option>
-            <option>cod</option>
+            <option v-if="orderedByName" value="name" selected>Ordoneaza dupa nume</option>
+            <option v-if="orderedByCode" value="code" selected>Ordoneaza dupa cod</option>
+            <option v-if="!orderedByName" value="name">Ordoneaza dupa nume</option>
+            <option v-if="orderedByCode" value="code">Ordoneaza dupa cod</option>
         </select>
     </div>
 
@@ -14,11 +15,22 @@
 
 export default {
 
+    props: ['orderedBy'],
+
     ready: function() {
-        $('.order-by').selectpicker({
-            // 'style': 'form-control'
-        });
+        $('.order-by').selectpicker();
     },
+
+    computed: {
+
+        orderedByName: function() {
+            if (this.orderedBy == 'name') {
+                return 'true';
+            }
+
+            return 'false';
+        }
+    }
 
 }
 

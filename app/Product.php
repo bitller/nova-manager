@@ -16,7 +16,7 @@ class Product extends Model {
      *
      * @var array
      */
-    protected $fillable = ['name', 'code'];
+    protected $fillable = ['name', 'code', 'user_id'];
 
     /**
      * Return user that owns the product.
