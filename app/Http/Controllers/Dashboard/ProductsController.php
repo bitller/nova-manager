@@ -19,7 +19,7 @@ class ProductsController extends BaseController {
      *
      * @var array
      */
-    protected $validatedFields = ['product_code', 'product_name'];
+    protected $validatedFields = ['product_code', 'product_name', 'order_by', 'order_type', 'products_displayed'];
 
     /**
      * Render produts page.
@@ -35,19 +35,32 @@ class ProductsController extends BaseController {
      */
     public function paginate(Request $request) {
 
+        $userSettings = Auth::user()->settings()->first();
+
         $searchQuery = $request->get('search-term');
-        $perPage = Auth::user()->settings()->first()->number_of_products;
+        $perPage = $userSettings->products_displayed;
 
         $products = Auth::user()->products()
             ->where(function ($query) use ($searchQuery) {
                 $query->where('name', 'like', $searchQuery.'%')
                     ->orWhere('code', 'like', $searchQuery.'%');
-            })->orderBy('created_at', 'desc')
+            })->orderBy($userSettings->order_products_by, $userSettings->order_products_type)
             ->paginate($perPage);
 
         $products->appends(['search-term' => $searchQuery]);
 
         return $products;
+    }
+
+    public function getSortDetails() {
+
+        $userSettings = Auth::user()->settings()->first();
+
+        return response()->json([
+            'order_by' => $userSettings->order_products_by,
+            'order_type' => $userSettings->order_products_type,
+            'products_displayed' => $userSettings->products_displayed
+        ]);
     }
 
     /**
@@ -73,6 +86,66 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Update clients order by.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function updateOrderBy(Request $request) {
+
+        $this->validateOrderBy($request);
+
+        Auth::user()->settings()->update([
+            'order_products_by' => $request->get('order_by')
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Ordinea produselor a fost actualizată.',
+        ]);
+    }
+
+    /**
+     * Update clients oder type.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function updateOrderType(Request $request) {
+
+        $this->validateOrderType($request);
+
+        Auth::user()->settings()->update([
+            'order_products_type' => $request->get('order_type')
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Ordinea produselor a fost actualizată.'
+        ]);
+    }
+
+    /**
+     * Update products displayed per page.
+     *
+     * @param  Request $request
+     * @return Respoonse
+     */
+    public function updateProductsDisplayed(Request $request) {
+
+        $this->validateProductsDisplayed($request);
+
+        Auth::user()->settings()->update([
+            'products_displayed' => $request->get('products_displayed')
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Numărul produselor afișate pe pagină a fost actualizat.'
+        ]);
+    }
+
+    /**
      * Validate data used to add a new product.
      *
      * @param  $request
@@ -81,6 +154,39 @@ class ProductsController extends BaseController {
         $this->validate($request, [
             'product_name' => ['required', 'string', 'between:3,100'],
             'product_code' => ['required', 'digits:5', 'unique_product_code_for_current_user']
+        ]);
+    }
+
+    /**
+     * Validate data used to edit clients pagination order.
+     *
+     * @param $request
+     */
+    private function validateOrderBy($request) {
+        $this->validate($request, [
+            'order_by' => 'in:code,created_at'
+        ]);
+    }
+
+    /**
+     * Validate data used to edit clients pagination order type.
+     *
+     * @param $request
+     */
+    private function validateOrderType($request) {
+        $this->validate($request, [
+            'order_type' => 'in:asc,desc'
+        ]);
+    }
+
+    /**
+     * Validate data used to edit number of products displayed per page.
+     *
+     * @param $request
+     */
+    private function validateProductsDisplayed($request) {
+        $this->validate($request, [
+            'products_displayed' => ['required', 'in:12,24,36']
         ]);
     }
 

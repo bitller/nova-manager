@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-md-5">
+    <div class="col-md-3">
         <div class="form-group has-feedback">
             <input v-model="searchTerm" type="text" class="form-control" placeholder="Caută după cod sau nume" />
             <i class="glyphicon glyphicon-search form-control-feedback"></i>
@@ -28,6 +28,12 @@ export default {
 
             this.$dispatch('search', value);
         },
+    },
+
+    events: {
+        'resetSearch': function() {
+            this.searchTerm = '';
+        }
     }
 
 }

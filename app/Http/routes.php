@@ -40,8 +40,12 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     // Products
     Route::group(['prefix' => 'products'], function() {
         Route::get('/', 'ProductsController@index');
+        Route::get('/sort-details', 'ProductsController@getSortDetails');
         Route::get('/paginate', 'ProductsController@paginate');
         Route::post('/add', 'ProductsController@add');
+        Route::post('/update-order-by', 'ProductsController@updateOrderBy');
+        Route::post('/update-order-type', 'ProductsController@updateOrderType');
+        Route::post('/update-products-displayed', 'ProductsController@updateProductsDisplayed');
     });
 
     // Statistics

@@ -1,12 +1,17 @@
 <template>
 
     <div class="col-md-3">
-        <select class="order-by pull-right" style="display:none">
-            <option v-if="orderedByName" value="name" selected>Ordoneaza dupa nume</option>
-            <option v-if="orderedByCode" value="code" selected>Ordoneaza dupa cod</option>
-            <option v-if="!orderedByName" value="name">Ordoneaza dupa nume</option>
-            <option v-if="orderedByCode" value="code">Ordoneaza dupa cod</option>
-        </select>
+
+        <div class="dropdown text-right">
+            <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">{{ orderedByText }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li @click="changeOrderBy('created_at')"><a href="#">Ordonează după data adăugării</a></li>
+                <li @click="changeOrderBy('code')"><a href="#">Ordonează după cod</a></li>
+            </ul>
+        </div>
+
     </div>
 
 </template>
@@ -17,19 +22,51 @@ export default {
 
     props: ['orderedBy'],
 
+    data: function() {
+        return {
+
+        }
+    },
+
     ready: function() {
         $('.order-by').selectpicker();
     },
 
-    computed: {
+    methods: {
+        changeOrderBy: function(column) {
 
-        orderedByName: function() {
-            if (this.orderedBy == 'name') {
-                return 'true';
+            var vm = this;
+
+            if (column !== 'created_at' && column !== 'code') {
+                return;
             }
 
-            return 'false';
-        }
+            var data = {
+                _token: $('#token').attr('content'),
+                order_by: column,
+            };
+
+            this.$http.post('/dashboard/products/update-order-by', data).then(function (success) {
+
+                vm.$dispatch('reload_products');
+                vm.$dispatch('changeOrderBy', column);
+
+            }, function (error) {
+                //
+            });
+
+        },
+    },
+
+    computed: {
+
+        orderedByText: function() {
+            if (this.orderedBy == 'code') {
+                return 'Ordonează după cod';
+            }
+            return 'Ordonează după data adăugării';
+        },
+
     }
 
 }

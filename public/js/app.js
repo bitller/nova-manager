@@ -50085,12 +50085,14 @@ exports.default = {
         return {
             loadingProducts: false,
             products: '',
-            searched: false
+            searched: false,
+            sortDetails: ''
         };
     },
 
     ready: function ready() {
         this.paginateProducts();
+        this.getSortDetails();
     },
 
     components: {
@@ -50139,7 +50141,20 @@ exports.default = {
                 return false;
             }
             this.paginateProducts(this.products.next_page_url);
+        },
+
+        getSortDetails: function getSortDetails() {
+
+            var vm = this;
+
+            this.$http.get('/dashboard/products/sort-details').then(function (success) {
+
+                vm.sortDetails = success.data;
+            }, function (error) {
+                //
+            });
         }
+
     },
 
     computed: {
@@ -50188,14 +50203,32 @@ exports.default = {
         'reload_products': function reload_products(title, message) {
             var vn = this;
             this.paginateProducts('/dashboard/products/paginate', function () {
+                if (typeof title === 'undefined' || typeof message == 'undefined') {
+                    return false;
+                }
                 vn.$dispatch('success_alert', title, message);
             });
+        },
+
+        'changeOrderType': function changeOrderType(type) {
+            this.sortDetails.order_type = type;
+            this.$broadcast('resetSearch');
+        },
+
+        'changeOrderBy': function changeOrderBy(orderColumn) {
+            this.sortDetails.order_by = orderColumn;
+            this.$broadcast('resetSearch');
+        },
+
+        'changeDisplayed': function changeDisplayed(number) {
+            this.sortDetails.products_displayed = number;
+            this.$broadcast('resetSearch');
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <search></search>\n                <!-- <order-by ordered-by=\"code\"></order-by> -->\n                <!-- <order-type order-type=\"asc\"></order-type> -->\n                <!-- <displayed display=\"12\"></displayed> -->\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume sau alt cod.\n            </div>\n        </div>\n\n        <product v-for=\"product in products.data\" :name=\"product.name\" :code=\"product.code\" :id=\"product.id\"></product>\n\n        <div v-show=\"showCurrentPageText\" class=\"col-md-12\">\n            <span class=\"grey\">Este afișată pagina {{ products.current_page }} din {{ products.last_page }}</span>\n        </div>\n\n        <!-- BEGIN Pagination -->\n        <div v-show=\"showPagination\">\n            <div class=\"col-md-6\">\n                <div @click=\"previousPage\" class=\"btn btn-info pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n\n            <div class=\"col-md-6\">\n                <div @click=\"nextPage\" class=\"btn btn-info pull-left\">Pagina următoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span></div>\n            </div>\n        </div>\n        <!-- END Pagination -->\n\n    </div>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n\n        <div class=\"row\">\n            <div class=\"col-md-12\">\n                <search></search>\n                <order-by :ordered-by=\"sortDetails.order_by\"></order-by>\n                <order-type :order-type=\"sortDetails.order_type\"></order-type>\n                <displayed :display=\"sortDetails.products_displayed\"></displayed>\n            </div>\n        </div>\n\n        <div class=\"col-md-12\">\n            <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume sau alt cod.\n            </div>\n        </div>\n\n        <product v-for=\"product in products.data\" :name=\"product.name\" :code=\"product.code\" :id=\"product.id\"></product>\n\n        <div v-show=\"showCurrentPageText\" class=\"col-md-12\">\n            <span class=\"grey\">Este afișată pagina {{ products.current_page }} din {{ products.last_page }}</span>\n        </div>\n\n        <!-- BEGIN Pagination -->\n        <div v-show=\"showPagination\">\n            <div class=\"col-md-6\">\n                <div @click=\"previousPage\" class=\"btn btn-info pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n\n            <div class=\"col-md-6\">\n                <div @click=\"nextPage\" class=\"btn btn-info pull-left\">Pagina următoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span></div>\n            </div>\n        </div>\n        <!-- END Pagination -->\n\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50217,24 +50250,40 @@ exports.default = {
 
     props: ['display'],
 
-    ready: function ready() {
-        $('.displayed').selectpicker();
+    methods: {
+        changeDisplayed: function changeDisplayed(number) {
+            var vm = this;
+
+            if (number !== 12 && number !== 24 && number !== 36) {
+                return;
+            }
+
+            var data = {
+                _token: $('#token').attr('content'),
+                products_displayed: number
+            };
+
+            this.$http.post('/dashboard/products/update-products-displayed', data).then(function (success) {
+
+                vm.$dispatch('reload_products');
+                vm.$dispatch('changeDisplayed', number);
+            }, function (error) {
+                //
+            });
+        }
     },
 
     computed: {
 
-        display12: function display12() {
-            if (this.display == 12) {
-                return 'true';
-            }
-            return 'false';
+        displayedText: function displayedText() {
+            return 'Afişează ' + this.display + ' produse';
         }
 
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n    <select class=\"displayed pull-right\" style=\"display:none\">\n        <option :selected=\"display12\">Afiseaza 12 produse</option>\n        <option :selected=\"!display12\">Afiseaza 24 de produse</option>\n    </select>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n\n    <div class=\"dropdown\">\n        <button class=\"btn btn-default btn-block dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">{{ displayedText }}\n            <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\">\n            <li @click=\"changeDisplayed(12)\"><a href=\"#\">Afişează 12 produse</a></li>\n            <li @click=\"changeDisplayed(24)\"><a href=\"#\">Afişează 24 produse</a></li>\n            <li @click=\"changeDisplayed(36)\"><a href=\"#\">Afişează 36 produse</a></li>\n        </ul>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50256,24 +50305,52 @@ exports.default = {
 
     props: ['orderedBy'],
 
+    data: function data() {
+        return {};
+    },
+
     ready: function ready() {
         $('.order-by').selectpicker();
     },
 
-    computed: {
+    methods: {
+        changeOrderBy: function changeOrderBy(column) {
 
-        orderedByName: function orderedByName() {
-            if (this.orderedBy == 'name') {
-                return 'true';
+            var vm = this;
+
+            if (column !== 'created_at' && column !== 'code') {
+                return;
             }
 
-            return 'false';
+            var data = {
+                _token: $('#token').attr('content'),
+                order_by: column
+            };
+
+            this.$http.post('/dashboard/products/update-order-by', data).then(function (success) {
+
+                vm.$dispatch('reload_products');
+                vm.$dispatch('changeOrderBy', column);
+            }, function (error) {
+                //
+            });
         }
+    },
+
+    computed: {
+
+        orderedByText: function orderedByText() {
+            if (this.orderedBy == 'code') {
+                return 'Ordonează după cod';
+            }
+            return 'Ordonează după data adăugării';
+        }
+
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n    <select class=\"order-by pull-right\" style=\"display:none\">\n        <option v-if=\"orderedByName\" value=\"name\" selected=\"\">Ordoneaza dupa nume</option>\n        <option v-if=\"orderedByCode\" value=\"code\" selected=\"\">Ordoneaza dupa cod</option>\n        <option v-if=\"!orderedByName\" value=\"name\">Ordoneaza dupa nume</option>\n        <option v-if=\"orderedByCode\" value=\"code\">Ordoneaza dupa cod</option>\n    </select>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n\n    <div class=\"dropdown text-right\">\n        <button class=\"btn btn-default btn-block dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">{{ orderedByText }}\n            <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\">\n            <li @click=\"changeOrderBy('created_at')\"><a href=\"#\">Ordonează după data adăugării</a></li>\n            <li @click=\"changeOrderBy('code')\"><a href=\"#\">Ordonează după cod</a></li>\n        </ul>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50305,20 +50382,46 @@ exports.default = {
         $('.order-by').selectpicker();
     },
 
-    computed: {
+    methods: {
 
-        orderTypeIsAscendent: function orderTypeIsAscendent() {
-            if (this.orderType == 'asc') {
-                return 'true';
+        changeOrderType: function changeOrderType(type) {
+
+            var vm = this;
+
+            if (type !== 'asc' && type !== 'desc') {
+                return;
             }
 
-            return 'false';
+            var data = {
+                _token: $('#token').attr('content'),
+                order_type: type
+            };
+
+            this.$http.post('/dashboard/products/update-order-type', data).then(function (success) {
+
+                vm.$dispatch('reload_products');
+                vm.$dispatch('changeOrderType', type);
+            }, function (error) {
+                //
+            });
+        }
+
+    },
+
+    computed: {
+
+        orderTypeText: function orderTypeText() {
+            if (this.orderType == 'asc') {
+                return 'În ordine crescătoare';
+            }
+
+            return 'În ordine descrescătoare';
         }
 
     }
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n    <select v-model=\"selectedOrderType\" class=\"order-by pull-right\" style=\"display:none\">\n        <option :selected=\"orderTypeIsAscendent\" value=\"asc\">Crescator</option>\n        <option :selected=\"!orderTypeIsAscendent\" value=\"desc\">Descrescator</option>\n    </select>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n\n    <div class=\"dropdown\">\n        <button class=\"btn btn-default btn-block dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">{{ orderTypeText }}\n            <span class=\"caret\"></span>\n        </button>\n        <ul class=\"dropdown-menu\">\n            <li @click=\"changeOrderType('asc')\"><a href=\"#\">În ordine crescătoare</a></li>\n            <li @click=\"changeOrderType('desc')\"><a href=\"#\">În ordine descrescătoare</a></li>\n        </ul>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50389,11 +50492,17 @@ exports.default = {
 
             this.$dispatch('search', value);
         }
+    },
+
+    events: {
+        'resetSearch': function resetSearch() {
+            this.searchTerm = '';
+        }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-5\">\n    <div class=\"form-group has-feedback\">\n        <input v-model=\"searchTerm\" type=\"text\" class=\"form-control\" placeholder=\"Caută după cod sau nume\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-3\">\n    <div class=\"form-group has-feedback\">\n        <input v-model=\"searchTerm\" type=\"text\" class=\"form-control\" placeholder=\"Caută după cod sau nume\">\n        <i class=\"glyphicon glyphicon-search form-control-feedback\"></i>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

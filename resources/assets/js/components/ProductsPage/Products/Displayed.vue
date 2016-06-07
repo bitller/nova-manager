@@ -1,10 +1,17 @@
 <template>
 
     <div class="col-md-3">
-        <select class="displayed pull-right" style="display:none">
-            <option :selected="display12">Afiseaza 12 produse</option>
-            <option :selected="!display12">Afiseaza 24 de produse</option>
-        </select>
+
+        <div class="dropdown">
+            <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">{{ displayedText }}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li @click="changeDisplayed(12)"><a href="#">Afişează 12 produse</a></li>
+                <li @click="changeDisplayed(24)"><a href="#">Afişează 24 produse</a></li>
+                <li @click="changeDisplayed(36)"><a href="#">Afişează 36 produse</a></li>
+            </ul>
+        </div>
     </div>
 
 </template>
@@ -15,18 +22,37 @@ export default {
 
     props: ['display'],
 
-    ready: function() {
-        $('.displayed').selectpicker();
+    methods: {
+
+        changeDisplayed(number) {
+            var vm = this;
+
+            if (number !== 12 && number !== 24 && number !== 36) {
+                return;
+            }
+
+            var data = {
+                _token: $('#token').attr('content'),
+                products_displayed: number
+            };
+
+            this.$http.post('/dashboard/products/update-products-displayed', data).then(function (success) {
+
+                vm.$dispatch('reload_products');
+                vm.$dispatch('changeDisplayed', number);
+
+            }, function (error) {
+                //
+            });
+        }
+
     },
 
     computed: {
 
-        display12: function () {
-            if (this.display == 12) {
-                return 'true';
-            }
-            return 'false';
-        },
+        displayedText: function() {
+            return 'Afişează ' + this.display + ' produse';
+        }
 
     }
 

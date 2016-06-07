@@ -13,9 +13,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <search></search>
-                    <!-- <order-by ordered-by="code"></order-by> -->
-                    <!-- <order-type order-type="asc"></order-type> -->
-                    <!-- <displayed display="12"></displayed> -->
+                    <order-by :ordered-by="sortDetails.order_by"></order-by>
+                    <order-type :order-type="sortDetails.order_type"></order-type>
+                    <displayed :display="sortDetails.products_displayed"></displayed>
                 </div>
             </div>
 
@@ -64,11 +64,13 @@ export default {
             loadingProducts: false,
             products: '',
             searched: false,
+            sortDetails: '',
         }
     },
 
     ready: function() {
         this.paginateProducts();
+        this.getSortDetails();
     },
 
     components: {
@@ -119,6 +121,20 @@ export default {
             }
             this.paginateProducts(this.products.next_page_url);
         },
+
+        getSortDetails: function() {
+
+            var vm = this;
+
+            this.$http.get('/dashboard/products/sort-details').then(function (success) {
+
+                vm.sortDetails = success.data;
+
+            }, function (error) {
+                //
+            });
+        }
+
     },
 
     computed: {
@@ -167,8 +183,26 @@ export default {
         'reload_products': function(title, message) {
             var vn = this;
             this.paginateProducts('/dashboard/products/paginate', function() {
+                if (typeof title === 'undefined' || typeof message == 'undefined') {
+                    return false;
+                }
                 vn.$dispatch('success_alert', title, message);
             });
+        },
+
+        'changeOrderType': function(type) {
+            this.sortDetails.order_type = type;
+            this.$broadcast('resetSearch');
+        },
+
+        'changeOrderBy': function(orderColumn) {
+            this.sortDetails.order_by = orderColumn;
+            this.$broadcast('resetSearch');
+        },
+
+        'changeDisplayed': function(number) {
+            this.sortDetails.products_displayed = number;
+            this.$broadcast('resetSearch');
         }
     }
 

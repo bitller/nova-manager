@@ -21,7 +21,11 @@ class CreateSettingsTable extends Migration {
             $table->integer('user_id')->unsigned();
             $table->tinyInteger('number_of_bills')->unsigned()->default(10);
             $table->tinyInteger('number_of_clients')->unsigned()->default(10);
-            $table->string('order_clients_by')->default('created_at_desc');
+            $table->enum('products_displayed', ['12', '24', '36'])->default(12);
+            $table->enum('order_products_by', ['created_at', 'code'])->default('created_at');
+            $table->enum('order_products_type', ['asc', 'desc'])->default('asc');
+            $table->enum('order_clients_by', ['name', 'email', 'phone_number', 'created_at'])->default('created_at');
+            $table->enum('order_clients_type', ['asc', 'desc'])->default('desc');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->onUpdate('cascade')->onDelete('cascade');
