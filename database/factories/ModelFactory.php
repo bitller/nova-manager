@@ -36,7 +36,8 @@ $factory->define(App\Client::class, function (Faker\Generator $faker) {
 $factory->define(App\Bill::class, function (Faker\Generator $faker) {
     return [
         'payment_term' => date('Y-m-d'),
-        'other_details' => 'Bitller S.R.L.'
+        'other_details' => 'Bitller S.R.L.',
+        'campaign_id' => rand(1, 10)
     ];
 });
 

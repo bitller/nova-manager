@@ -18,6 +18,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     Route::get('/', 'BillsController@index');
     Route::group(['prefix' => 'bills'], function() {
         Route::get('/', 'BillsController@index');
+        Route::get('/paginate', 'BillsController@paginate');
         Route::get('/suggest-clients', 'BillsController@suggestClients');
         Route::get('/{billId}', 'BillsController@bill');
     });
@@ -43,6 +44,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         Route::get('/sort-details', 'ProductsController@getSortDetails');
         Route::get('/paginate', 'ProductsController@paginate');
         Route::post('/add', 'ProductsController@add');
+        Route::post('/edit', 'ProductsController@edit');
         Route::post('/update-order-by', 'ProductsController@updateOrderBy');
         Route::post('/update-order-type', 'ProductsController@updateOrderType');
         Route::post('/update-products-displayed', 'ProductsController@updateProductsDisplayed');

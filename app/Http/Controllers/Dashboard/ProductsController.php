@@ -86,6 +86,27 @@ class ProductsController extends BaseController {
     }
 
     /**
+     * Allow user to edit products.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function edit(Request $request) {
+
+        $this->validateEditProductData($request);
+
+        Auth::user()->products()->where('id', $request->get('product_id'))->update([
+            'code' => $request->get('product_code'),
+            'name' => $request->get('product_name')
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'Produsul a fost actualizat.'
+        ]);
+    }
+
+    /**
      * Update clients order by.
      *
      * @param  Request $request
@@ -154,6 +175,14 @@ class ProductsController extends BaseController {
         $this->validate($request, [
             'product_name' => ['required', 'string', 'between:3,100'],
             'product_code' => ['required', 'digits:5', 'unique_product_code_for_current_user']
+        ]);
+    }
+
+    private function validateEditProductData($request) {
+        $this->validate($request, [
+            'product_id' => ['required', 'numeric', 'product_belongs_to_current_user'],
+            'product_name' => ['required', 'string', 'between:3,100'],
+            'product_code' => ['required', 'digits:5', 'unique_product_code_for_current_user_except:'.$request->get('product_id')]
         ]);
     }
 

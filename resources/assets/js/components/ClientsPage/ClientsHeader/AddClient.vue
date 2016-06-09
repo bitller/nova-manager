@@ -156,6 +156,10 @@ export default {
         emptyInputs: function() {
             this.email = this.phoneNumber = this.name = this.birthDay = '';
         },
+
+        emptyErrors: function() {
+            this.errors = '';
+        }
     },
 
     computed: {

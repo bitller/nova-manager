@@ -70,6 +70,7 @@ class UsersTableSeeder extends Seeder {
                 // Now attach bills to each client
                 for ($j = 1; $j <= $this->billsPerClient; $j++) {
                     $client->bills()->save(factory(App\Bill::class)->make());
+                    // todo add products to each bill
                 }
             }
 

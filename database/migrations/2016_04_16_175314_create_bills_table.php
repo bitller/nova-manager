@@ -19,6 +19,7 @@ class CreateBillsTable extends Migration {
         Schema::create('bills', function(Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('client_id')->unsigned();
+            $table->integer('campaign_id')->unsigned();
             $table->tinyInteger('campaign_order')->default(1);
             $table->date('payment_term');
             $table->text('other_details');
@@ -26,6 +27,7 @@ class CreateBillsTable extends Migration {
             $table->timestamps();
 
             $table->foreign('client_id')->references('id')->on('clients')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('campaign_id')->references('id')->on('campaigns')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

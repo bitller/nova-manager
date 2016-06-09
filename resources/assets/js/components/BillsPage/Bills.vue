@@ -5,11 +5,42 @@
         <!-- BEIGN Bills -->
         <div class="col-md-12 primary">
             <div class="col-md-12">
-                <span class="primary-title">Facturi</span>
+                <span class="primary-title">Sunt afișate toate facturile plătite și neplătite</span>
             </div>
         </div>
 
         <div class="col-md-12 white last">
+
+            <!-- BEGIN Displayed bills -->
+            <div class="col-md-3">
+                <div class="dropdown">
+                    <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">{{ displayedBillsText }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li @click="changeDisplayedBills('all')"><a href="#">Toate facturile</a></li>
+                        <li @click="changeDisplayedBills('currentCampaign')"><a href="#">Facturile din campania curentă</a></li>
+                        <li @click="changeDisplayedBills('customCampaign')"><a href="#">Facturile dintr-o campanie aleasă</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Displayed bills -->
+
+            <!-- BEGIN Paid and unpaid bills -->
+            <div class="col-md-3">
+                <div class="dropdown">
+                    <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">{{ billsStatusText }}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li @click="changeBillsStatus('all')"><a href="#">Plătite și neplătite</a></li>
+                        <li @click="changeBillsStatus('paid')"><a href="#">Doar cele plătite</a></li>
+                        <li @click="changeBillsStatus('unpaid')"><a href="#">Doar cele neplătite</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Paid and unpaid bills -->
+
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <table class="table table-bordered">
@@ -20,18 +51,22 @@
                                 <th class="text-center">Preț</th>
                                 <th class="text-center">Comanda</th>
                                 <th class="text-center">Campania</th>
-                                <th class="text-center">Preț</th>
+                                <th class="text-center">Termen de plata</th>
+                                <th class="text-center">Deschide factura</th>
                                 <th class="text-center">Șterge</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="1 in 10">
-                                <td class="text-center vert-align"><img src="http://lorempixel.com/40/40" class="client-picture" /><span class="client-name-in-table">John Doe</span></td>
-                                <td class="text-center vert-align">21313</td>
-                                <td class="text-center vert-align">john@example.com</td>
-                                <td class="text-center vert-align">john@example.com</td>
-                                <td class="text-center vert-align">john@example.com</td>
-                                <td class="text-center vert-align">john@example.com</td>
+                            <tr v-for="bill in bills.data">
+                                <td class="text-center vert-align"><a href="#">{{ bill.client_name }}</a></td>
+                                <td class="text-center vert-align"></td>
+                                <td class="text-center vert-align">ron</td>
+                                <td class="text-center vert-align">{{ bill.campaign_order }}</td>
+                                <td class="text-center vert-align">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>
+                                <td class="text-center vert-align">{{ bill.payment_term }}</td>
+                                <td class="text-center vert-align">
+                                    <div class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></div>
+                                </td>
                                 <td class="text-center vert-align">
                                     <div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
@@ -43,15 +78,15 @@
             </div>
 
             <div class="col-md-12">
-                <span class="grey">Este afișată pagina 1 din 4</span>
+                <span class="grey">Este afișată pagina {{ bills.current_page }} din {{ bills.last_page }}</span>
             </div>
 
             <!-- BEGIN Pagination -->
             <div class="col-md-6">
-                <div class="btn btn-primary pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
+                <div @click="previousPage" :class="{ 'disabled': !bills.prev_page_url }" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
             </div>
             <div class="col-md-6">
-                <div class="btn btn-primary pull-left">Pagina urmatoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>
+                <div @click="nextPage" :class="{ 'disabled': !bills.next_page_url }" class="btn btn-primary pull-left">Pagina urmatoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>
             </div>
             <!-- END Pagination -->
 
@@ -65,7 +100,78 @@
 <script>
 
 export default {
-    //
+
+    data: function() {
+        return {
+            loadingBills: false,
+            bills: '',
+        }
+    },
+
+    ready: function() {
+        this.paginateBills();
+    },
+
+    methods: {
+
+        previousPage: function() {
+            if (!this.bills.prev_page_url) {
+                return false;
+            }
+
+            this.paginateBills(this.bills.prev_page_url);
+        },
+
+        nextPage: function() {
+            if (!this.bills.next_page_url) {
+                return false;
+            }
+
+            this.paginateBills(this.bills.next_page_url);
+        },
+
+        paginateBills: function(url, callback) {
+
+            if (this.loadingBills) {
+                return false;
+            }
+
+            this.loadingBills = true;
+            var vm = this;
+
+            if (typeof url === 'undefined') {
+                url = '/dashboard/bills/paginate';
+            }
+
+            this.$http.get(url).then(function (success) {
+
+                vm.loadingBills = false;
+                vm.bills = success.data;
+
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+
+            }, function (error) {
+                //
+            });
+
+        },
+
+        changeDisplayedBills: function() {
+            //
+        }
+
+    },
+
+    computed: {
+
+        displayedBillsText: function() {
+            return 'Toate facturile';
+        }
+
+    }
+
 }
 
 </script>
