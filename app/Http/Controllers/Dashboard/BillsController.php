@@ -118,6 +118,10 @@ class BillsController extends BaseController {
         return view('pages.dashboard.bills.bill');
     }
 
+    public function deleteBill() {
+      //
+    }
+
     public function suggestClients(Request $request) {
         return Auth::user()->clients()->paginate(10);
     }

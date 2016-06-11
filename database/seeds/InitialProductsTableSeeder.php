@@ -11,7 +11,7 @@ use Illuminate\Database\Seeder;
 class InitialProductsTableSeeder extends Seeder {
 
     public function run() {
-        $file = file_get_contents('http://bitller.com/nova/products/a');
+        $file = file_get_contents('/var/www/html/nova-manager/products.json');
 
         $products = json_decode($file);
 
