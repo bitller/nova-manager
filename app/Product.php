@@ -27,4 +27,8 @@ class Product extends Model {
         return $this->belongsTo('App\User');
     }
 
+    public function bills() {
+        return $this->hasManyThrough('App\Bill', 'App\User');
+    }
+
 }

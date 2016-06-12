@@ -48783,8 +48783,19 @@ exports.default = {
             });
         },
 
-        changeBillsStatus: function changeBillsStatus() {
-            //
+        changeBillsStatus: function changeBillsStatus(status) {
+
+            var vm = this;
+            var billsType = {
+                _token: $('#token').attr('content'),
+                status: status
+            };
+
+            this.$http.post('/dashboard/bills/update-bills-status-filter', billsType).then(function (success) {
+                vm.filters.bills_status = status;
+            }, function (error) {
+                //
+            });
         },
 
         selectCampaignYear: function selectCampaignYear() {
@@ -48814,11 +48825,11 @@ exports.default = {
 
         billsStatusText: function billsStatusText() {
 
-            if (this.filters.bills_status == 'all') {
+            if (this.filters.bills_status === 'all') {
                 return 'Platite si neplatite';
             }
 
-            if (this.filters.bills_status == 'paid') {
+            if (this.filters.bills_status === 'paid') {
                 return 'Doar cele platite';
             }
 

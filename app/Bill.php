@@ -25,13 +25,13 @@ class Bill extends Model {
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products() {
-        return $this->hasMany('App\Product');
+        return $this->hasManyThrough('App\Product', 'App\BillProduct');
     }
 
     /**
      * Return campaign of the bill.
      *
-     * @return \\Database\Eloquent\Relations\HasOne
+     * @return \Database\Eloquent\Relations\HasOne
      */
     public function campaign() {
         return $this->hasOne('App\Campaign');
@@ -45,4 +45,8 @@ class Bill extends Model {
     public function client() {
         return $this->belongsTo('App\Client');
     }
+
+    // public function numberOfProducts() {
+        // return $this->hasManyTrough('App\B', 'App\User')
+    // }
 }

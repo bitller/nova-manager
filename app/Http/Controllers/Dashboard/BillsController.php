@@ -135,10 +135,7 @@ class BillsController extends BaseController {
 
     public function updateDisplayedBillsFilter(Request $request) {
 
-        $this->validate($request, [
-            'type' => ['required', 'in:all,current_campaign,custom_campaign'],
-        ]);
-
+        $this->validateUpdateDisplayedBillsFilter($request);
         $filter = $request->get('type');
 
         $newFilter = [
@@ -156,6 +153,25 @@ class BillsController extends BaseController {
             'title' => 'Succes!',
             'message' => 'Filtrul pentru facturile afisate a fost actualizat.'
         ]);
+    }
+
+    public function updateBillsStatusFilter(Request $request) {
+
+        $this->validateUpdateBillsStatusFilter($request);
+
+        Auth::user()->settings()->update([
+            'bills_status' => $request->get('status')
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Tipul facturilor afisate a fost actualizat.'
+        ]);
+    }
+
+    public function test() {
+        // App/Product::where('id', 1)->first
+        return Auth::user()->bills()->where('bills.id', 1)->first()->products()->get();
     }
 
     public function updateCustomCampaign(Request $request) {
@@ -192,11 +208,23 @@ class BillsController extends BaseController {
     /**
      * Validate data used to create a new bill.
      *
-     * @param  nate\Http\Request $request
+     * @param  Illuminate\Http\Request $request
      */
     protected function validateNewBillData($request) {
         $this->validate($request, [
             'client_name' => ['required', 'string', 'between:3,50']
+        ]);
+    }
+
+    protected function validateUpdateBillsStatusFilter($request) {
+        $this->validate($request, [
+            'status' => ['required', 'string', 'in:all,paid,unpaid']
+        ]);
+    }
+
+    protected function validateUpdateDisplayedBillsFilter($request) {
+        $this->validate($request, [
+            'type' => ['required', 'in:all,current_campaign,custom_campaign'],
         ]);
     }
 
