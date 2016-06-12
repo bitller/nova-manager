@@ -34,7 +34,7 @@ class Campaign extends Model {
      * @param $query
      * @return $query
      */
-    public function currentScope($query) {
+    public function scopeCurrent($query) {
         $date = date('Y-m-d');
         return $query->where('start_date', '<=', $date)->where('end_date', '>=', $date);
     }

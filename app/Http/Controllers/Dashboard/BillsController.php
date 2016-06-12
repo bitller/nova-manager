@@ -16,6 +16,8 @@ use DB;
  */
 class BillsController extends BaseController {
 
+    protected $validatedFields = ['type', 'campaign_number', 'campaign_year'];
+
     /**
      * User settings.
      *
@@ -85,6 +87,23 @@ class BillsController extends BaseController {
         return $pagination->paginate(10);
     }
 
+    public function getFilters() {
+
+        $filters = [
+            'displayed_bills' => $this->settings->displayed_bills_filter,
+            'bills_status' => $this->settings->bills_status
+        ];
+
+        // Check if user want only bills from a specific campaign
+        if ($this->settings->displayed_bills_filter !== 'all' && is_numeric($this->settings->bills_filter_campaign_id)) {
+            $campaign = Campaign::where('id', $this->settings->bills_filter_campaign_id)->first();
+            $filters['campaign_year'] = '$campaign->year';
+            $filters['campaign_number'] = '$campaign->number';
+        }
+
+        return response()->json($filters);
+    }
+
     public function get($clientName) {
         //
     }
@@ -111,6 +130,50 @@ class BillsController extends BaseController {
 
         $bill = $client->bills()->save([
             'other_details' => 'bau'
+        ]);
+    }
+
+    public function updateDisplayedBillsFilter(Request $request) {
+
+        $this->validate($request, [
+            'type' => ['required', 'in:all,current_campaign,custom_campaign'],
+        ]);
+
+        $filter = $request->get('type');
+
+        $newFilter = [
+            'displayed_bills_filter' => $filter
+        ];
+
+        if ($filter === 'current_campaign') {
+            // Assign id of current campaign
+            $newFilter['bills_filter_campaign_id'] = Campaign::current()->first()->id;
+        }
+
+        Auth::user()->settings()->update($newFilter);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Filtrul pentru facturile afisate a fost actualizat.'
+        ]);
+    }
+
+    public function updateCustomCampaign(Request $request) {
+
+        $this->validate($reques, [
+            'campaign_number' => ['required', 'exists:campaigns,number'],
+            'campaign_year' => ['required', 'exists:campaigns,year']
+        ]);
+
+        $campaign = Campaign::where('number', $request->get('campaign_number'))->where('year', $request->get('campaign_year'))->first();
+
+        Auth::user()->settings()->update([
+            'bills_filter_campaign_id' => $campaign->id
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Campania a fost selectata.'
         ]);
     }
 

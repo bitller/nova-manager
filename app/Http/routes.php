@@ -19,7 +19,10 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
     Route::group(['prefix' => 'bills'], function() {
         Route::get('/', 'BillsController@index');
         Route::get('/paginate', 'BillsController@paginate');
+        Route::get('/get-filters', 'BillsController@getFilters');
         Route::get('/suggest-clients', 'BillsController@suggestClients');
+        Route::post('/update-displayed-bills-filter', 'BillsController@updateDisplayedBillsFilter');
+        Route::post('/update-custom-campaign', 'BillsController@updateCustomCampaign');
         Route::get('/{billId}', 'BillsController@bill');
     });
 

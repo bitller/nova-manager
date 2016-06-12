@@ -10,7 +10,6 @@
             </div>
             <!-- END Page title and description -->
 
-            <order-by></order-by>
             <create-bill></create-bill>
 
         </div>

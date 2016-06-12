@@ -11,35 +11,7 @@
 
         <div class="col-md-12 white last">
 
-            <!-- BEGIN Displayed bills -->
-            <div class="col-md-3">
-                <div class="dropdown">
-                    <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">{{ displayedBillsText }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li @click="changeDisplayedBills('all')"><a href="#">Toate facturile</a></li>
-                        <li @click="changeDisplayedBills('currentCampaign')"><a href="#">Facturile din campania curentă</a></li>
-                        <li @click="changeDisplayedBills('customCampaign')"><a href="#">Facturile dintr-o campanie aleasă</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- END Displayed bills -->
-
-            <!-- BEGIN Paid and unpaid bills -->
-            <div class="col-md-3">
-                <div class="dropdown">
-                    <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">{{ billsStatusText }}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li @click="changeBillsStatus('all')"><a href="#">Plătite și neplătite</a></li>
-                        <li @click="changeBillsStatus('paid')"><a href="#">Doar cele plătite</a></li>
-                        <li @click="changeBillsStatus('unpaid')"><a href="#">Doar cele neplătite</a></li>
-                    </ul>
-                </div>
-            </div>
-            <!-- END Paid and unpaid bills -->
+            <filters></filters>
 
             <div class="col-md-12">
                 <div class="panel panel-default">
@@ -99,7 +71,13 @@
 
 <script>
 
+import Filters from '../../components/BillsPage/Bills/Filters.vue';
+
 export default {
+
+    components: {
+        'filters': Filters,
+    },
 
     data: function() {
         return {
