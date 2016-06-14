@@ -27,8 +27,11 @@ class Product extends Model {
         return $this->belongsTo('App\User');
     }
 
+    /**
+     * The bill that has the product.
+     */
     public function bills() {
-        return $this->hasManyThrough('App\Bill', 'App\User');
+        return $this->belongsToMany('App\Bill');
     }
 
 }

@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use DB;
 
 /**
  * Model of bills table.
@@ -20,12 +21,23 @@ class Bill extends Model {
     protected $fillable = ['campaign_order', 'payment_term', 'other_details', 'paid'];
 
     /**
-     * Return products of the bill.
+     * The products of the bill.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products() {
-        return $this->hasManyThrough('App\Product', 'App\BillProduct');
+        return $this->belongsToMany('App\Product', 'bill_products')
+            ->withPivot('quantity', 'price')
+            ->withTimestamps();
+    }
+
+    public function price() {
+        return $this->products()->sum('price');
+    }
+
+    public function numberOfProducts() {
+        return $this->products()->select('name', 'code', 'price', DB::raw('SUM(price) as total_price'))->get();
+        // return $this->hasOne('App\Bill')->selectRaw('client_id, count(*) as count')->groupBy('client_id');
     }
 
     /**

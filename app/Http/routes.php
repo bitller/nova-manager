@@ -24,6 +24,8 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         Route::post('/update-displayed-bills-filter', 'BillsController@updateDisplayedBillsFilter');
         Route::post('/update-custom-campaign', 'BillsController@updateCustomCampaign');
         Route::post('/update-bills-status-filter', 'BillsController@updateBillsStatusFilter');
+        Route::post('/update-campaign-number', 'BillsController@updateCampaignNumber');
+        Route::post('/update-campaign-year', 'BillsController@updateCampaignYear');
         Route::get('/test', 'BillsController@test');
         Route::get('/{billId}', 'BillsController@bill');
     });

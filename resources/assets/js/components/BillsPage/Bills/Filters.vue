@@ -1,58 +1,72 @@
+hp<style>
+.bottom-space {
+    margin-bottom: 18px;
+}
+</style>
+
 <template>
 
-    <!-- BEGIN Displayed bills -->
-    <div class="col-md-3">
-        <div class="dropdown">
-            <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">
-                {{ displayedBillsText }}
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li @click="changeDisplayedBills('all')"><a href="#">Toate facturile</a></li>
-                <li @click="changeDisplayedBills('current_campaign')"><a href="#">Facturile din campania curentă</a></li>
-                <li @click="changeDisplayedBills('custom_campaign')"><a href="#">Facturile dintr-o campanie aleasă</a></li>
-            </ul>
-        </div>
-    </div>
-    <!-- END Displayed bills -->
-
-    <div v-show="showSelectCustomCampaign">
-        <!-- BEGIN Select campaign year -->
-        <div class="col-md-3">
+    <div>
+        <!-- BEGIN Displayed bills -->
+        <div class="col-md-3 bottom-space">
             <div class="dropdown">
-                <button class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown">
-                    Anul 2016 <span class="caret"></span>
+                <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">
+                    {{ displayedBillsText }}
+                    <span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu">
+                    <li @click="changeDisplayedBills('all')"><a href="#">Toate facturile</a></li>
+                    <li @click="changeDisplayedBills('current_campaign')"><a href="#">Facturile din campania curentă</a></li>
+                    <li @click="changeDisplayedBills('custom_campaign')"><a href="#">Facturile dintr-o campanie aleasă</a></li>
+                </ul>
             </div>
         </div>
-        <!-- END Select campaign year -->
+        <!-- END Displayed bills -->
 
-        <!-- BEGIN Select campaign number -->
+        <div v-show="showSelectCustomCampaign">
+            <!-- BEGIN Select campaign year -->
+            <div class="col-md-3">
+                <div class="dropdown">
+                    <button class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown">
+                        {{ campaignYearText }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li v-for="campaign in filters.campaign_years" @click="selectCampaignYear(campaign.year)"><a href="#">{{ campaign.year }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Select campaign year -->
+
+            <!-- BEGIN Select campaign number -->
+            <div class="col-md-3">
+                <div class="dropdown">
+                    <button class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown">
+                        {{ campaignNumberText }} <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li v-for="campaign in filters.campaign_numbers" @click="selectCampaignNumber(campaign.number)"><a href="#">Campania {{ campaign.number }}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- END Select campaign number -->
+        </div>
+
+        <!-- BEGIN Paid and unpaid bills -->
         <div class="col-md-3">
             <div class="dropdown">
-                <button class="btn btn-default btn-block dropdown-toggle" data-toggle="dropdown">
-                    Campania 1 <span class="caret"></span>
+                <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">
+                    {{ billsStatusText }}
+                    <span class="caret"></span>
                 </button>
+                <ul class="dropdown-menu">
+                    <li @click="changeBillsStatus('all')"><a href="#">Plătite și neplătite</a></li>
+                    <li @click="changeBillsStatus('paid')"><a href="#">Doar cele plătite</a></li>
+                    <li @click="changeBillsStatus('unpaid')"><a href="#">Doar cele neplătite</a></li>
+                </ul>
             </div>
         </div>
-        <!-- END Select campaign number -->
+        <!-- END Paid and unpaid bills -->
     </div>
-
-    <!-- BEGIN Paid and unpaid bills -->
-    <div class="col-md-3">
-        <div class="dropdown">
-            <button class="btn btn-default btn-block dropdown-toggle" type="button" data-toggle="dropdown">
-                {{ billsStatusText }}
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-                <li @click="changeBillsStatus('all')"><a href="#">Plătite și neplătite</a></li>
-                <li @click="changeBillsStatus('paid')"><a href="#">Doar cele plătite</a></li>
-                <li @click="changeBillsStatus('unpaid')"><a href="#">Doar cele neplătite</a></li>
-            </ul>
-        </div>
-    </div>
-    <!-- END Paid and unpaid bills -->
 
 </template>
 
@@ -77,6 +91,7 @@ export default {
             var vm = this;
             this.$http.get('/dashboard/bills/get-filters').then(function (success) {
                 vm.filters = success.data;
+                vm.$dispatch('filtersUpdated', success.data);
             }, function (error) {
                 //
             });
@@ -93,6 +108,7 @@ export default {
 
             this.$http.post('/dashboard/bills/update-displayed-bills-filter', filter).then(function (success) {
                 vm.filters.displayed_bills = type;
+                vm.$dispatch('reloadBills');
             }, function (error) {
                 //
             });
@@ -109,6 +125,7 @@ export default {
 
             this.$http.post('/dashboard/bills/update-bills-status-filter', billsType).then(function (success) {
                 vm.filters.bills_status = status;
+                vm.$dispatch('reloadBills');
             }, function (error) {
                 //
             });
@@ -118,14 +135,57 @@ export default {
             //
         },
 
-        selectCampaigNumber: function() {
-            //
+        /**
+         * Allow user to select another campaign number filter.
+         *
+         * @param campaignNumber
+         */
+        selectCampaignNumber: function(campaignNumber) {
+
+            var vm = this;
+            var data = {
+                _token: $('#token').attr('content'),
+                campaign_number: campaignNumber
+            };
+
+            this.$http.post('/dashboard/bills/update-campaign-number', data).then(function (success) {
+                vm.filters.campaign_number = campaignNumber;
+                vm.$dispatch('reloadBills');
+            }, function (error) {
+                //
+            });
+
         },
+
+        /**
+         * Allow user to select another campaign year filter.
+         *
+         * @param campaignYear
+         */
+        selectCampaignYear: function(campaignYear) {
+
+            var vm = this;
+            var data = {
+                _token: $('#token').attr('content'),
+                campaign_year: campaignYear
+            };
+
+            this.$http.post('/dashboard/bills/update-campaign-year', data).then(function (success) {
+                vm.filters.campaign_year = campaignYear;
+                vm.$dispatch('reloadBills');
+            }, function (error) {
+                //
+            });
+
+        }
 
     },
 
     computed: {
 
+        /**
+         * Return text displayd on displayed bills button (first button).
+         */
         displayedBillsText: function() {
 
             if (this.filters.displayed_bills == 'all') {
@@ -140,6 +200,9 @@ export default {
 
         },
 
+        /**
+         * Return text displayed on bills status button (last button when all are displayed).
+         */
         billsStatusText: function() {
 
             if (this.filters.bills_status === 'all') {
@@ -154,6 +217,23 @@ export default {
 
         },
 
+        /**
+         * Return text displayed on campaign year button (second one when all four buttons are displayed).
+         */
+        campaignYearText: function() {
+            return 'Anul ' + this.filters.campaign_year;
+        },
+
+        /**
+         * Return text displayed on campaign number button (third one when all fourd are diplayed).
+         */
+        campaignNumberText: function() {
+            return 'Campania ' + this.filters.campaign_number;
+        },
+
+        /**
+         * Check if campaign year and campaign number buttons should be displayed.
+         */
         showSelectCustomCampaign: function() {
 
             if (this.filters.displayed_bills === 'custom_campaign') {

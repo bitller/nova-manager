@@ -19,6 +19,7 @@ class AppServiceProvider extends ServiceProvider {
         \Validator::extend('unique_product_code_for_current_user', 'App\CustomValidationRules\UniqueProductCodeForCurrentUser@validate');
         \Validator::extend('unique_product_code_for_current_user_except', 'App\CustomValidationRules\UniqueProductCodeForCurrentUserExcept@validate');
         \Validator::extend('product_belongs_to_current_user', 'App\CustomValidationRules\ProductBelongsToCurrentUser@validate');
+        \Validator::extend('campaign_number_belongs_to_selected_year', 'App\CustomValidationRules\CampaignNumberBelongsToSelectedYear@validate');
 
         \Braintree_Configuration::environment(env('BRAINTREE_ENV'));
         \Braintree_Configuration::merchantId(env('BRAINTREE_MERCHANT_ID'));

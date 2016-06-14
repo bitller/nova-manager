@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Bill;
 use App\Client;
 use App\Announcement;
-use App\InitialProduct;
 use App\Product;
-
+use App\InitialProduct;
 /**
  * Seeds users table.
  *
@@ -39,7 +39,7 @@ class UsersTableSeeder extends Seeder {
      *
      * @var integer
      */
-    protected $clientsPerUser = 1500;
+    protected $clientsPerUser = 15;
 
     /**
      * Number of bills to attach at each client.
@@ -47,6 +47,13 @@ class UsersTableSeeder extends Seeder {
      * @var integer
      */
     protected $billsPerClient = 3;
+
+    /**
+     * Number of products to attach to each bill.
+     *
+     * @var integer
+     */
+    protected $productsPerBill = 4;
 
     /**
      * Seeds table.
@@ -62,6 +69,18 @@ class UsersTableSeeder extends Seeder {
             $user->settings()->save(factory(App\Setting::class)->make());
             info('Generated settings for user ' . $user->email);
 
+            // Attach products to the user
+            $this->command->info('Populating products table.');
+            $initialProducts = InitialProduct::all();
+            foreach ($initialProducts as $product) {
+                Product::create([
+                    'user_id' => $user->id,
+                    'name' => $product->name,
+                    'code' => $product->code
+                ]);
+            }
+            $this->command->info('Products table populated.');
+
             // Attach clients
             for ($i = 1; $i <= $this->clientsPerUser; $i++) {
 
@@ -69,8 +88,11 @@ class UsersTableSeeder extends Seeder {
 
                 // Now attach bills to each client
                 for ($j = 1; $j <= $this->billsPerClient; $j++) {
-                    $client->bills()->save(factory(App\Bill::class)->make());
+                    $bill = $client->bills()->save(factory(App\Bill::class)->make());
                     // todo add products to each bill
+                    for ($k = 1; $k <= $this->productsPerBill; $k++) {
+                        $bill->products()->attach([Product::where('id', rand(1,1000))->first()->id => ['price' => '2.50']]);
+                    }
                 }
             }
 
@@ -98,17 +120,6 @@ class UsersTableSeeder extends Seeder {
                 }
             }
 
-            // Attach products to the user
-            $this->command->info('Populating products table.');
-            $initialProducts = InitialProduct::all();
-            foreach ($initialProducts as $product) {
-                Product::create([
-                    'user_id' => $user->id,
-                    'name' => $product->name,
-                    'code' => $product->code
-                ]);
-            }
-            $this->command->info('Products table populated.');
         });
     }
 }

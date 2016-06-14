@@ -54,12 +54,13 @@ class BillsController extends BaseController {
 
         $pagination = Auth::user()->bills()->select(
             'bills.payment_term', 'client.name as client_name',
-            'bills.campaign_order', 'campaign.number as campaign_number', 'campaign.year as campaign_year'
-            // DB::raw('SUM(products.final_price) as final_price')
+            'bills.campaign_order', 'campaign.number as campaign_number', 'campaign.year as campaign_year',
+            DB::raw('sum(bill_product.price) as price'), DB::raw('sum(bill_product.quantity) as quantity')
         )->leftJoin('clients as client', 'client.id', '=', 'bills.client_id')
-        ->leftJoin('campaigns as campaign', 'campaign.id', '=', 'bills.campaign_id');
-        // ->leftJoin('bill_products as bill_product', 'bill_product.bill_id', '=', 'bills.id')
-        // ->leftJoin('products as product', 'product.id', '=', 'bill_product.product_id');
+        ->leftJoin('campaigns as campaign', 'campaign.id', '=', 'bills.campaign_id')
+        ->leftJoin('bill_products as bill_product', 'bill_product.bill_id', '=', 'bills.id')
+        ->groupBy('bill_product.bill_id')
+        ->leftJoin('products as product', 'product.id', '=', 'bill_product.product_id');
 
 
         // Check if only bills from current campaign should be paginated
@@ -68,7 +69,7 @@ class BillsController extends BaseController {
 
         // Or only bills from a selected campaign
         } else if ($this->settings->displayed_bills_filter === $this->campaign['custom']) {
-            $pagination->where('campaign_id', Campaign::where('id', $this->settings->bills_filter_campaign_id));
+            $pagination->where('campaign_id', Campaign::where('id', $this->settings->bills_filter_campaign_id)->first()->id);
         }
 
         // Else paginate bills from all campaigns
@@ -97,8 +98,10 @@ class BillsController extends BaseController {
         // Check if user want only bills from a specific campaign
         if ($this->settings->displayed_bills_filter !== 'all' && is_numeric($this->settings->bills_filter_campaign_id)) {
             $campaign = Campaign::where('id', $this->settings->bills_filter_campaign_id)->first();
-            $filters['campaign_year'] = '$campaign->year';
-            $filters['campaign_number'] = '$campaign->number';
+            $filters['campaign_year'] = $campaign->year;
+            $filters['campaign_number'] = $campaign->number;
+            $filters['campaign_years'] = Campaign::groupBy('year')->get();
+            $filters['campaign_numbers'] = Campaign::select('number', 'year')->where('year', $campaign->year)->get();
         }
 
         return response()->json($filters);
@@ -142,7 +145,7 @@ class BillsController extends BaseController {
             'displayed_bills_filter' => $filter
         ];
 
-        if ($filter === 'current_campaign') {
+        if ($filter === 'current_campaign' || $filter === 'custom_campaign') {
             // Assign id of current campaign
             $newFilter['bills_filter_campaign_id'] = Campaign::current()->first()->id;
         }
@@ -169,11 +172,6 @@ class BillsController extends BaseController {
         ]);
     }
 
-    public function test() {
-        // App/Product::where('id', 1)->first
-        return Auth::user()->bills()->where('bills.id', 1)->first()->products()->get();
-    }
-
     public function updateCustomCampaign(Request $request) {
 
         $this->validate($reques, [
@@ -190,6 +188,48 @@ class BillsController extends BaseController {
         return response()->json([
             'title' => 'Succes!',
             'message' => 'Campania a fost selectata.'
+        ]);
+    }
+
+    /**
+     * Update campaign number filter.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function updateCampaignNumber(Request $request) {
+
+        $this->validateUpdateCampaignNumber($request);
+        $campaign = Campaign::where('id', $this->settings->bills_filter_campaign_id)->first();
+
+        // Update campaign
+        Auth::user()->settings()->update([
+            'bills_filter_campaign_id' => Campaign::where('year', $campaign->year)->where('number', $request->get('campaign_number'))->first()->id
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Campania a fost actualizata.'
+        ]);
+    }
+
+    /**
+     * Update campaign year filter.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function updateCampaignYear(Request $request) {
+
+        $this->validateUpdateCampaignYear($request);
+
+        Auth::user()->settings()->update([
+            'bills_filter_campaign_id' => Campaign::where('year', $request->get('campaign_year'))->first()->id
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Campania a fost actualizata.'
         ]);
     }
 
@@ -216,15 +256,49 @@ class BillsController extends BaseController {
         ]);
     }
 
+    /**
+     * Validate data used to update bills status filter.
+     *
+     * @param $request
+     */
     protected function validateUpdateBillsStatusFilter($request) {
         $this->validate($request, [
             'status' => ['required', 'string', 'in:all,paid,unpaid']
         ]);
     }
 
+    /**
+     * Validate data used to update displayed bills filter.
+     *
+     * @param $request
+     */
     protected function validateUpdateDisplayedBillsFilter($request) {
         $this->validate($request, [
             'type' => ['required', 'in:all,current_campaign,custom_campaign'],
+        ]);
+    }
+
+    /**
+     * Validate data used to update campaign number filter.
+     *
+     * @param $request
+     */
+    protected function validateUpdateCampaignNumber($request) {
+
+        $campaign = Campaign::where('id', $this->settings->bills_filter_campaign_id)->first();
+        $this->validate($request, [
+            'campaign_number' => ['required', 'numeric', 'campaign_number_belongs_to_selected_year:' . $campaign->year]
+        ]);
+    }
+
+    /**
+     * Validate data used to update campaign year filter.
+     *
+     * @param $request
+     */
+    protected function validateUpdateCampaignYear($request) {
+        $this->validate($request, [
+            'campaign_year' => ['requried', 'numeric', 'exists:campaigns,year']
         ]);
     }
 

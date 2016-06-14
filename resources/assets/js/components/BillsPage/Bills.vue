@@ -5,66 +5,76 @@
         <!-- BEIGN Bills -->
         <div class="col-md-12 primary">
             <div class="col-md-12">
-                <span class="primary-title">Sunt afișate toate facturile plătite și neplătite</span>
+                <span class="primary-title">{{ buildDisplayedBillsText }}</span>
             </div>
         </div>
 
         <div class="col-md-12 white last">
 
-            <filters></filters>
+            <big-bubbles-loader :loading="loadingBills"></big-bubbles-loader>
 
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <table class="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th class="text-center">Client</th>
-                                <th class="text-center">Produse</th>
-                                <th class="text-center">Preț</th>
-                                <th class="text-center">Comanda</th>
-                                <th class="text-center">Campania</th>
-                                <th class="text-center">Termen de plata</th>
-                                <th class="text-center">Deschide factura</th>
-                                <th class="text-center">Șterge</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="bill in bills.data">
-                                <td class="text-center vert-align"><a href="#">{{ bill.client_name }}</a></td>
-                                <td class="text-center vert-align"></td>
-                                <td class="text-center vert-align">ron</td>
-                                <td class="text-center vert-align">{{ bill.campaign_order }}</td>
-                                <td class="text-center vert-align">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>
-                                <td class="text-center vert-align">{{ bill.payment_term }}</td>
-                                <td class="text-center vert-align">
-                                    <div class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></div>
-                                </td>
-                                <td class="text-center vert-align">
-                                    <div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
-                                </td>
-                            </tr>
+            <div v-show="showBills">
 
-                        </tbody>
-                    </table>
+                <filters></filters>
+
+                <alert-warning v-if="noBills" message="Nu exista facturi care sa respecte crteriile alese."></alert-warning>
+
+                <div v-if="!noBills" class="col-md-12">
+                    <div class="panel panel-default">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">Client</th>
+                                    <th class="text-center">Produse</th>
+                                    <th class="text-center">Preț</th>
+                                    <th class="text-center">Comanda</th>
+                                    <th class="text-center">Campania</th>
+                                    <th class="text-center">Termen de plata</th>
+                                    <th class="text-center">Deschide factura</th>
+                                    <th class="text-center">Șterge</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="bill in bills.data">
+                                    <td class="text-center vert-align"><a href="#">{{ bill.client_name }}</a></td>
+                                    <td class="text-center vert-align">{{ bill.quantity }}</td>
+                                    <td class="text-center vert-align">{{ bill.price }} ron</td>
+                                    <td class="text-center vert-align">{{ bill.campaign_order }}</td>
+                                    <td class="text-center vert-align">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>
+                                    <td class="text-center vert-align">{{ bill.payment_term }}</td>
+                                    <td class="text-center vert-align">
+                                        <div class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></div>
+                                    </td>
+                                    <td class="text-center vert-align">
+                                        <div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+
+                <div v-if="!noBills" class="col-md-12">
+                    <span class="grey">Este afișată pagina {{ bills.current_page }} din {{ bills.last_page }}</span>
+                </div>
+
+                <!-- BEGIN Pagination -->
+                <div v-show="showPagination">
+                    <div class="col-md-6">
+                        <div @click="previousPage" :class="{ 'disabled': !bills.prev_page_url }" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
+                    </div>
+                    <div class="col-md-6">
+                        <div @click="nextPage" :class="{ 'disabled': !bills.next_page_url }" class="btn btn-primary pull-left">Pagina urmatoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span></div>
+                    </div>
+                </div>
+                <!-- END Pagination -->
+
             </div>
 
-            <div class="col-md-12">
-                <span class="grey">Este afișată pagina {{ bills.current_page }} din {{ bills.last_page }}</span>
-            </div>
-
-            <!-- BEGIN Pagination -->
-            <div class="col-md-6">
-                <div @click="previousPage" :class="{ 'disabled': !bills.prev_page_url }" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
-            </div>
-            <div class="col-md-6">
-                <div @click="nextPage" :class="{ 'disabled': !bills.next_page_url }" class="btn btn-primary pull-left">Pagina urmatoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>
-            </div>
-            <!-- END Pagination -->
+            <alert-danger :message="serverError"></alert-danger>
 
         </div>
-        <!-- END Bills -->
-
     </div>
 
 </template>
@@ -72,17 +82,25 @@
 <script>
 
 import Filters from '../../components/BillsPage/Bills/Filters.vue';
+import AlertDanger from '../../components/Alerts/AlertDanger.vue';
+import AlertWarning from '../../components/Alerts/AlertWarning.vue';
+import BigBubblesLoader from '../../components/Loaders/BigBubblesLoader.vue';
 
 export default {
 
     components: {
         'filters': Filters,
+        'alert-danger': AlertDanger,
+        'alert-warning': AlertWarning,
+        'big-bubbles-loader': BigBubblesLoader,
     },
 
     data: function() {
         return {
             loadingBills: false,
             bills: '',
+            serverError: false,
+            filters: '',
         }
     },
 
@@ -131,23 +149,86 @@ export default {
                 }
 
             }, function (error) {
-                //
+                vm.serverError = 'O eroare a avut loc. Redeschide aplicatia pentru a incerca din nou.';
             });
 
         },
 
         changeDisplayedBills: function() {
             //
-        }
-
+        },
     },
 
     computed: {
 
         displayedBillsText: function() {
             return 'Toate facturile';
+        },
+
+        showPagination: function() {
+            if (!this.bills.next_page_url && !this.bills.prev_page_url) {
+                return false;
+            }
+            return true;
+        },
+
+        showBills: function() {
+            if (this.serverError || this.loadingBills) {
+                return false;
+            }
+            return true;
+        },
+
+        noBills: function() {
+            if (this.bills.total < 1) {
+                return true;
+            }
+            return false;
+        },
+
+        buildDisplayedBillsText: function() {
+
+            if (this.filters.displayed_bills == 'all') {
+                if (this.filters.bills_status === 'all') {
+                    return 'Sunt afișate toate facturile plătite și neplătite';
+                }
+
+                if (this.filters.bills_status === 'paid') {
+                    return 'Sunt afișate toate facturile plătite';
+                }
+
+                if (this.filters.bills_status === 'unpaid') {
+                    return 'Sunt afișate toate facturile neplătite';
+                }
+            }
+
+            if (this.filters.displayed_bills === 'current_campaign' || this.filters.displayed_bills === 'custom_campaign') {
+                if (this.filters.bills_status === 'all') {
+                    return 'Sunt afișate facturile plătite și neplătite din campania ' + this.filters.campaign_number + '/' + this.filters.campaign_year;
+                }
+
+                if (this.filters.bills_status === 'paid') {
+                    return 'Sunt afișate facturile plătite din campania ' + this.filters.campaign_number + '/' + this.filters.campaign_year;
+                }
+
+                if (this.filters.bills_status === 'unpaid') {
+                    return 'Sunt afișate facturile neplătite din campania ' + this.filters.campaign_number + '/' + this.filters.campaign_year;
+                }
+            }
         }
 
+
+    },
+
+    events: {
+
+        'reloadBills': function() {
+            this.paginateBills();
+        },
+
+        'filtersUpdated': function(filters) {
+            this.filters = filters;
+        }
     }
 
 }
