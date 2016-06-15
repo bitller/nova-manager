@@ -23,5 +23,15 @@ export default {
         'bills': Bills,
     },
 
+    events: {
+        'reloadBills': function() {
+            this.$broadcast('reloadBills');
+        },
+
+        'numberOfBillsUpdated': function(numberOfBills) {
+            this.$broadcast('numberOfBillsUpdated', numberOfBills);
+        }
+    }
+
 }
 </script>

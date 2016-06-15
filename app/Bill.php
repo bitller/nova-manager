@@ -18,7 +18,7 @@ class Bill extends Model {
      *
      * @var array
      */
-    protected $fillable = ['campaign_order', 'payment_term', 'other_details', 'paid'];
+    protected $fillable = ['campaign_order', 'payment_term', 'other_details', 'paid', 'campaign_id'];
 
     /**
      * The products of the bill.

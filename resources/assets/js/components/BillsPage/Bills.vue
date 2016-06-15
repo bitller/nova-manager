@@ -37,11 +37,11 @@
                             <tbody>
                                 <tr v-for="bill in bills.data">
                                     <td class="text-center vert-align"><a href="#">{{ bill.client_name }}</a></td>
-                                    <td class="text-center vert-align">{{ bill.quantity }}</td>
-                                    <td class="text-center vert-align">{{ bill.price }} ron</td>
+                                    <td class="text-center vert-align">{{ displayedNumberOfProducts(bill.quantity) }}</td>
+                                    <td class="text-center vert-align">{{ displayPrice(bill.price) }} ron</td>
                                     <td class="text-center vert-align">{{ bill.campaign_order }}</td>
                                     <td class="text-center vert-align">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>
-                                    <td class="text-center vert-align">{{ bill.payment_term }}</td>
+                                    <td class="text-center vert-align">{{ displayPaymentTerm(bill.payment_term) }}</td>
                                     <td class="text-center vert-align">
                                         <div class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></div>
                                     </td>
@@ -143,6 +143,7 @@ export default {
 
                 vm.loadingBills = false;
                 vm.bills = success.data;
+                vm.$dispatch('numberOfBillsUpdated', success.data.total);
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -152,6 +153,27 @@ export default {
                 vm.serverError = 'O eroare a avut loc. Redeschide aplicatia pentru a incerca din nou.';
             });
 
+        },
+
+        displayPaymentTerm: function(paymentTerm) {
+            if (paymentTerm === '0000-00-00') {
+                return 'Nu a fost setat';
+            }
+            return paymentTerm;
+        },
+
+        displayedNumberOfProducts: function(numberOfProducts) {
+            if (!numberOfProducts) {
+                return 0;
+            }
+            return numberOfProducts;
+        },
+
+        displayPrice: function(price) {
+            if (!price) {
+                return 0;
+            }
+            return price;
         },
 
         changeDisplayedBills: function() {

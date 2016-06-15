@@ -89,7 +89,7 @@ export default {
         getFilters: function() {
 
             var vm = this;
-            this.$http.get('/dashboard/bills/get-filters').then(function (success) {
+            this.$http.get('/dashboard/bills/filters').then(function (success) {
                 vm.filters = success.data;
                 vm.$dispatch('filtersUpdated', success.data);
             }, function (error) {
@@ -106,9 +106,11 @@ export default {
                 type: type
             };
 
-            this.$http.post('/dashboard/bills/update-displayed-bills-filter', filter).then(function (success) {
-                vm.filters.displayed_bills = type;
+            this.$http.post('/dashboard/bills/filters/update-displayed-bills', filter).then(function (success) {
+
+                vm.filters = success.data.filters;
                 vm.$dispatch('reloadBills');
+
             }, function (error) {
                 //
             });
@@ -123,8 +125,8 @@ export default {
                 status: status
             }
 
-            this.$http.post('/dashboard/bills/update-bills-status-filter', billsType).then(function (success) {
-                vm.filters.bills_status = status;
+            this.$http.post('/dashboard/bills/filters/update-bills-status', billsType).then(function (success) {
+                vm.filters = success.data.filters;
                 vm.$dispatch('reloadBills');
             }, function (error) {
                 //
@@ -148,8 +150,8 @@ export default {
                 campaign_number: campaignNumber
             };
 
-            this.$http.post('/dashboard/bills/update-campaign-number', data).then(function (success) {
-                vm.filters.campaign_number = campaignNumber;
+            this.$http.post('/dashboard/bills/filters/update-campaign-number', data).then(function (success) {
+                vm.filters = success.data.filters;
                 vm.$dispatch('reloadBills');
             }, function (error) {
                 //
@@ -170,8 +172,8 @@ export default {
                 campaign_year: campaignYear
             };
 
-            this.$http.post('/dashboard/bills/update-campaign-year', data).then(function (success) {
-                vm.filters.campaign_year = campaignYear;
+            this.$http.post('/dashboard/bills/filters/update-campaign-year', data).then(function (success) {
+                vm.filters = success.data.filters;
                 vm.$dispatch('reloadBills');
             }, function (error) {
                 //

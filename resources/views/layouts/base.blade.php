@@ -116,8 +116,9 @@
         </div>
     </div>
 
+    @yield('scripts-before-app.js')
     <script src="/js/app.js"></script>
-    @yield('scripts')
+    @yield('scripts-after-app.js')
 </div>
 <!-- END Wrapper -->
 

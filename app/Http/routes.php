@@ -15,19 +15,36 @@ Route::group(['namespace' => 'Auth'], function() {
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function() {
 
     // Bills
-    Route::get('/', 'BillsController@index');
-    Route::group(['prefix' => 'bills'], function() {
-        Route::get('/', 'BillsController@index');
-        Route::get('/paginate', 'BillsController@paginate');
-        Route::get('/get-filters', 'BillsController@getFilters');
-        Route::get('/suggest-clients', 'BillsController@suggestClients');
-        Route::post('/update-displayed-bills-filter', 'BillsController@updateDisplayedBillsFilter');
-        Route::post('/update-custom-campaign', 'BillsController@updateCustomCampaign');
-        Route::post('/update-bills-status-filter', 'BillsController@updateBillsStatusFilter');
-        Route::post('/update-campaign-number', 'BillsController@updateCampaignNumber');
-        Route::post('/update-campaign-year', 'BillsController@updateCampaignYear');
-        Route::get('/test', 'BillsController@test');
-        Route::get('/{billId}', 'BillsController@bill');
+    Route::get('/', 'Bills\IndexController@index');
+    Route::group(['prefix' => 'bills', 'namespace' => 'Bills'], function() {
+
+        Route::get('/', 'IndexController@index');
+        Route::get('/paginate', 'IndexController@paginate');
+        Route::get('/suggest-clients', 'IndexController@suggestClients');
+        Route::post('/new', 'IndexController@create');
+
+        // Filters for bills pagination
+        Route::group(['prefix' => 'filters'], function() {
+            Route::get('/', 'FiltersController@filters');
+            Route::post('/update-displayed-bills', 'FiltersController@updateDisplayedBillsFilter');
+            // Route::post('/update-custom-campaign', 'FiltersController@updateCustomCampaign');
+            Route::post('/update-bills-status', 'FiltersController@updateBillsStatusFilter');
+            Route::post('/update-campaign-number', 'FiltersController@updateCampaignNumber');
+            Route::post('/update-campaign-year', 'FiltersController@updateCampaignYear');
+        });
+        // Route::get('/filters', 'FiltersController@filters');
+        //
+        // Route::post('/update-displayed-bills-filter', 'BillsController@updateDisplayedBillsFilter');
+        // Route::post('/update-custom-campaign', 'BillsController@updateCustomCampaign');
+        // Route::post('/update-bills-status-filter', 'BillsController@updateBillsStatusFilter');
+        // Route::post('/update-campaign-number', 'BillsController@updateCampaignNumber');
+        // Route::post('/update-campaign-year', 'BillsController@updateCampaignYear');
+
+        Route::group(['prefix' => '{billId}'], function() {
+            Route::get('/', 'BillController@index');
+        });
+
+        // Route::get('/{billId}', 'BillsController@bill');
     });
 
     // User clients
