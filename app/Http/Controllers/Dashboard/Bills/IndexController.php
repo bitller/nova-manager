@@ -148,8 +148,22 @@ class IndexController extends BaseController {
         return Auth::user()->clients()->where('name', 'like', $request->get('query') . '%')->take(10)->get();
     }
 
-    public function delete() {
-        //
+    /**
+     * Allow user to delete bills.
+     *
+     * @param  Request $request
+     * @return Response
+     */
+    public function delete(Request $request) {
+
+        $this->validateDeleteBillData($request);
+
+        Auth::user()->bills()->where('bills.id', $request->get('bill_id'))->delete();
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Factura a fost ștearsă.'
+        ]);
     }
 
     /**
@@ -160,6 +174,17 @@ class IndexController extends BaseController {
     protected function validateCreateBillData($request) {
         $this->validate($request, [
             'client_name' => ['required', 'string', 'between:3,50']
+        ]);
+    }
+
+    /**
+     * Validate data used to delete a bill.
+     *
+     * @param $request
+     */
+    protected function validateDeleteBillData($request) {
+        $this->validate($request, [
+            'bill_id' => ['required', 'numeric', 'bill_belongs_to_current_user']
         ]);
     }
 

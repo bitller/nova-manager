@@ -17,6 +17,10 @@ class CreateBillProductsTable extends Migration {
             $table->bigInteger('product_id')->unsigned();
             $table->smallInteger('quantity')->unsigned()->default(1);
             $table->double('price');
+            $table->smallInteger('page');
+            $table->double('price_without_discount');
+            $table->tinyInteger('discount')->unsigned()->default(0);
+            $table->boolean('available_now')->unsigned()->default(true);
             $table->timestamps();
 
             $table->foreign('bill_id')->references('id')->on('bills')->onDelete('cascade')->onUpdate('cascade');

@@ -29,7 +29,7 @@
                         </thead>
                         <tbody>
                             <tr v-for="client in clients.data">
-                                <td class="vert-align"><img src="http://lorempixel.com/40/40" class="client-picture" /><span class="client-name-in-table"><a href="/dashboard/clients/{{client.id}}">{{ client.name }}</a></span></td>
+                                <td class="text-center vert-align"><span class="client-name-in-table"><a href="/dashboard/clients/{{client.id}}">{{ client.name }}</a></span></td>
                                 <td class="text-center vert-align">{{ showClientPhoneNumber(client) }}</td>
                                 <td class="text-center vert-align">{{ showClientEmail(client) }}</td>
                                 <td class="text-center vert-align">{{ showClientNumberOfBills(client) }}</td>
@@ -53,7 +53,7 @@
                 <div @click="previousPage" :class="{ 'disabled': !clients.prev_page_url }" class="btn btn-primary pull-right"><span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Pagina anterioară</div>
             </div>
             <div v-show="showPagination" class="col-md-6">
-                <div @click="nextPage" :class="{ 'disabled': !clients.next_page_url }" class="btn btn-primary pull-left">Pagina urmatoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>
+                <div @click="nextPage" :class="{ 'disabled': !clients.next_page_url }" class="btn btn-primary pull-left">Pagina următoare&nbsp;<span class="glyphicon glyphicon-arrow-right"></span>
             </div>
             <!-- END Pagination -->
 
@@ -199,7 +199,7 @@ export default {
         },
 
         showClientPhoneNumber: function(client) {
-            if (client.phone_number == null) {
+            if (client.phone_number == null || !client.phone_number) {
                 return 'Nu a fost setat';
             }
 

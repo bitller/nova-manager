@@ -48964,15 +48964,75 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = {
 
+    ready: function ready() {
+        this.getData();
+    },
+
+    props: ['billId'],
+
+    data: function data() {
+        return {
+            products: {
+                available: '',
+                notAvailable: ''
+            }
+        };
+    },
+
     components: {
         'bill-header': _BillHeader2.default,
         'products': _Products2.default,
         'informations': _Informations2.default
+    },
+
+    methods: {
+        getData: function getData() {
+
+            this.loading = true;
+            var vm = this;
+
+            this.$http.get('/dashboard/bills/' + this.billId + '/get').then(function (success) {
+                vm.loading = false;
+                vm.products.available = success.data.products;
+                vm.products.notAvailable = success.data.not_available_products;
+            }, function (error) {
+                //
+            });
+        },
+
+        getOnlyProducts: function getOnlyProducts(callback) {
+
+            var vm = this;
+
+            this.$http.get('/dashboard/bills/' + this.billId + '/get-only-products').then(function (success) {
+
+                vm.products.available = success.data.products;
+                vm.products.notAvailable = success.data.not_available_products;
+
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+            }, function (error) {
+                //
+            });
+        }
+    },
+
+    events: {
+
+        'reloadProducts': function reloadProducts(callback) {
+            if (typeof callback !== 'undefined') {
+                this.getOnlyProducts(callback);
+                return;
+            }
+            this.getOnlyProducts();
+        }
+
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <bill-header></bill-header>\n        <products></products>\n        <informations></informations>\n    </div>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"page-container\">\n\n    <div class=\"row\">\n        <bill-header></bill-header>\n        <products :bill-id=\"billId\" :products=\"products\"></products>\n        <informations></informations>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -48984,6 +49044,8 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../components/BillPage/BillHeader.vue":121,"../components/BillPage/Informations.vue":122,"../components/BillPage/Products.vue":124,"vue":83,"vue-hot-reload-api":81}],121:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n.options-menu {\n    display: inline-block;\n}\n\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -48993,18 +49055,22 @@ exports.default = {
     //
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Bill owner and bill campaign -->\n        <div class=\"col-md-9\">\n            <div class=\"col-md-2\">\n                <img class=\"client-picture\" src=\"http://lorempixel.com/70/70\">\n            </div>\n            <div class=\"col-md-10 bill-details\">\n                <span class=\"page-title grey-dark\">John Doe</span>\n                <span class=\"page-description grey\">Comanda 1 din campania <a href=\"#\">4/2016</a>\n            </span></div>\n        </div>\n        <!-- END Bill owner and bill campaign -->\n\n        <!-- BEGIN Buttons -->\n        <div class=\"col-md-3\">\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-print\"></span></div>\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-cog\"></span></div>\n            <div class=\"btn btn-success pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adaugă produs</div>\n        </div>\n        <!-- END Buttons -->\n\n        <div class=\"col-md-12 alerts\">\n\n            <!-- BEGIN Payment term not set alert -->\n            <div class=\"alert alert-warning\">\n                Seteaza termenul de plata pentru aceasta factura.\n            </div>\n            <!-- END Payment term not set alert -->\n\n            <!-- BEGIN Payment term expired -->\n            <div class=\"alert alert-danger\">\n                Aceasta factura trebuia platita pana in data de 9.03.2016.\n            </div>\n            <!-- END Payment term expired -->\n\n        </div>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Bill owner and bill campaign -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\">John Doe</span>\n            <span class=\"page-description grey\">Comanda 1 din campania <a href=\"#\">4/2016</a>\n        </span></div>\n        <!-- END Bill owner and bill campaign -->\n\n        <!-- BEGIN Buttons -->\n        <div class=\"col-md-3\">\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-print\"></span></div>\n            <div class=\"dropdown options-menu\">\n                <button class=\"btn btn-primary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                    <span class=\"glyphicon glyphicon-cog\"></span>\n                </button>\n                    <ul class=\"dropdown-menu\">\n                        <li><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca plătită</a></li>\n                        <li><a href=\"#\"><span class=\"glyphicon glyphicon-calendar\"></span>&nbsp;Setează termenul de plată</a></li>\n                        <li><a href=\"#\"><span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;Editează detaliile suplimentare</a></li>\n                        <li class=\"divider\"></li>\n                        <li><a href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge factura</a></li>\n                    </ul>\n            </div>\n            <div class=\"btn btn-success pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adaugă produs</div>\n        </div>\n        <!-- END Buttons -->\n\n        <div class=\"col-md-12 alerts\">\n\n            <!-- BEGIN Payment term not set alert -->\n            <div class=\"alert alert-warning\">\n                Seteaza termenul de plata pentru aceasta factura.\n            </div>\n            <!-- END Payment term not set alert -->\n\n            <!-- BEGIN Payment term expired -->\n            <div class=\"alert alert-danger\">\n                Aceasta factura trebuia platita pana in data de 9.03.2016.\n            </div>\n            <!-- END Payment term expired -->\n\n        </div>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n.options-menu {\n    display: inline-block;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
   if (!module.hot.data) {
     hotAPI.createRecord("_v-a23e9df0", module.exports)
   } else {
     hotAPI.update("_v-a23e9df0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":83,"vue-hot-reload-api":81}],122:[function(require,module,exports){
+},{"vue":83,"vue-hot-reload-api":81,"vueify/lib/insert-css":84}],122:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -49049,16 +49115,101 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":83,"vue-hot-reload-api":81}],124:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    props: ['products', 'billId'],
+
+    methods: {
+
+        deleteProductConfirmation: function deleteProductConfirmation(productId) {
+
+            var vm = this;
+
+            swal({
+                title: 'Sunteți sigur?',
+                text: ' Sigur doriți să ștergeți acest produs?',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                cancelButtonColor: '#bdc3c7',
+                confirmButtonColor: "#E05082",
+                confirmButtonText: "Șterge produsul",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                vm.deleteProduct(productId);
+            });
+        },
+
+        deleteProduct: function deleteProduct(productId) {
+
+            var vm = this;
+            var product = {
+                _token: $('#token').attr('content'),
+                product_id: productId
+            };
+
+            this.$http.post('/dashboard/bills/' + this.billId + '/delete-product', product).then(function (success) {
+                vm.$dispatch('reloadProducts', function () {
+                    vm.$dispatch('success_alert', success.data.title, success.data.message);
+                });
+            }, function (error) {
+
+                var title = 'Ooops.';
+                var message = 'O eroare a avut loc.';
+
+                if (error.data.title) {
+                    title = error.data.title;
+                }
+                if (error.data.message) {
+                    message = error.data.message;
+                }
+
+                vm.$dispatch('error_alert', title, message);
+            });
+        },
+
+        showProductPage: function showProductPage(page) {
+            if (page < 1) {
+                return '-';
+            }
+            return page;
+        }
+    },
+
+    computed: {
+
+        existsAvailableProducts: function existsAvailableProducts() {
+
+            var count = 0;
+            for (var product in this.products.available) {
+                count++;
+                break;
+            }
+
+            return count;
+        },
+
+        existsNotAvailableProducts: function existsNotAvailableProducts() {
+
+            var count = 0;
+            for (var product in this.products.notAvailable) {
+                count++;
+                break;
+            }
+
+            return count;
+        }
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <!-- BEGIN Products -->\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produsele acestei facturi</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț final</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"1 in 10\">\n                            <td class=\"text-center vert-align\">4</td>\n                            <td class=\"text-center vert-align\">21313</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">\n                                <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n    <!-- END Products -->\n\n    <!-- BEGIN Not available products -->\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse indisponibile care o sa fie livrate data viitoare</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white\">\n\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț final</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"1 in 2\">\n                            <td class=\"text-center vert-align\">4</td>\n                            <td class=\"text-center vert-align\">21313</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">john@example.com</td>\n                            <td class=\"text-center vert-align\">\n                                <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n\n    </div>\n    <!-- END Not available products -->\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <!-- BEGIN Products -->\n    <div v-show=\"existsAvailableProducts\" class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produsele acestei facturi</span>\n        </div>\n    </div>\n\n    <div v-show=\"existsAvailableProducts\" class=\"col-md-12 white\">\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț final</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"product in products.available\">\n                            <td class=\"text-center vert-align\">{{ showProductPage(product.pivot.page) }}</td>\n                            <td class=\"text-center vert-align\">{{ product.code }}</td>\n                            <td class=\"text-center vert-align\">{{ product.name }}</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.quantity }}</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.price }} ron</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.discount }}%</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.price_without_discount }} ron</td>\n                            <td class=\"text-center vert-align\">\n                                <div @click=\"deleteProductConfirmation(product.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n    <!-- END Products -->\n\n    <!-- BEGIN Not available products -->\n    <div v-show=\"existsNotAvailableProducts\" class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse indisponibile care o sa fie livrate data viitoare</span>\n        </div>\n    </div>\n\n    <div v-show=\"existsNotAvailableProducts\" class=\"col-md-12 white\">\n\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț final</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"product in products.notAvailable\">\n                            <td class=\"text-center vert-align\">{{ showProductPage(product.pivot.page) }}</td>\n                            <td class=\"text-center vert-align\">{{ product.code }}</td>\n                            <td class=\"text-center vert-align\">{{ product.name }}</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.quantity }}</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.price }} ron</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.discount }}%</td>\n                            <td class=\"text-center vert-align\">{{ product.pivot.price_without_discount }} ron</td>\n                            <td class=\"text-center vert-align\">\n                                <div @click=\"deleteProductConfirmation(product.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n\n    </div>\n    <!-- END Not available products -->\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49208,6 +49359,46 @@ exports.default = {
             });
         },
 
+        deleteBillConfirmation: function deleteBillConfirmation(billId) {
+            var vm = this;
+
+            swal({
+                title: 'Sunteți sigur?',
+                text: ' Odată ștearsă, o factură nu mai poate fi recuperată.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                cancelButtonColor: '#bdc3c7',
+                confirmButtonColor: "#E05082",
+                confirmButtonText: "Șterge factura",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function () {
+                vm.deleteBill(billId);
+            });
+        },
+
+        deleteBill: function deleteBill(billId) {
+
+            var vm = this;
+
+            var bill = {
+                _token: $('#token').attr('content'),
+                bill_id: billId
+            };
+
+            this.$http.post('/dashboard/bills/delete', bill).then(function (success) {
+
+                var url = '/dashboard/bills/paginate?page=' + vm.bills.current_page;
+                vm.paginateBills(url, function () {
+                    vm.$dispatch('success_alert', success.data.title, success.data.message);
+                });
+            }, function (error) {
+
+                vm.$dispatch('error_alert', 'Ooops.', 'O eroare a avut loc.');
+            });
+        },
+
         displayPaymentTerm: function displayPaymentTerm(paymentTerm) {
             if (paymentTerm === '0000-00-00') {
                 return 'Nu a fost setat';
@@ -49307,7 +49498,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <!-- BEIGN Bills -->\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">{{ buildDisplayedBillsText }}</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white last\">\n\n        <big-bubbles-loader :loading=\"loadingBills\"></big-bubbles-loader>\n\n        <div v-show=\"showBills\">\n\n            <filters></filters>\n\n            <alert-warning v-if=\"noBills\" message=\"Nu exista facturi care sa respecte crteriile alese.\"></alert-warning>\n\n            <div v-if=\"!noBills\" class=\"col-md-12\">\n                <div class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Client</th>\n                                <th class=\"text-center\">Produse</th>\n                                <th class=\"text-center\">Preț</th>\n                                <th class=\"text-center\">Comanda</th>\n                                <th class=\"text-center\">Campania</th>\n                                <th class=\"text-center\">Termen de plata</th>\n                                <th class=\"text-center\">Deschide factura</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"bill in bills.data\">\n                                <td class=\"text-center vert-align\"><a href=\"#\">{{ bill.client_name }}</a></td>\n                                <td class=\"text-center vert-align\">{{ displayedNumberOfProducts(bill.quantity) }}</td>\n                                <td class=\"text-center vert-align\">{{ displayPrice(bill.price) }} ron</td>\n                                <td class=\"text-center vert-align\">{{ bill.campaign_order }}</td>\n                                <td class=\"text-center vert-align\">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>\n                                <td class=\"text-center vert-align\">{{ displayPaymentTerm(bill.payment_term) }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <div class=\"btn btn-success\"><span class=\"glyphicon glyphicon-eye-open\"></span></div>\n                                </td>\n                                <td class=\"text-center vert-align\">\n                                    <div class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-if=\"!noBills\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ bills.current_page }} din {{ bills.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\">\n                <div class=\"col-md-6\">\n                    <div @click=\"previousPage\" :class=\"{ 'disabled': !bills.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n                </div>\n                <div class=\"col-md-6\">\n                    <div @click=\"nextPage\" :class=\"{ 'disabled': !bills.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span></div>\n                </div>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n\n        <alert-danger :message=\"serverError\"></alert-danger>\n\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <!-- BEIGN Bills -->\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">{{ buildDisplayedBillsText }}</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white last\">\n\n        <big-bubbles-loader :loading=\"loadingBills\"></big-bubbles-loader>\n\n        <div v-show=\"showBills\">\n\n            <filters></filters>\n\n            <alert-warning v-if=\"noBills\" message=\"Nu exista facturi care sa respecte crteriile alese.\"></alert-warning>\n\n            <div v-if=\"!noBills\" class=\"col-md-12\">\n                <div class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Client</th>\n                                <th class=\"text-center\">Produse</th>\n                                <th class=\"text-center\">Preț</th>\n                                <th class=\"text-center\">Comanda</th>\n                                <th class=\"text-center\">Campania</th>\n                                <th class=\"text-center\">Termen de plata</th>\n                                <th class=\"text-center\">Deschide factura</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"bill in bills.data\">\n                                <td class=\"text-center vert-align\"><a href=\"/dashboard/clients/{{bill.client_id}}\">{{ bill.client_name }}</a></td>\n                                <td class=\"text-center vert-align\">{{ displayedNumberOfProducts(bill.quantity) }}</td>\n                                <td class=\"text-center vert-align\">{{ displayPrice(bill.price) }} ron</td>\n                                <td class=\"text-center vert-align\">{{ bill.campaign_order }}</td>\n                                <td class=\"text-center vert-align\">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>\n                                <td class=\"text-center vert-align\">{{ displayPaymentTerm(bill.payment_term) }}</td>\n                                <td class=\"text-center vert-align\">\n                                    <a href=\"/dashboard/bills/{{bill.id}}\" <div=\"\" class=\"btn btn-success\"><span class=\"glyphicon glyphicon-eye-open\"></span>\n                                </a></td>\n                                <td class=\"text-center vert-align\">\n                                    <div @click=\"deleteBillConfirmation(bill.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-if=\"!noBills\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ bills.current_page }} din {{ bills.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\">\n                <div class=\"col-md-6\">\n                    <div @click=\"previousPage\" :class=\"{ 'disabled': !bills.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n                </div>\n                <div class=\"col-md-6\">\n                    <div @click=\"nextPage\" :class=\"{ 'disabled': !bills.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span></div>\n                </div>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n\n        <alert-danger :message=\"serverError\"></alert-danger>\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -50633,7 +50824,7 @@ exports.default = {
         },
 
         showClientPhoneNumber: function showClientPhoneNumber(client) {
-            if (client.phone_number == null) {
+            if (client.phone_number == null || !client.phone_number) {
                 return 'Nu a fost setat';
             }
 
@@ -50704,7 +50895,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"vert-align\"><img src=\"http://lorempixel.com/40/40\" class=\"client-picture\"><span class=\"client-name-in-table\"><a href=\"/dashboard/clients/{{client.id}}\">{{ client.name }}</a></span></td>\n                                <td class=\"text-center vert-align\">{{ showClientPhoneNumber(client) }}</td>\n                                <td class=\"text-center vert-align\">{{ showClientEmail(client) }}</td>\n                                <td class=\"text-center vert-align\">{{ showClientNumberOfBills(client) }}</td>\n\n                                <td class=\"text-center vert-align\">\n                                    <div @click=\"askForDeleteClientConfirmation(client.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina urmatoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <div class=\"col-md-12\">\n\n        <!-- BEIGN Clients -->\n        <div class=\"col-md-12 primary\">\n            <div class=\"col-md-12\">\n                <span class=\"primary-title\">Clienții dumneavoastră</span>\n            </div>\n        </div>\n\n        <div class=\"col-md-12 white last\">\n            <div class=\"col-md-12\">\n\n                <div v-show=\"showNoSearchResults\" class=\"alert alert-warning\">\n                    Cautarea <strong>{{ searched }}</strong> nu a returnat niciun rezultat. Incearcati cu alt nume, numar de telefon sau adresa de email.\n                </div>\n\n                <div v-show=\"showClientsTable\" class=\"panel panel-default\">\n                    <table class=\"table table-bordered\">\n                        <thead>\n                            <tr>\n                                <th class=\"text-center\">Nume</th>\n                                <th class=\"text-center\">Număr de telefon</th>\n                                <th class=\"text-center\">Adresă de email</th>\n                                <th class=\"text-center\">Comenzi efectuate</th>\n                                <th class=\"text-center\">Șterge</th>\n                            </tr>\n                        </thead>\n                        <tbody>\n                            <tr v-for=\"client in clients.data\">\n                                <td class=\"text-center vert-align\"><span class=\"client-name-in-table\"><a href=\"/dashboard/clients/{{client.id}}\">{{ client.name }}</a></span></td>\n                                <td class=\"text-center vert-align\">{{ showClientPhoneNumber(client) }}</td>\n                                <td class=\"text-center vert-align\">{{ showClientEmail(client) }}</td>\n                                <td class=\"text-center vert-align\">{{ showClientNumberOfBills(client) }}</td>\n\n                                <td class=\"text-center vert-align\">\n                                    <div @click=\"askForDeleteClientConfirmation(client.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                                </td>\n                            </tr>\n\n                        </tbody>\n                    </table>\n                </div>\n            </div>\n\n            <div v-show=\"showPageNumber\" class=\"col-md-12\">\n                <span class=\"grey\">Este afișată pagina {{ clients.current_page}} din {{ clients.last_page }}</span>\n            </div>\n\n            <!-- BEGIN Pagination -->\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"previousPage\" :class=\"{ 'disabled': !clients.prev_page_url }\" class=\"btn btn-primary pull-right\"><span class=\"glyphicon glyphicon-arrow-left\"></span>&nbsp;Pagina anterioară</div>\n            </div>\n            <div v-show=\"showPagination\" class=\"col-md-6\">\n                <div @click=\"nextPage\" :class=\"{ 'disabled': !clients.next_page_url }\" class=\"btn btn-primary pull-left\">Pagina următoare&nbsp;<span class=\"glyphicon glyphicon-arrow-right\"></span>\n            </div>\n            <!-- END Pagination -->\n\n        </div>\n        <!-- END Clients -->\n\n    </div>\n\n</div>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

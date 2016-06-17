@@ -1,4 +1,4 @@
-<template>
+4<template>
 
     <div class="col-md-12">
 
@@ -36,17 +36,17 @@
                             </thead>
                             <tbody>
                                 <tr v-for="bill in bills.data">
-                                    <td class="text-center vert-align"><a href="#">{{ bill.client_name }}</a></td>
+                                    <td class="text-center vert-align"><a href="/dashboard/clients/{{bill.client_id}}">{{ bill.client_name }}</a></td>
                                     <td class="text-center vert-align">{{ displayedNumberOfProducts(bill.quantity) }}</td>
                                     <td class="text-center vert-align">{{ displayPrice(bill.price) }} ron</td>
                                     <td class="text-center vert-align">{{ bill.campaign_order }}</td>
                                     <td class="text-center vert-align">{{ bill.campaign_number }}/{{ bill.campaign_year }}</td>
                                     <td class="text-center vert-align">{{ displayPaymentTerm(bill.payment_term) }}</td>
                                     <td class="text-center vert-align">
-                                        <div class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></div>
+                                        <a href="/dashboard/bills/{{bill.id}}"<div class="btn btn-success"><span class="glyphicon glyphicon-eye-open"></span></div>
                                     </td>
                                     <td class="text-center vert-align">
-                                        <div class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
+                                        <div @click="deleteBillConfirmation(bill.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                     </td>
                                 </tr>
 
@@ -151,6 +151,49 @@ export default {
 
             }, function (error) {
                 vm.serverError = 'O eroare a avut loc. Redeschide aplicatia pentru a incerca din nou.';
+            });
+
+        },
+
+        deleteBillConfirmation: function(billId) {
+            var vm = this;
+
+            swal({
+                title: 'Sunteți sigur?',
+                text: ' Odată ștearsă, o factură nu mai poate fi recuperată.',
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Anulează',
+                cancelButtonColor: '#bdc3c7',
+                confirmButtonColor: "#E05082",
+                confirmButtonText: "Șterge factura",
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function() {
+                vm.deleteBill(billId);
+            });
+        },
+
+        deleteBill: function(billId) {
+
+            var vm = this;
+
+            var bill = {
+                _token: $('#token').attr('content'),
+                bill_id: billId
+            };
+
+            this.$http.post('/dashboard/bills/delete', bill).then(function (success) {
+
+                var url = '/dashboard/bills/paginate?page=' + vm.bills.current_page;
+                vm.paginateBills(url, function() {
+                    vm.$dispatch('success_alert', success.data.title, success.data.message);
+                });
+
+            }, function (error) {
+
+                vm.$dispatch('error_alert', 'Ooops.', 'O eroare a avut loc.');
+
             });
 
         },

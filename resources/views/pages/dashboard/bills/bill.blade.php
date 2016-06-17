@@ -2,5 +2,5 @@
     'title' => 'Detalii factură'
 ])
 @section('content')
-    <bill-page></bill-page>
+    <bill-page bill-id="{{ $billId }}"></bill-page>
 @endsection

@@ -22,6 +22,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
         Route::get('/paginate', 'IndexController@paginate');
         Route::get('/suggest-clients', 'IndexController@suggestClients');
         Route::post('/new', 'IndexController@create');
+        Route::post('/delete', 'IndexController@delete');
 
         // Filters for bills pagination
         Route::group(['prefix' => 'filters'], function() {
@@ -42,6 +43,12 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
 
         Route::group(['prefix' => '{billId}'], function() {
             Route::get('/', 'BillController@index');
+            Route::get('/get', 'BillController@get');
+            Route::get('/get-only-products', 'BillController@getOnlyProducts');
+            Route::get('/mark-as-paid', 'BillController@markBillAsPaid');
+            Route::get('/mark-as-unpaid', 'BillController@markBillAsUnpaid');
+
+            Route::post('/delete-product', 'BillController@deleteProduct');
         });
 
         // Route::get('/{billId}', 'BillsController@bill');
