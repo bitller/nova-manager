@@ -50,7 +50,13 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
 
             Route::post('/delete-product', 'BillController@deleteProduct');
             Route::post('/delete', 'BillController@delete');
-            Route::post('/products/{billProductId}/edit-page', 'BillController@editPage');
+
+            Route::group(['prefix' => 'products/{billProductId}'], function() {
+                Route::post('/edit-page', 'BillController@editPage');
+                Route::post('/edit-quantity', 'BillController@editQuantity');
+                Route::post('/edit-price', 'BillController@editPrice');
+                Route::post('/edit-discount', 'BillController@editDiscount');
+            });
         });
 
         // Route::get('/{billId}', 'BillsController@bill');

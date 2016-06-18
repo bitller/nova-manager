@@ -28,7 +28,7 @@
                                 <th class="text-center">Cantitate</th>
                                 <th class="text-center">Preț</th>
                                 <th class="text-center">Reducere</th>
-                                <th class="text-center">Preț final</th>
+                                <th class="text-center">Preț fara reducere</th>
                                 <th class="text-center">Șterge</th>
                             </tr>
                         </thead>
@@ -66,7 +66,7 @@
                                 </td>
                                 <!-- END Product discount -->
 
-                                <td class="text-center vert-align">{{ product.pivot.price_without_discount }} ron</td>
+                                <td class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
                                 <td class="text-center vert-align">
                                     <div @click="deleteProductConfirmation(product.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
@@ -136,7 +136,7 @@
                                 </td>
                                 <!-- END Product discount -->
 
-                                <td class="text-center vert-align">{{ product.pivot.price_without_discount }} ron</td>
+                                <td class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
                                 <td class="text-center vert-align">
                                     <div @click="deleteProductConfirmation(product.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
@@ -152,7 +152,7 @@
         <!-- END Not available products -->
 
         <edit-page-modal :product="modals.editPage.product" :bill-id="billId"></edit-page-modal>
-
+        <edit-quantity-modal :product="modals.editQuantity.product" :bill-id="billId"></edit-quantity-modal>
     </div>
 
 </template>
@@ -160,11 +160,13 @@
 <script>
 
 import EditPageModal from '../../components/BillPage/Products/EditPageModal.vue';
+import EditQuantityModal from '../../components/BillPage/Products/EditQuantityModal.vue';
 
 export default {
 
     components: {
         'edit-page-modal': EditPageModal,
+        'edit-quantity-modal': EditQuantityModal,
     },
 
     props: ['products', 'billId'],
@@ -190,6 +192,10 @@ export default {
                     selector: '#edit-product-page-modal',
                     product: '',
                 },
+                editQuantity: {
+                    selector: '#edit-product-quantity-modal',
+                    product: ''
+                },
             }
         }
     },
@@ -201,8 +207,9 @@ export default {
             $(this.modals.editPage.selector).modal('show');
         },
 
-        editQuantity: function() {
-            //
+        editQuantity: function(product) {
+            this.modals.editQuantity.product = product;
+            $(this.modals.editQuantity.selector).modal('show');
         },
 
         editPrice: function() {

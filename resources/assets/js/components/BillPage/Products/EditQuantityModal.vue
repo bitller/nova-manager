@@ -1,7 +1,7 @@
 <template>
 
     <!-- BEGIN Modal -->
-    <div id="edit-product-page-modal" data-backdrop="static" class="modal fade" role="dialog">
+    <div id="edit-product-quantity-modal" data-backdrop="static" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
@@ -18,10 +18,10 @@
                           <div v-show="hasError" class="alert alert-danger">{{ hasError }}</div>
 
                           <!-- BEGIN Product page -->
-                          <div :class="{ 'has-error': pageHasError }" class="form-group">
-                              <label>Pagina produsului</label>
-                              <input @keyup.enter="editPage" v-model="page" type="text" class="form-control" />
-                              <span v-show="pageHasError" class="text-danger">{{ pageHasError }}</span>
+                          <div :class="{ 'has-error': quantityHasError }" class="form-group">
+                              <label>Cantitatea produsului</label>
+                              <input @keyup.enter="editQuantity" v-model="quantity" type="text" class="form-control" />
+                              <span v-show="quantityHasError" class="text-danger">{{ quantityHasError }}</span>
                           </div>
                           <!-- END Product page -->
 
@@ -30,7 +30,7 @@
               </div>
               <div class="modal-footer">
                 <button @click="hideModal" type="button" :class="{ 'disabled': loading }" class="btn btn-default">Anulează</button>
-                <button @click="editPage" :class="{ 'disabled': loading }" type="button" class="btn btn-primary">
+                <button @click="editQuantity" :class="{ 'disabled': loading }" type="button" class="btn btn-primary">
                     <span v-show="!loading">Editează pagina</span>
                     <img v-show="loading" src="/img/loading-bubbles.svg" />
                 </button>
@@ -40,9 +40,11 @@
         </div>
     </div>
     <!-- END Modal -->
+
 </template>
 
 <script>
+
 export default {
 
     props: ['product', 'billId'],
@@ -50,19 +52,19 @@ export default {
     data: function() {
         return {
             loading: false,
-            page: '',
+            quantity: '',
             modal: {
-                selector: '#edit-product-page-modal',
-                title: 'Editeaza pagina produsului',
+                selector: '#edit-product-quantity-modal',
+                title: 'Editează cantitatea produsului'
             },
             error: '',
-            pageError: '',
+            quantityError: '',
         }
     },
 
     methods: {
 
-        editPage: function() {
+        editQuantity: function() {
 
             if (this.loading) {
                 return false;
@@ -72,10 +74,10 @@ export default {
             var vm = this;
             var product = {
                 _token: $('#token').attr('content'),
-                product_page: this.page
+                product_quantity: this.quantity
             };
 
-            this.$http.post('/dashboard/bills/' + this.billId + '/products/' + this.product.bill_product_id + '/edit-page', product).then(function (success) {
+            this.$http.post('/dashboard/bills/' + this.billId + '/products/' + this.product.bill_product_id + '/edit-quantity', product).then(function (success) {
 
                 vm.loading = false;
                 vm.$dispatch('reloadProducts', function() {
@@ -86,10 +88,10 @@ export default {
             }, function (error) {
 
                 vm.loading = false;
-                vm.error = vm.pageError = '';
+                vm.error = vm.quantityError = '';
 
-                if (error.data.errors.product_page) {
-                    vm.pageError = error.data.errors.product_page;
+                if (error.data.errors.product_quantity) {
+                    vm.quantityError = error.data.errors.product_quantity;
                     return;
                 }
                 if (error.data.message) {
@@ -98,7 +100,6 @@ export default {
                 }
 
                 vm.error = 'O eroare a avut loc.';
-
             });
 
         },
@@ -108,14 +109,14 @@ export default {
                 return false;
             }
             $(this.modal.selector).modal('hide');
-            this.error = this.pageError = this.page = '';
+            this.error = this.quantityError = this.quantity = '';
         },
 
     },
 
     watch: {
         'product': function(product) {
-            this.page = product.pivot.page;
+            this.quantity = product.pivot.quantity;
         }
     },
 
@@ -128,13 +129,15 @@ export default {
             return false;
         },
 
-        pageHasError: function() {
-            if (!this.loading && this.pageError) {
-                return this.pageError;
+        quantityHasError: function() {
+            if (!this.loading && this.quantityError) {
+                return this.quantityError;
             }
             return false;
         },
+
     }
 
 }
+
 </script>

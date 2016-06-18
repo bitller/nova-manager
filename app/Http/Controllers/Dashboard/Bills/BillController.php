@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\BillProduct;
 
 /**
  * Bill page controller.
@@ -14,7 +15,7 @@ use DB;
  */
 class BillController extends BaseController {
 
-    protected $validatedFields = ['product_page'];
+    protected $validatedFields = ['product_page', 'product_quantity'];
 
     /**
      * Render page of given bill.
@@ -165,6 +166,8 @@ class BillController extends BaseController {
      */
     public function editPage($billId, $billProductId, Request $request) {
 
+        // todo make sure billId and billProductId exists in database
+
         $this->validateEditPageData($request);
 
         DB::table('bill_products')
@@ -184,6 +187,43 @@ class BillController extends BaseController {
         ]);
     }
 
+    public function editQuantity($billId, $billProductId, Request $request) {
+
+        $this->validateEditQuantityData($request);
+        $billProduct = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->wherePivot('id', $billProductId)->first();
+
+        // Bill product does not exists or does not belong to current user
+        if (!$billProduct) {
+            return response()->json([
+                'title' => 'Eroare',
+                'message' => 'O eroare a avut loc.'
+            ], 422);
+        }
+
+        // calculate new values
+        $quantity = $request->get('product_quantity');
+        $price = ($billProduct->pivot->price/$billProduct->pivot->quantity) * $quantity;
+        $priceWithDiscount = ($billProduct->pivot->price_with_discount/$billProduct->pivot->quantity) * $quantity;
+
+        // Update bill product quantity and related fields
+        DB::table('bill_products')
+            ->leftJoin('bills', 'bill_products.bill_id', '=', 'bills.id')
+            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
+            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
+            ->where('bill_products.bill_id', $billId)
+            ->where('bill_products.id', $billProductId)
+            ->update([
+                'quantity' => $quantity,
+                'price' => $price,
+                'price_with_discount' => $priceWithDiscount
+            ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Cantitatea produsului a fost actualizată.'
+        ]);
+    }
+
     /**
      * Validate data used to edit product page.
      *
@@ -192,6 +232,17 @@ class BillController extends BaseController {
     protected function validateEditPageData($request) {
         $this->validate($request, [
             'product_page' => ['numeric', 'between:0,999']
+        ]);
+    }
+
+    /**
+     * Validate data used to edit product quantity.
+     *
+     * @param $request
+     */
+    protected function validateEditQuantityData($request) {
+        $this->validate($request, [
+            'product_quantity' => ['required', 'numeric', 'between:1,999']
         ]);
     }
 

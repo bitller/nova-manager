@@ -18,7 +18,7 @@ class CreateBillProductsTable extends Migration {
             $table->smallInteger('quantity')->unsigned()->default(1);
             $table->double('price');
             $table->smallInteger('page');
-            $table->double('price_without_discount');
+            $table->double('price_with_discount');
             $table->tinyInteger('discount')->unsigned()->default(0);
             $table->boolean('available_now')->unsigned()->default(false);
             $table->timestamps();

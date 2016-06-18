@@ -27,7 +27,7 @@ class Bill extends Model {
      */
     public function products() {
         return $this->belongsToMany('App\Product', 'bill_products')
-            ->withPivot('id as bill_product_id', 'quantity', 'price', 'available_now', 'price_without_discount', 'discount', 'page')
+            ->withPivot('id as bill_product_id', 'quantity', 'price', 'available_now', 'price_with_discount', 'discount', 'page')
             ->withTimestamps();
     }
 

@@ -6,6 +6,7 @@ use App\Client;
 use App\Announcement;
 use App\Product;
 use App\InitialProduct;
+
 /**
  * Seeds users table.
  *
@@ -89,9 +90,19 @@ class UsersTableSeeder extends Seeder {
                 // Now attach bills to each client
                 for ($j = 1; $j <= $this->billsPerClient; $j++) {
                     $bill = $client->bills()->save(factory(App\Bill::class)->make());
-                    // todo add products to each bill
+                    // Attach products to each bill
                     for ($k = 1; $k <= $this->productsPerBill; $k++) {
-                        $bill->products()->attach([Product::where('id', rand(1,1000))->first()->id => ['price' => '2.50']]);
+                        $quantity = rand(1, 999);
+                        $price = rand(1, 1000) * $quantity;
+                        $discount = rand(0, 100);
+                        $discountCalculated = $price * ($discount/100);
+                        $priceWithDiscount = $price - $discountCalculated;
+                        $bill->products()->attach([Product::where('id', rand(1,1000))->first()->id => [
+                            'price' => $price,
+                            'quantity' => $quantity,
+                            'discount' => $discount,
+                            'price_with_discount' => $priceWithDiscount
+                        ]]);
                     }
                 }
             }
