@@ -49,6 +49,8 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
             Route::get('/mark-as-unpaid', 'BillController@markBillAsUnpaid');
 
             Route::post('/delete-product', 'BillController@deleteProduct');
+            Route::post('/delete', 'BillController@delete');
+            Route::post('/products/{billProductId}/edit-page', 'BillController@editPage');
         });
 
         // Route::get('/{billId}', 'BillsController@bill');

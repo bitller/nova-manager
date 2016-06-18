@@ -94,6 +94,45 @@ new Vue({
                 showConfirmButton: false,
                 timer: 3000
             });
+        },
+
+        'confirmation': function(config, callback) {
+
+            if (!config.title) {
+                config.title = 'Sunteți sigur?';
+            }
+            if (config.message) {
+                config.message = 'Sigur doriți să continuați?';
+            }
+            if (config.cancelButtonText) {
+                config.cancelButtonText = 'Anulează';
+            }
+            if (config.cancelButtonColor) {
+                config.cancelButtonColor = '#bdc3c7';
+            }
+            if (config.confirmButtonColor) {
+                config.confirmButtonColor = '#E05082';
+            }
+            if (config.confirmButtonText) {
+                config.confirmButtonText = 'Sunt sigur';
+            }
+
+            swal({
+                title: config.title,
+                text: config.message,
+                type: "warning",
+                showCancelButton: true,
+                cancelButtonText: config.cancelButtonText,
+                cancelButtonColor: config.cancelButtonColor,
+                confirmButtonColor: config.confirmButtonColor,
+                confirmButtonText: config.confirmButtonText,
+                showLoaderOnConfirm: true,
+                closeOnConfirm: false
+            }, function() {
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+            });
         }
     }
 });

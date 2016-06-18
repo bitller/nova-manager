@@ -3,7 +3,7 @@
     <div class="page-container">
 
         <div class="row">
-            <bill-header></bill-header>
+            <bill-header :bill-id="billId" :status="billStatus"></bill-header>
             <products :bill-id="billId" :products="products"></products>
             <informations></informations>
         </div>
@@ -28,6 +28,7 @@ export default {
 
     data: function() {
         return {
+            billStatus: '',
             products: {
                 available: '',
                 notAvailable: ''
@@ -42,15 +43,21 @@ export default {
     },
 
     methods: {
-        getData: function() {
+        getData: function(callback) {
 
             this.loading = true;
             var vm = this;
-
             this.$http.get('/dashboard/bills/' + this.billId + '/get').then(function (success) {
+
                 vm.loading = false;
                 vm.products.available = success.data.products;
                 vm.products.notAvailable = success.data.not_available_products;
+                vm.billStatus = success.data.status;
+
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+
             }, function (error) {
                 //
             });
@@ -74,20 +81,21 @@ export default {
                 //
             });
 
-        }
+        },
+
     },
 
     events: {
 
         'reloadProducts': function(callback) {
             if (typeof callback !== 'undefined') {
-                this.getOnlyProducts(callback);
+                this.getData(callback);
                 return;
             }
-            this.getOnlyProducts();
+            this.getData();
         },
 
-    }
+    },
 
 }
 
