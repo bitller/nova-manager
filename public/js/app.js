@@ -49352,8 +49352,9 @@ exports.default = {
             $(this.modals.editPrice.selector).modal('show');
         },
 
-        editDiscount: function editDiscount() {
-            //
+        editDiscount: function editDiscount(product) {
+            this.modals.editDiscount.product = product;
+            $(this.modals.editDiscount.selector).modal('show');
         },
 
         deleteProduct: function deleteProduct(productId) {
@@ -49484,7 +49485,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <!-- BEGIN Products -->\n    <div v-show=\"existsAvailableProducts\" class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produsele acestei facturi</span>\n        </div>\n    </div>\n\n    <div v-show=\"existsAvailableProducts\" class=\"col-md-12 white\">\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț fara reducere</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"product in products.available\">\n\n                            <!-- BEGIN Product page -->\n                            <td @click=\"editPageModal(product)\" @mouseover=\"showEditIcon('page', 'f-'+$index)\" @mouseleave=\"hideEditIcon('page', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('page', 'f-'+$index)\">{{ showProductPage(product.pivot.page) }}</span>\n                                <span v-show=\"checkIcon('page', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product page -->\n\n                            <td class=\"text-center vert-align\">{{ product.code }}</td>\n                            <td class=\"text-center vert-align\">{{ product.name }}</td>\n\n                            <!-- BEGIN Product quantity -->\n                            <td @click=\"editQuantity(product)\" @mouseover=\"showEditIcon('quantity', 'f-'+$index)\" @mouseleave=\"hideEditIcon('quantity', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('quantity', 'f-'+$index)\">{{ product.pivot.quantity }}</span>\n                                <span v-show=\"checkIcon('quantity', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product quantity -->\n\n                            <!-- BEGIN Product price -->\n                            <td @click=\"editPrice(product)\" @mouseover=\"showEditIcon('price', 'f-'+$index)\" @mouseleave=\"hideEditIcon('price', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('price', 'f-'+$index)\">{{ product.pivot.price }} ron</span>\n                                <span v-show=\"checkIcon('price', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product price -->\n\n                            <!-- BEGIN Product discount -->\n                            <td @click=\"editDiscount(product)\" @mouseover=\"showEditIcon('discount', 'f-'+$index)\" @mouseleave=\"hideEditIcon('discount', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('discount', 'f-'+$index)\">{{ product.pivot.discount }}%</span>\n                                <span v-show=\"checkIcon('discount', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product discount -->\n\n                            <td class=\"text-center vert-align\">{{ product.pivot.price_with_discount }} ron</td>\n                            <td class=\"text-center vert-align\">\n                                <div @click=\"deleteProductConfirmation(product.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n    <!-- END Products -->\n\n    <!-- BEGIN Not available products -->\n    <div v-show=\"existsNotAvailableProducts\" class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse indisponibile care o sa fie livrate data viitoare</span>\n        </div>\n    </div>\n\n    <div v-show=\"existsNotAvailableProducts\" class=\"col-md-12 white\">\n\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț final</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"product in products.notAvailable\">\n                            <!-- BEGIN Product page -->\n                            <td @click=\"editPageModal(product)\" @mouseover=\"showEditIcon('page', 's-'+$index)\" @mouseleave=\"hideEditIcon('page', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('page', 's-'+$index)\">{{ showProductPage(product.pivot.page) }}</span>\n                                <span v-show=\"checkIcon('page', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product page -->\n\n                            <td class=\"text-center vert-align\">{{ product.code }}</td>\n                            <td class=\"text-center vert-align\">{{ product.name }}</td>\n\n                            <!-- BEGIN Product quantity -->\n                            <td @click=\"editQuantity(product)\" @mouseover=\"showEditIcon('quantity', 's-'+$index)\" @mouseleave=\"hideEditIcon('quantity', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('quantity', 's-'+$index)\">{{ product.pivot.quantity }}</span>\n                                <span v-show=\"checkIcon('quantity', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product quantity -->\n\n                            <!-- BEGIN Product price -->\n                            <td @click=\"editPrice(product)\" @mouseover=\"showEditIcon('price', 's-'+$index)\" @mouseleave=\"hideEditIcon('price', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('price', 's-'+$index)\">{{ product.pivot.price }} ron</span>\n                                <span v-show=\"checkIcon('price', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product price -->\n\n                            <!-- BEGIN Product discount -->\n                            <td @click=\"editDiscount(product)\" @mouseover=\"showEditIcon('discount', 's-'+$index)\" @mouseleave=\"hideEditIcon('discount', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('discount', 's-'+$index)\">{{ product.pivot.discount }}%</span>\n                                <span v-show=\"checkIcon('discount', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product discount -->\n\n                            <td class=\"text-center vert-align\">{{ product.pivot.price_with_discount }} ron</td>\n                            <td class=\"text-center vert-align\">\n                                <div @click=\"deleteProductConfirmation(product.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n\n    </div>\n    <!-- END Not available products -->\n\n    <edit-page-modal :product=\"modals.editPage.product\" :bill-id=\"billId\"></edit-page-modal>\n    <edit-quantity-modal :product=\"modals.editQuantity.product\" :bill-id=\"billId\"></edit-quantity-modal>\n    <edit-price-modal :product=\"modals.editPrice.product\" :bill-id=\"billId\"></edit-price-modal>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <!-- BEGIN Products -->\n    <div v-show=\"existsAvailableProducts\" class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produsele acestei facturi</span>\n        </div>\n    </div>\n\n    <div v-show=\"existsAvailableProducts\" class=\"col-md-12 white\">\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț fara reducere</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"product in products.available\">\n\n                            <!-- BEGIN Product page -->\n                            <td @click=\"editPageModal(product)\" @mouseover=\"showEditIcon('page', 'f-'+$index)\" @mouseleave=\"hideEditIcon('page', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('page', 'f-'+$index)\">{{ showProductPage(product.pivot.page) }}</span>\n                                <span v-show=\"checkIcon('page', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product page -->\n\n                            <td class=\"text-center vert-align\">{{ product.code }}</td>\n                            <td class=\"text-center vert-align\">{{ product.name }}</td>\n\n                            <!-- BEGIN Product quantity -->\n                            <td @click=\"editQuantity(product)\" @mouseover=\"showEditIcon('quantity', 'f-'+$index)\" @mouseleave=\"hideEditIcon('quantity', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('quantity', 'f-'+$index)\">{{ product.pivot.quantity }}</span>\n                                <span v-show=\"checkIcon('quantity', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product quantity -->\n\n                            <!-- BEGIN Product price -->\n                            <td @click=\"editPrice(product)\" @mouseover=\"showEditIcon('price', 'f-'+$index)\" @mouseleave=\"hideEditIcon('price', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('price', 'f-'+$index)\">{{ product.pivot.price }} ron</span>\n                                <span v-show=\"checkIcon('price', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product price -->\n\n                            <!-- BEGIN Product discount -->\n                            <td @click=\"editDiscount(product)\" @mouseover=\"showEditIcon('discount', 'f-'+$index)\" @mouseleave=\"hideEditIcon('discount', 'f-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('discount', 'f-'+$index)\">{{ product.pivot.discount }}%</span>\n                                <span v-show=\"checkIcon('discount', 'f-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product discount -->\n\n                            <td class=\"text-center vert-align\">{{ product.pivot.price_with_discount }} ron</td>\n                            <td class=\"text-center vert-align\">\n                                <div @click=\"deleteProductConfirmation(product.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n    </div>\n    <!-- END Products -->\n\n    <!-- BEGIN Not available products -->\n    <div v-show=\"existsNotAvailableProducts\" class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Produse indisponibile care o sa fie livrate data viitoare</span>\n        </div>\n    </div>\n\n    <div v-show=\"existsNotAvailableProducts\" class=\"col-md-12 white\">\n\n        <div class=\"col-md-12\">\n            <div class=\"panel panel-default\">\n                <table class=\"table table-bordered\">\n                    <thead>\n                        <tr>\n                            <th class=\"text-center\">Pagină</th>\n                            <th class=\"text-center\">Cod</th>\n                            <th class=\"text-center\">Nume</th>\n                            <th class=\"text-center\">Cantitate</th>\n                            <th class=\"text-center\">Preț</th>\n                            <th class=\"text-center\">Reducere</th>\n                            <th class=\"text-center\">Preț final</th>\n                            <th class=\"text-center\">Șterge</th>\n                        </tr>\n                    </thead>\n                    <tbody>\n                        <tr v-for=\"product in products.notAvailable\">\n                            <!-- BEGIN Product page -->\n                            <td @click=\"editPageModal(product)\" @mouseover=\"showEditIcon('page', 's-'+$index)\" @mouseleave=\"hideEditIcon('page', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('page', 's-'+$index)\">{{ showProductPage(product.pivot.page) }}</span>\n                                <span v-show=\"checkIcon('page', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product page -->\n\n                            <td class=\"text-center vert-align\">{{ product.code }}</td>\n                            <td class=\"text-center vert-align\">{{ product.name }}</td>\n\n                            <!-- BEGIN Product quantity -->\n                            <td @click=\"editQuantity(product)\" @mouseover=\"showEditIcon('quantity', 's-'+$index)\" @mouseleave=\"hideEditIcon('quantity', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('quantity', 's-'+$index)\">{{ product.pivot.quantity }}</span>\n                                <span v-show=\"checkIcon('quantity', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product quantity -->\n\n                            <!-- BEGIN Product price -->\n                            <td @click=\"editPrice(product)\" @mouseover=\"showEditIcon('price', 's-'+$index)\" @mouseleave=\"hideEditIcon('price', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('price', 's-'+$index)\">{{ product.pivot.price }} ron</span>\n                                <span v-show=\"checkIcon('price', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product price -->\n\n                            <!-- BEGIN Product discount -->\n                            <td @click=\"editDiscount(product)\" @mouseover=\"showEditIcon('discount', 's-'+$index)\" @mouseleave=\"hideEditIcon('discount', 's-'+$index)\" class=\"text-center vert-align pointer\">\n                                <span v-show=\"!checkIcon('discount', 's-'+$index)\">{{ product.pivot.discount }}%</span>\n                                <span v-show=\"checkIcon('discount', 's-'+$index)\" class=\"glyphicon glyphicon-pencil\"></span>\n                            </td>\n                            <!-- END Product discount -->\n\n                            <td class=\"text-center vert-align\">{{ product.pivot.price_with_discount }} ron</td>\n                            <td class=\"text-center vert-align\">\n                                <div @click=\"deleteProductConfirmation(product.id)\" class=\"btn btn-danger\"><span class=\"glyphicon glyphicon-trash\"></span></div>\n                            </td>\n                        </tr>\n\n\n                    </tbody>\n                </table>\n            </div>\n        </div>\n\n    </div>\n    <!-- END Not available products -->\n\n    <edit-page-modal :product=\"modals.editPage.product\" :bill-id=\"billId\"></edit-page-modal>\n    <edit-quantity-modal :product=\"modals.editQuantity.product\" :bill-id=\"billId\"></edit-quantity-modal>\n    <edit-price-modal :product=\"modals.editPrice.product\" :bill-id=\"billId\"></edit-price-modal>\n    <edit-discount-modal :product=\"modals.editDiscount.product\" :bill-id=\"billId\"></edit-discount-modal>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -49500,16 +49501,105 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../../components/BillPage/Products/EditDiscountModal.vue":125,"../../components/BillPage/Products/EditPageModal.vue":126,"../../components/BillPage/Products/EditPriceModal.vue":127,"../../components/BillPage/Products/EditQuantityModal.vue":128,"vue":83,"vue-hot-reload-api":81,"vueify/lib/insert-css":84}],125:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    props: ['product', 'billId'],
+
+    data: function data() {
+        return {
+            loading: false,
+            discount: '',
+            modal: {
+                selector: '#edit-product-discount-modal',
+                title: 'Editează reducerea aplicată produsului'
+            },
+            error: '',
+            priceError: ''
+        };
+    },
+
+    methods: {
+
+        editDiscount: function editDiscount() {
+
+            if (this.loading) {
+                return false;
+            }
+
+            this.loading = true;
+            var vm = this;
+            var product = {
+                _token: $('#token').attr('content'),
+                product_discount: this.discount
+            };
+
+            this.$http.post('/dashboard/bills/' + this.billId + '/products/' + this.product.bill_product_id + '/edit-discount', product).then(function (success) {
+
+                vm.loading = false;
+                vm.$dispatch('reloadProducts', function () {
+                    vm.hideModal();
+                    vm.$dispatch('success_alert', success.data.title, success.data.message);
+                });
+            }, function (error) {
+
+                vm.loading = false;
+                vm.error = vm.discountError = '';
+
+                if (error.data.errors.product_discount) {
+                    vm.discountError = error.data.errors.product_discount;
+                    return;
+                }
+                if (error.data.message) {
+                    vm.error = error.data.message;
+                    return;
+                }
+
+                vm.error = 'O eroare a avut loc.';
+            });
+        },
+
+        hideModal: function hideModal() {
+            if (this.loading) {
+                return false;
+            }
+            $(this.modal.selector).modal('hide');
+            this.error = this.discountError = this.discount = '';
+        }
+
+    },
+
+    watch: {
+        'product': function product(_product) {
+            this.discount = _product.pivot.discount;
+        }
+    },
+
+    computed: {
+
+        hasError: function hasError() {
+            if (!this.loading && this.error) {
+                return this.error;
+            }
+            return false;
+        },
+
+        discountHasError: function discountHasError() {
+            if (!this.loading && this.discountError) {
+                return this.discountError;
+            }
+            return false;
+        }
+
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Modal -->\n<div id=\"edit-product-discount-modal\" data-backdrop=\"static\" class=\"modal fade\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <button @click=\"hideModal\" type=\"button\" class=\"close\">×</button>\n            <h4 class=\"modal-title\">{{ modal.title }}</h4>\n          </div>\n          <div class=\"modal-body\">\n\n              <div class=\"row\">\n                  <div class=\"col-md-10 col-md-offset-1\">\n\n                      <div v-show=\"hasError\" class=\"alert alert-danger\">{{ hasError }}</div>\n\n                      <!-- BEGIN Product page -->\n                      <div :class=\"{ 'has-error': discountHasError }\" class=\"form-group\">\n                          <label>Reducerea aplicată produsului</label>\n                          <input @keyup.enter=\"editDiscount\" v-model=\"discount\" type=\"text\" class=\"form-control\">\n                          <span v-show=\"discountHasError\" class=\"text-danger\">{{ discountHasError }}</span>\n                      </div>\n                      <!-- END Product page -->\n\n                  </div>\n              </div>\n          </div>\n          <div class=\"modal-footer\">\n            <button @click=\"hideModal\" type=\"button\" :class=\"{ 'disabled': loading }\" class=\"btn btn-default\">Anulează</button>\n            <button @click=\"editDiscount\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-primary\">\n                <span v-show=\"!loading\">Editează reducerea</span>\n                <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n            </button>\n          </div>\n    </div>\n\n    </div>\n</div>\n<!-- END Modal -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

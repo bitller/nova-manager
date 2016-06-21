@@ -154,6 +154,7 @@
         <edit-page-modal :product="modals.editPage.product" :bill-id="billId"></edit-page-modal>
         <edit-quantity-modal :product="modals.editQuantity.product" :bill-id="billId"></edit-quantity-modal>
         <edit-price-modal :product="modals.editPrice.product" :bill-id="billId"></edit-price-modal>
+        <edit-discount-modal :product="modals.editDiscount.product" :bill-id="billId"></edit-discount-modal>
 
     </div>
 
@@ -231,8 +232,9 @@ export default {
             $(this.modals.editPrice.selector).modal('show');
         },
 
-        editDiscount: function() {
-            //
+        editDiscount: function(product) {
+            this.modals.editDiscount.product = product;
+            $(this.modals.editDiscount.selector).modal('show');
         },
 
         deleteProduct: function(productId) {

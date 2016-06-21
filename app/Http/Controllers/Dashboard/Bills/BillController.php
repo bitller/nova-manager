@@ -15,7 +15,7 @@ use App\BillProduct;
  */
 class BillController extends BaseController {
 
-    protected $validatedFields = ['product_page', 'product_quantity'];
+    protected $validatedFields = ['product_page', 'product_quantity', 'product_price', 'product_discount'];
 
     /**
      * Render page of given bill.
@@ -253,7 +253,31 @@ class BillController extends BaseController {
     }
 
     public function editDiscount($billId, $billProductId, Request $request) {
+
         $this->validateEditDiscountData($request);
+        $billProduct = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->wherePivot('id', $billProductId)->first();
+
+        // Bill product does not exists or does not belong to current user
+        if (!$billProduct) {
+            return response()->json([
+                'title' => 'Eroare',
+                'message' => 'O eroare a avut loc.'
+            ], 422);
+        }
+
+        $discount = $request->get('product_discount');
+        $price = $billProduct->pivot->price * $billProduct->pivot->quantity;
+        $priceWithDiscount = $price - (($discount/100) * $price);
+
+        $this->updateBillProducts($billId, $billProductId, [
+            'price_with_discount' => $priceWithDiscount,
+            'discount' => $discount
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Reducerea aplicată produsului a fost actualizată.'
+        ]);
     }
 
     /**
