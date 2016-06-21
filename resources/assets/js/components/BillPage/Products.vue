@@ -237,6 +237,20 @@ export default {
             $(this.modals.editDiscount.selector).modal('show');
         },
 
+        deleteProductConfirmation: function(productId) {
+
+            var config = {
+                message: 'Sigur doriți să ștergeți produsul din factură?',
+                confirmButtonText: 'Da, șterge produsul',
+            };
+            var vm = this;
+            
+            this.$dispatch('confirmation', config, function() {
+                vm.deleteProduct(productId);
+            });
+
+        },
+
         deleteProduct: function(productId) {
 
             var vm = this;
