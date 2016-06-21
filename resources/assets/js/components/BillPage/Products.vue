@@ -153,6 +153,8 @@
 
         <edit-page-modal :product="modals.editPage.product" :bill-id="billId"></edit-page-modal>
         <edit-quantity-modal :product="modals.editQuantity.product" :bill-id="billId"></edit-quantity-modal>
+        <edit-price-modal :product="modals.editPrice.product" :bill-id="billId"></edit-price-modal>
+
     </div>
 
 </template>
@@ -161,12 +163,16 @@
 
 import EditPageModal from '../../components/BillPage/Products/EditPageModal.vue';
 import EditQuantityModal from '../../components/BillPage/Products/EditQuantityModal.vue';
+import EditPriceModal from '../../components/BillPage/Products/EditPriceModal.vue';
+import EditDiscountModal from '../../components/BillPage/Products/EditDiscountModal.vue';
 
 export default {
 
     components: {
         'edit-page-modal': EditPageModal,
         'edit-quantity-modal': EditQuantityModal,
+        'edit-price-modal': EditPriceModal,
+        'edit-discount-modal': EditDiscountModal,
     },
 
     props: ['products', 'billId'],
@@ -196,6 +202,14 @@ export default {
                     selector: '#edit-product-quantity-modal',
                     product: ''
                 },
+                editPrice: {
+                    selector: '#edit-product-price-modal',
+                    product: ''
+                },
+                editDiscount: {
+                    selector: '#edit-product-discount-modal',
+                    product: ''
+                },
             }
         }
     },
@@ -212,8 +226,9 @@ export default {
             $(this.modals.editQuantity.selector).modal('show');
         },
 
-        editPrice: function() {
-            //
+        editPrice: function(product) {
+            this.modals.editPrice.product = product;
+            $(this.modals.editPrice.selector).modal('show');
         },
 
         editDiscount: function() {

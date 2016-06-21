@@ -200,7 +200,7 @@ class BillController extends BaseController {
             ], 422);
         }
 
-        // calculate new values
+        // Calculate new values
         $quantity = $request->get('product_quantity');
         $price = ($billProduct->pivot->price/$billProduct->pivot->quantity) * $quantity;
         $priceWithDiscount = ($billProduct->pivot->price_with_discount/$billProduct->pivot->quantity) * $quantity;
@@ -224,6 +224,38 @@ class BillController extends BaseController {
         ]);
     }
 
+    public function editPrice($billId, $billProductId, Request $request) {
+
+        $this->validateEditPriceData($request);
+        $billProduct = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->wherePivot('id', $billProductId)->first();
+
+        // Bill product does not exists or does not belong to current user
+        if (!$billProduct) {
+            return response()->json([
+                'title' => 'Eroare',
+                'message' => 'O eroare a avut loc.'
+            ], 422);
+        }
+
+        $price = $billProduct->pivot->quantity * $request->get('product_price');
+        $priceWithDiscount = $price - (($billProduct->pivot->discount/100) * $price);
+
+        $this->updateBillProducts($billId, $billProductId, [
+            'price' => $price,
+            'price_with_discount' => $priceWithDiscount
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Prețul produsului a fost actualizat.',
+        ]);
+
+    }
+
+    public function editDiscount($billId, $billProductId, Request $request) {
+        $this->validateEditDiscountData($request);
+    }
+
     /**
      * Validate data used to edit product page.
      *
@@ -242,8 +274,31 @@ class BillController extends BaseController {
      */
     protected function validateEditQuantityData($request) {
         $this->validate($request, [
-            'product_quantity' => ['required', 'numeric', 'between:1,999']
+            'product_quantity' => ['numeric', 'between:1,999']
         ]);
+    }
+
+    protected function validateEditPriceData($request) {
+        $this->validate($request, [
+            'product_price' => ['required', 'numeric', 'between:0,9999']
+        ]);
+    }
+
+    protected function validateEditDiscountData($request) {
+        $this->validate($request, [
+            'product_discount' => ['numeric', 'between:0,100']
+        ]);
+    }
+
+    protected function updateBillProducts($billId, $billProductId, $newValues) {
+        DB::table('bill_products')
+            ->leftJoin('bills', 'bill_products.bill_id', '=', 'bills.id')
+            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
+            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
+            ->where('bill_products.bill_id', $billId)
+            ->where('bill_products.id', $billProductId)
+            ->update($newValues);
+
     }
 
 }
