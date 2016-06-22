@@ -19,7 +19,7 @@
                         Termenul de plată
                     </div>
                     <div class="panel-body">
-                        <div class="row text-center"><span class="grey-dark bill-detail">Nu a fost setat</span></div>
+                        <div class="row text-center"><span @click="setPaymentTermModal" class="grey-dark bill-detail pointer">{{ displayPaymentTerm(paymentTerm) }}</span></div>
                     </div>
                 </div>
             </div>
@@ -32,7 +32,7 @@
                         Trebuie sa platiti
                     </div>
                     <div class="panel-body">
-                        <div class="row text-center"><span class="grey-dark bill-detail">84.44 ron</span></div>
+                        <div class="row text-center"><span class="grey-dark bill-detail">{{ toPay }} ron</span></div>
                     </div>
                 </div>
             </div>
@@ -45,7 +45,7 @@
                         Ati economisit
                     </div>
                     <div class="panel-body">
-                        <div class="row text-center"><span class="grey-dark bill-detail">14.44 ron</span></div>
+                        <div class="row text-center"><span class="grey-dark bill-detail">{{ savedMoney }} ron</span></div>
                     </div>
                 </div>
             </div>
@@ -63,9 +63,26 @@ import MoreDetails from '../../components/BillPage/Informations/MoreDetails.vue'
 
 export default {
 
+    props: ['toPay', 'paymentTerm', 'savedMoney'],
+
     components: {
         'more-details': MoreDetails,
     },
+
+    methods: {
+        displayPaymentTerm: function(paymentTerm) {
+            if (typeof paymentTerm === 'undefined' || !paymentTerm) {
+                return false;
+            }
+
+            return paymentTerm;
+        },
+
+        setPaymentTermModal: function() {
+            console.log('a');
+            $('#set-payment-term-modal').modal('show');
+        },
+    }
 
 }
 

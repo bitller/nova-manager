@@ -3,9 +3,9 @@
     <div class="page-container">
 
         <div class="row">
-            <bill-header :bill-id="billId" :status="billStatus"></bill-header>
+            <bill-header :bill-id="billId" :status="billStatus" :payment-term="paymentTerm"></bill-header>
             <products :bill-id="billId" :products="products"></products>
-            <informations></informations>
+            <informations :payment-term="paymentTerm" :to-pay="toPay" :saved-money="savedMoney"></informations>
         </div>
 
     </div>
@@ -29,6 +29,9 @@ export default {
     data: function() {
         return {
             billStatus: '',
+            toPay: '',
+            savedMoney: '',
+            paymentTerm: '',
             products: {
                 available: '',
                 notAvailable: ''
@@ -53,6 +56,9 @@ export default {
                 vm.products.available = success.data.products;
                 vm.products.notAvailable = success.data.not_available_products;
                 vm.billStatus = success.data.status;
+                vm.toPay = success.data.to_pay;
+                vm.savedMoney = success.data.saved_money;
+                vm.paymentTerm = success.data.payment_term;
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -83,6 +89,22 @@ export default {
 
         },
 
+        getPaymentTerm: function(callback) {
+
+            var vm = this;
+            this.$http.get('/dashboard/bills/' + this.billId + '/get-payment-term').then(function (success) {
+
+                vm.paymentTerm = success.data.payment_term;
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+
+            }, function (error) {
+                //
+            });
+
+        },
+
     },
 
     events: {
@@ -95,6 +117,14 @@ export default {
             this.getData();
         },
 
+        'reloadPaymentTerm': function(callback) {
+            if (typeof callback !== 'undefined') {
+                this.getPaymentTerm(callback);
+                return;
+            }
+            this.getPaymentTerm();
+        }
+        
     },
 
 }

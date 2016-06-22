@@ -28,7 +28,7 @@
                         <ul class="dropdown-menu">
                             <li v-show="billIsMarkedAsUnpaid" @click="markBillAsPaid"><a href="#"><span class="glyphicon glyphicon-ok"></span>&nbsp;Marchează factura ca plătită</a></li>
                             <li v-show="billIsMarkedAsPaid" @click="markBillAsUnpaid"><a href="#"><span class="glyphicon glyphicon-ok"></span>&nbsp;Marchează factura ca neplătită</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Setează termenul de plată</a></li>
+                            <li @click="setPaymentTermModal"><a href="#"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Setează termenul de plată</a></li>
                             <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Editează detaliile suplimentare</a></li>
                             <li class="divider"></li>
                             <li @click="deleteBill"><a href="#"><span class="glyphicon glyphicon-trash"></span>&nbsp;Șterge factura</a></li>
@@ -55,15 +55,24 @@
             </div>
 
         </div>
+
+        <set-payment-term-modal :current-payment-term="paymentTerm" :bill-id="billId"></set-payment-term-modal>
+
     </div>
 
 </template>
 
 <script>
 
+import SetPaymentTermModal from '../../components/BillPage/BillHeader/SetPaymentTermModal.vue';
+
 export default {
 
-    props: ['billId', 'status'],
+    components: {
+        'set-payment-term-modal': SetPaymentTermModal,
+    },
+
+    props: ['billId', 'status', 'paymentTerm'],
 
     data: function() {
         return {
@@ -147,7 +156,11 @@ export default {
 
                 vm.$dispatch('error_alert', title, message);
             });
-        }
+        },
+
+        setPaymentTermModal: function() {
+            $('#set-payment-term-modal').modal('show');
+        },
     },
 
     computed: {

@@ -26,9 +26,9 @@
                                 <th class="text-center">Cod</th>
                                 <th class="text-center">Nume</th>
                                 <th class="text-center">Cantitate</th>
-                                <th class="text-center">Preț</th>
-                                <th class="text-center">Reducere</th>
                                 <th class="text-center">Preț fara reducere</th>
+                                <th class="text-center">Reducere</th>
+                                <th class="text-center">Preț</th>
                                 <th class="text-center">Șterge</th>
                             </tr>
                         </thead>
@@ -244,7 +244,7 @@ export default {
                 confirmButtonText: 'Da, șterge produsul',
             };
             var vm = this;
-            
+
             this.$dispatch('confirmation', config, function() {
                 vm.deleteProduct(productId);
             });

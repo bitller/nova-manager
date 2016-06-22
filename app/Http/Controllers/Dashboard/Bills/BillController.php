@@ -15,7 +15,7 @@ use App\BillProduct;
  */
 class BillController extends BaseController {
 
-    protected $validatedFields = ['product_page', 'product_quantity', 'product_price', 'product_discount'];
+    protected $validatedFields = ['product_page', 'product_quantity', 'product_price', 'product_discount', 'payment_term'];
 
     /**
      * Render page of given bill.
@@ -42,11 +42,16 @@ class BillController extends BaseController {
         $notAvailableProducts = $bill->products()->wherePivot('available_now', false)->get();
         $status = ($bill->paid) ? 'paid' : 'unpaid';
 
+        $price = $bill->products()->sum('price');
+        $priceWithDiscount = $bill->products()->sum('price_with_discount');
+
         $response = [
             'status' => $status,
-            'payment_term' => $bill->payment_term,
+            'payment_term' => date('d-m-Y', strtotime($bill->payment_term)),
             'products' => $products,
-            'not_available_products' => $notAvailableProducts
+            'not_available_products' => $notAvailableProducts,
+            'to_pay' => $priceWithDiscount,
+            'saved_money' => $price - $priceWithDiscount
         ];
 
         return response()->json($response);
@@ -66,6 +71,14 @@ class BillController extends BaseController {
             'products' => $bills->products()->wherePivot('available_now', true)->get(),
             'not_available_products' => $bills->products()->wherePivot('available_now', false)->get()
         ]);
+    }
+
+    public function getPaymentTerm($billId) {
+
+        return response()->json([
+            'payment_term' => date('d-m-Y', strtotime(Auth::user()->bills()->where('bills.id', $billId)->first()->payment_term))
+        ]);
+
     }
 
     /**
@@ -166,20 +179,20 @@ class BillController extends BaseController {
      */
     public function editPage($billId, $billProductId, Request $request) {
 
-        // todo make sure billId and billProductId exists in database
-
         $this->validateEditPageData($request);
+        $billProduct = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->wherePivot('id', $billProductId)->first();
 
-        DB::table('bill_products')
-            ->leftJoin('bills', 'bill_products.bill_id', '=', 'bills.id')
-            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
-            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
-            ->where('users.id', Auth::user()->id)
-            ->where('bill_products.bill_id', $billId)
-            ->where('bill_products.id', $billProductId)
-            ->update([
-                'page' => $request->get('product_page')
-            ]);
+        // Bill product does not exists or does not belong to current user
+        if (!$billProduct) {
+            return response()->json([
+                'title' => 'Eroare',
+                'message' => 'O eroare a avut loc.'
+            ], 422);
+        }
+
+        $this->updateBillProducts($billId, $billProductId, [
+            'page' => $request->get('product_page')
+        ]);
 
         return response()->json([
             'title' => 'Succes!',
@@ -205,18 +218,11 @@ class BillController extends BaseController {
         $price = ($billProduct->pivot->price/$billProduct->pivot->quantity) * $quantity;
         $priceWithDiscount = ($billProduct->pivot->price_with_discount/$billProduct->pivot->quantity) * $quantity;
 
-        // Update bill product quantity and related fields
-        DB::table('bill_products')
-            ->leftJoin('bills', 'bill_products.bill_id', '=', 'bills.id')
-            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
-            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
-            ->where('bill_products.bill_id', $billId)
-            ->where('bill_products.id', $billProductId)
-            ->update([
-                'quantity' => $quantity,
-                'price' => $price,
-                'price_with_discount' => $priceWithDiscount
-            ]);
+        $this->updateBillProducts($billId, $billProductId, [
+            'quantity' => $quantity,
+            'price' => $price,
+            'price_with_discount' => $priceWithDiscount
+        ]);
 
         return response()->json([
             'title' => 'Succes!',
@@ -280,6 +286,27 @@ class BillController extends BaseController {
         ]);
     }
 
+    public function setPaymentTerm($billId, Request $request) {
+
+        $this->validateSetPaymentTermData($request);
+        // dd($request->get('payment_term'));
+// dd(date('Y/m/d', strtotime($request->get('payment_term'))));
+        DB::table('bills')
+            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
+            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
+            ->where('users.id', Auth::user()->id)
+            ->where('bills.id', $billId)
+            ->update([
+                'payment_term' => date('Y-m-d', strtotime($request->get('payment_term')))
+                // 'payment_term' => $request->get('payment_term')
+            ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Termenul de plată al facturii a fost actualizat.',
+        ]);
+    }
+
     /**
      * Validate data used to edit product page.
      *
@@ -311,6 +338,12 @@ class BillController extends BaseController {
     protected function validateEditDiscountData($request) {
         $this->validate($request, [
             'product_discount' => ['numeric', 'between:0,100']
+        ]);
+    }
+
+    protected function validateSetPaymentTermData($request) {
+        $this->validate($request, [
+            'payment_term' => ['required', 'date_format:d-m-Y']
         ]);
     }
 
