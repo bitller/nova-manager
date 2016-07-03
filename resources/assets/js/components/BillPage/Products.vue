@@ -26,9 +26,9 @@
                                 <th class="text-center">Cod</th>
                                 <th class="text-center">Nume</th>
                                 <th class="text-center">Cantitate</th>
-                                <th class="text-center">Preț fara reducere</th>
-                                <th class="text-center">Reducere</th>
                                 <th class="text-center">Preț</th>
+                                <th v-if="showDiscountColumn" class="text-center">Reducere</th>
+                                <th v-if="showDiscountColumn" class="text-center">Preț cu reducere</th>
                                 <th class="text-center">Șterge</th>
                             </tr>
                         </thead>
@@ -60,13 +60,13 @@
                                 <!-- END Product price -->
 
                                 <!-- BEGIN Product discount -->
-                                <td @click="editDiscount(product)" @mouseover="showEditIcon('discount', 'f-'+$index)" @mouseleave="hideEditIcon('discount', 'f-'+$index)" class="text-center vert-align pointer">
+                                <td v-if="showDiscountColumn" @click="editDiscount(product)" @mouseover="showEditIcon('discount', 'f-'+$index)" @mouseleave="hideEditIcon('discount', 'f-'+$index)" class="text-center vert-align pointer">
                                     <span v-show="!checkIcon('discount', 'f-'+$index)">{{ product.pivot.discount }}%</span>
                                     <span v-show="checkIcon('discount', 'f-'+$index)" class="glyphicon glyphicon-pencil"></span>
                                 </td>
                                 <!-- END Product discount -->
 
-                                <td class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
+                                <td v-if="showDiscountColumn" class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
                                 <td class="text-center vert-align">
                                     <div @click="deleteProductConfirmation(product.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
@@ -98,8 +98,8 @@
                                 <th class="text-center">Nume</th>
                                 <th class="text-center">Cantitate</th>
                                 <th class="text-center">Preț</th>
-                                <th class="text-center">Reducere</th>
-                                <th class="text-center">Preț final</th>
+                                <th v-if="showDiscountColumn" class="text-center">Reducere</th>
+                                <th v-if="showDiscountColumn" class="text-center">Preț cu reducere</th>
                                 <th class="text-center">Șterge</th>
                             </tr>
                         </thead>
@@ -130,13 +130,13 @@
                                 <!-- END Product price -->
 
                                 <!-- BEGIN Product discount -->
-                                <td @click="editDiscount(product)" @mouseover="showEditIcon('discount', 's-'+$index)" @mouseleave="hideEditIcon('discount', 's-'+$index)" class="text-center vert-align pointer">
+                                <td v-if="showDiscountColumn" @click="editDiscount(product)" @mouseover="showEditIcon('discount', 's-'+$index)" @mouseleave="hideEditIcon('discount', 's-'+$index)" class="text-center vert-align pointer">
                                     <span v-show="!checkIcon('discount', 's-'+$index)">{{ product.pivot.discount }}%</span>
                                     <span v-show="checkIcon('discount', 's-'+$index)" class="glyphicon glyphicon-pencil"></span>
                                 </td>
                                 <!-- END Product discount -->
 
-                                <td class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
+                                <td v-if="showDiscountColumn" class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
                                 <td class="text-center vert-align">
                                     <div @click="deleteProductConfirmation(product.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
@@ -376,6 +376,28 @@ export default {
 
             return count;
         },
+
+        showDiscountColumn: function() {
+
+            if (typeof this.products.available !== 'undefined') {
+                for (var product in this.products.available) {
+                    if (this.products.available[product].pivot.discount > 0) {
+                        return true;
+                    }
+                }
+            }
+
+            if (typeof this.products.notAvailable !== 'undefined') {
+                for (var product in this.products.notAvailable) {
+                    if (this.products.notAvailable[product].pivot.discount > 0) {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        },
+
     }
 
 }
