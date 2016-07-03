@@ -40,6 +40,7 @@
         </div>
     </div>
     <!-- END Modal -->
+    
 </template>
 
 <script>

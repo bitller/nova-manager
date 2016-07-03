@@ -13,8 +13,8 @@
 
             <!-- BEGIN Bill owner and bill campaign -->
             <div class="col-md-9">
-                <span class="page-title grey-dark">John Doe&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
-                <span class="page-description grey">Comanda 1 din campania <a href="#">4/2016</a>
+                <span class="page-title grey-dark">{{ headerDetails.clientName }}&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
+                <span class="page-description grey">Comanda <a @click="editCampaignModal" href="#">{{ headerDetails.campaignOrder }}</a> din campania <a @click="editCampaignModal" href="#">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>
             </div>
             <!-- END Bill owner and bill campaign -->
 
@@ -34,7 +34,9 @@
                             <li @click="deleteBill"><a href="#"><span class="glyphicon glyphicon-trash"></span>&nbsp;Șterge factura</a></li>
                         </ul>
                 </div>
-                <div class="btn btn-success pull-right"><span class="glyphicon glyphicon-plus"></span>&nbsp;Adaugă produs</div>
+
+                <add-product :bill-id="billId"></add-product>
+
             </div>
             <!-- END Buttons -->
 
@@ -65,14 +67,16 @@
 <script>
 
 import SetPaymentTermModal from '../../components/BillPage/BillHeader/SetPaymentTermModal.vue';
+import AddProduct from '../../components/BillPage/BillHeader/AddProduct.vue';
 
 export default {
 
     components: {
         'set-payment-term-modal': SetPaymentTermModal,
+        'add-product': AddProduct,
     },
 
-    props: ['billId', 'status', 'paymentTerm'],
+    props: ['billId', 'status', 'paymentTerm', 'headerDetails'],
 
     data: function() {
         return {
@@ -118,6 +122,10 @@ export default {
             });
         },
 
+        addProductModal: function() {
+            this.$broadcast('showAddProductModal');
+        },
+
         markBillAsPaid: function() {
             this.changeBillStatus('paid');
         },
@@ -161,6 +169,11 @@ export default {
         setPaymentTermModal: function() {
             $('#set-payment-term-modal').modal('show');
         },
+
+        editCampaignModal: function() {
+            //
+        },
+
     },
 
     computed: {

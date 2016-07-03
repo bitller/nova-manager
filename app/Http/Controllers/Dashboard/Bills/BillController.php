@@ -6,6 +6,9 @@ use App\Http\Controllers\BaseController;
 use Illuminate\Http\Request;
 use Auth;
 use DB;
+use App\Product;
+use App\Client;
+use App\Campaign;
 use App\BillProduct;
 
 /**
@@ -15,7 +18,7 @@ use App\BillProduct;
  */
 class BillController extends BaseController {
 
-    protected $validatedFields = ['product_page', 'product_quantity', 'product_price', 'product_discount', 'payment_term'];
+    protected $validatedFields = ['product_page', 'product_quantity', 'product_price', 'product_discount', 'payment_term', 'product_code', 'product_name'];
 
     /**
      * Render page of given bill.
@@ -45,13 +48,21 @@ class BillController extends BaseController {
         $price = $bill->products()->sum('price');
         $priceWithDiscount = $bill->products()->sum('price_with_discount');
 
+        $campaign = Campaign::where('id', $bill->campaign_id)->first();
+        $client = Client::where('id', $bill->client_id)->first();
+
         $response = [
             'status' => $status,
             'payment_term' => date('d-m-Y', strtotime($bill->payment_term)),
             'products' => $products,
             'not_available_products' => $notAvailableProducts,
             'to_pay' => $priceWithDiscount,
-            'saved_money' => $price - $priceWithDiscount
+            'saved_money' => $price - $priceWithDiscount,
+            'other_details' => $bill->other_details,
+            'client_name' => $client->name,
+            'campaign_number' => $campaign->number,
+            'campaign_year' => $campaign->year,
+            'campaign_order' => $bill->campaign_order
         ];
 
         return response()->json($response);
@@ -79,6 +90,39 @@ class BillController extends BaseController {
             'payment_term' => date('d-m-Y', strtotime(Auth::user()->bills()->where('bills.id', $billId)->first()->payment_term))
         ]);
 
+    }
+
+    public function addProduct($billId, Request $request) {
+
+        $this->validateAddProductData($request);
+
+        $product = Auth::user()->products()->where('code', $request->get('product_code'))->first();
+        $data = $this->getAddProductDataFromRequest($request);
+        $bill = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->attach([$product->id => $data]);
+
+        return response()->json([
+            'title' => 'Scces!',
+            'message' => 'Produsul a fost adăugat.'
+        ]);
+    }
+
+    public function addNotExistentProduct($billId, Request $request) {
+
+        // todo make sure billId is valid
+        $this->validateAddNotExistentProductData($request);
+
+        $product = Auth::user()->products()->create([
+            'name' => $request->get('product_name'),
+            'code' => $request->get('product_code')
+        ]);
+
+        $data = $this->getAddProductDataFromRequest($request);
+        $bill = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->attach([$product->id => $data]);
+
+        return response()->json([
+            'title' => 'Scces!',
+            'message' => 'Produsul a fost adăugat.'
+        ]);
     }
 
     /**
@@ -289,21 +333,70 @@ class BillController extends BaseController {
     public function setPaymentTerm($billId, Request $request) {
 
         $this->validateSetPaymentTermData($request);
-        // dd($request->get('payment_term'));
-// dd(date('Y/m/d', strtotime($request->get('payment_term'))));
-        DB::table('bills')
-            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
-            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
-            ->where('users.id', Auth::user()->id)
-            ->where('bills.id', $billId)
-            ->update([
-                'payment_term' => date('Y-m-d', strtotime($request->get('payment_term')))
-                // 'payment_term' => $request->get('payment_term')
-            ]);
+        $this->updateBill($billId, [
+            'payment_term' => date('Y-m-d', strtotime($request->get('payment_term')))
+        ]);
 
         return response()->json([
             'title' => 'Succes!',
             'message' => 'Termenul de plată al facturii a fost actualizat.',
+        ]);
+    }
+
+    public function editOtherDetails($billId, Request $request) {
+
+        $this->validateEditOtherDetailsData($request);
+        $this->updateBill($billId, [
+            'other_details' => $request->get('other_details')
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Detaliile suplimentare pentru această factură au fost actualizate.'
+        ]);
+
+    }
+
+    protected function getAddProductDataFromRequest($request) {
+
+        $page = $request->get('product_page');
+        $quantity = $request->get('product_quantity') ? $request->get('product_quantity') : 1;
+        $discount = $request->get('product_discount') ? $request->get('product_discount') : 0;
+        $price =  $request->get('product_price') ? $request->get('product_price') * $quantity : 0;
+        $priceWithDiscount = $price - (($discount/100) * $price);
+
+        return [
+            'page' => $page,
+            'quantity' => $quantity,
+            'discount' => $discount,
+            'price' => $price,
+            'price_with_discount' => $priceWithDiscount
+        ];
+    }
+
+    /**
+     * Validate data used to add new product to the bill.
+     *
+     * @param $request
+     */
+    protected function validateAddProductData($request) {
+        $this->validate($request, [
+            'product_code' => ['required', 'digits:5', 'product_code_belongs_to_current_user'],
+            'product_page' => ['numeric', 'between:0,999'],
+            'product_price' => ['required', 'numeric', 'between:0,9999'],
+            'product_discount' => ['numeric', 'between:0,100'],
+            'product_quantity' => ['numeric', 'between:1,999']
+        ]);
+    }
+
+    protected function validateAddNotExistentProductData($request) {
+        $this->validate($request, [
+            'product_name' => ['required', 'string', 'between:2,150'],
+            'product_code' => ['required', 'digits:5', 'unique_product_code_for_current_user'],
+            'product_page' => ['numeric', 'between:0,999'],
+            'product_price' => ['required', 'numeric', 'between:0,9999'],
+            'product_discount' => ['numeric', 'between:0,100'],
+            'product_quantity' => ['numeric', 'between:1,999']
         ]);
     }
 
@@ -347,6 +440,12 @@ class BillController extends BaseController {
         ]);
     }
 
+    protected function validateEditOtherDetailsData($request) {
+        $this->validate($request, [
+            'other_details' => ['']
+        ]);
+    }
+
     protected function updateBillProducts($billId, $billProductId, $newValues) {
         DB::table('bill_products')
             ->leftJoin('bills', 'bill_products.bill_id', '=', 'bills.id')
@@ -355,7 +454,15 @@ class BillController extends BaseController {
             ->where('bill_products.bill_id', $billId)
             ->where('bill_products.id', $billProductId)
             ->update($newValues);
+    }
 
+    protected function updateBill($billId, $newValues) {
+        DB::table('bills')
+            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
+            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
+            ->where('users.id', Auth::user()->id)
+            ->where('bills.id', $billId)
+            ->update($newValues);
     }
 
 }

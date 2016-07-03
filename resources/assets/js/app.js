@@ -14,6 +14,7 @@ require('sweetalert');
 require('bootstrap-datepicker');
 require('bootstrap-select');
 require('chart.js');
+require('trumbowyg');
 
 window.colors = {
     success: '#60C5BA',
@@ -96,24 +97,27 @@ new Vue({
             });
         },
 
-        'confirmation': function(config, callback) {
+        'confirmation': function(config, confirmCallback, cancelCallback) {
 
             if (!config.title) {
                 config.title = 'Sunteți sigur?';
             }
-            if (config.message) {
+            if (!config.type) {
+                config.type = 'warning';
+            }
+            if (!config.message) {
                 config.message = 'Sigur doriți să continuați?';
             }
-            if (config.cancelButtonText) {
+            if (!config.cancelButtonText) {
                 config.cancelButtonText = 'Anulează';
             }
-            if (config.cancelButtonColor) {
+            if (!config.cancelButtonColor) {
                 config.cancelButtonColor = '#bdc3c7';
             }
-            if (config.confirmButtonColor) {
+            if (!config.confirmButtonColor) {
                 config.confirmButtonColor = '#E05082';
             }
-            if (config.confirmButtonText) {
+            if (!config.confirmButtonText) {
                 config.confirmButtonText = 'Sunt sigur';
             }
 
@@ -128,11 +132,24 @@ new Vue({
                 confirmButtonText: config.confirmButtonText,
                 showLoaderOnConfirm: true,
                 closeOnConfirm: false
-            }, function() {
-                if (typeof callback !== 'undefined') {
-                    callback();
+            }, function(confirmed) {
+
+                if (confirmed) {
+                    if (typeof confirmCallback !== 'undefined') {
+                        confirmCallback();
+                    }
+                    return;
                 }
+
+                if (typeof cancelCallback !== 'undefined') {
+                    cancelCallback();
+                }
+
             });
+        },
+
+        'close_opened_alert': function() {
+            swal.close();
         }
     }
 });

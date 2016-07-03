@@ -6,6 +6,8 @@
     <title>{{ $title }} - Nova Manager</title>
 
     <link rel="stylesheet" type="text/css" href="/css/app.css" />
+    <link rel="stylesheet" type="text/css" href="/css/medium-editor.css" />
+    <link rel="stylesheet" type="text/css" href="/css/flat.css" />
     <link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
 
     <!--[if lt IE 7]>

@@ -3,9 +3,9 @@
     <div class="page-container">
 
         <div class="row">
-            <bill-header :bill-id="billId" :status="billStatus" :payment-term="paymentTerm"></bill-header>
+            <bill-header :bill-id="billId" :status="billStatus" :payment-term="paymentTerm" :header-details="headerDetails"></bill-header>
             <products :bill-id="billId" :products="products"></products>
-            <informations :payment-term="paymentTerm" :to-pay="toPay" :saved-money="savedMoney"></informations>
+            <informations :payment-term="paymentTerm" :to-pay="toPay" :saved-money="savedMoney" :other-details="otherDetails"></informations>
         </div>
 
     </div>
@@ -32,6 +32,11 @@ export default {
             toPay: '',
             savedMoney: '',
             paymentTerm: '',
+            otherDetails: '',
+            campaignNumber: '',
+            campaignYear: '',
+            campaignOrder: '',
+            clientName: '',
             products: {
                 available: '',
                 notAvailable: ''
@@ -59,6 +64,11 @@ export default {
                 vm.toPay = success.data.to_pay;
                 vm.savedMoney = success.data.saved_money;
                 vm.paymentTerm = success.data.payment_term;
+                vm.otherDetails = success.data.other_details;
+                vm.campaignNumber = success.data.campaign_number;
+                vm.campaignYear = success.data.campaign_year;
+                vm.campaignOrder = success.data.campaign_order;
+                vm.clientName = success.data.client_name;
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -107,6 +117,17 @@ export default {
 
     },
 
+    computed: {
+        headerDetails: function() {
+            return {
+                clientName: this.clientName,
+                campaignNumber: this.campaignNumber,
+                campaignYear: this.campaignYear,
+                campaignOrder: this.campaignOrder
+            }
+        }
+    },
+
     events: {
 
         'reloadProducts': function(callback) {
@@ -124,7 +145,7 @@ export default {
             }
             this.getPaymentTerm();
         }
-        
+
     },
 
 }
