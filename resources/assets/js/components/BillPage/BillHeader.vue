@@ -14,7 +14,7 @@
             <!-- BEGIN Bill owner and bill campaign -->
             <div class="col-md-9">
                 <span class="page-title grey-dark">{{ headerDetails.clientName }}&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
-                <span class="page-description grey">Comanda <a @click="editCampaignModal" href="#">{{ headerDetails.campaignOrder }}</a> din campania <a @click="editCampaignModal" href="#">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>
+                <span class="page-description grey">Comanda {{ headerDetails.campaignOrder }} din campania <a @click="editCampaignModal" href="#">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>
             </div>
             <!-- END Bill owner and bill campaign -->
 
@@ -59,6 +59,7 @@
         </div>
 
         <set-payment-term-modal :current-payment-term="paymentTerm" :bill-id="billId"></set-payment-term-modal>
+        <edit-campaign-modal :bill-id="billId" :campaign-year="headerDetails.campaignYear" :campaign-number="headerDetails.campaignNumber"></edit-campaign-modal>
 
     </div>
 
@@ -68,12 +69,14 @@
 
 import SetPaymentTermModal from '../../components/BillPage/BillHeader/SetPaymentTermModal.vue';
 import AddProduct from '../../components/BillPage/BillHeader/AddProduct.vue';
+import EditCampaignModal from '../../components/BillPage/BillHeader/EditCampaignModal.vue';
 
 export default {
 
     components: {
         'set-payment-term-modal': SetPaymentTermModal,
         'add-product': AddProduct,
+        'edit-campaign-modal': EditCampaignModal,
     },
 
     props: ['billId', 'status', 'paymentTerm', 'headerDetails'],
@@ -171,7 +174,7 @@ export default {
         },
 
         editCampaignModal: function() {
-            //
+            this.$broadcast('showEditCampaignModal');
         },
 
     },

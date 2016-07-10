@@ -92,6 +92,55 @@ class BillController extends BaseController {
 
     }
 
+    public function getCampaigns($billId) {
+
+        $campaigns = Campaign::get();
+        return response()->json([
+            'campaigns' => $campaigns->groupBy('year')
+        ]);
+
+    }
+
+    public function getCampaign($billId) {
+        $campaign = Campaign::where('id', Auth::user()->bills()->where('bills.id', $billId)->first()->campaign_id)->first();
+
+        if (!$campaign) {
+            return;
+        }
+
+        return response()->json([
+            'campaign_year' => $campaign->year,
+            'campaign_number' => $campaign->number
+        ]);
+    }
+
+    public function updateCampaign($billId, Request $request) {
+
+        $this->validateUpdateCampaignData($request);
+        $campaign = Campaign::where('number', $request->get('campaign_number'))->where('year', $request->get('campaign_year'))->first();
+
+        if (!$campaign) {
+            return response()->json([
+                'title' => 'Erroare',
+                'message' => 'Campanie invalida.',
+            ], 422);
+        }
+
+        DB::table('bills')
+            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
+            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
+            ->where('bills.id', $billId)
+            ->where('users.id', Auth::user()->id)
+            ->update([
+                'campaign_id' => $campaign->id
+            ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'Campania a fost actualizată.'
+        ]);
+    }
+
     public function addProduct($billId, Request $request) {
 
         $this->validateAddProductData($request);
@@ -101,7 +150,7 @@ class BillController extends BaseController {
         $bill = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->attach([$product->id => $data]);
 
         return response()->json([
-            'title' => 'Scces!',
+            'title' => 'Succes!',
             'message' => 'Produsul a fost adăugat.'
         ]);
     }
@@ -372,6 +421,13 @@ class BillController extends BaseController {
             'price' => $price,
             'price_with_discount' => $priceWithDiscount
         ];
+    }
+
+    protected function validateUpdateCampaignData($request) {
+        $this->validate($request, [
+            'campaign_number' => ['required', 'numeric'],
+            'campaign_year' => ['required', 'numeric'],
+        ]);
     }
 
     /**

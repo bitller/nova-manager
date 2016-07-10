@@ -48,6 +48,8 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
             Route::get('/get-payment-term', 'BillController@getPaymentTerm');
             Route::get('/mark-as-paid', 'BillController@markBillAsPaid');
             Route::get('/mark-as-unpaid', 'BillController@markBillAsUnpaid');
+            Route::get('/get-campaigns', 'BillController@getCampaigns');
+            Route::get('/get-campaign', 'BillController@getCampaign');
 
             Route::post('/add-product', 'BillController@addProduct');
             Route::post('/add-not-existent-product', 'BillController@addNotExistentProduct');
@@ -55,6 +57,7 @@ Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' 
             Route::post('/delete', 'BillController@delete');
             Route::post('/set-payment-term', 'BillController@setPaymentTerm');
             Route::post('/edit-other-details', 'BillController@editOtherDetails');
+            Route::post('/update-campaign', 'BillController@updateCampaign');
 
             Route::group(['prefix' => 'products/{billProductId}'], function() {
                 Route::post('/edit-page', 'BillController@editPage');

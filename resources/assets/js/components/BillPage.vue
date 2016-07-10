@@ -99,6 +99,17 @@ export default {
 
         },
 
+        getCampaign: function(callback) {
+            var vm = this;
+            this.$http.get('/dashboard/bills/' + this.billId + '/get-campaign').then(function (success) {
+                vm.campaignYear = success.data.campaign_year;
+                vm.campaignNumber = success.data.campaign_number;
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+            });
+        },
+
         getPaymentTerm: function(callback) {
 
             var vm = this;
@@ -136,6 +147,14 @@ export default {
                 return;
             }
             this.getData();
+        },
+
+        'reloadCampaign': function(callback) {
+            if (typeof callback !== 'undefined') {
+                this.getCampaign(callback);
+                return;
+            }
+            this.getCampaign();
         },
 
         'reloadPaymentTerm': function(callback) {

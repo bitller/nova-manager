@@ -56482,7 +56482,7 @@ new Vue({
     }
 });
 
-},{"./components/AdminCenterPage.vue":88,"./components/BillPage.vue":122,"./components/BillsPage.vue":134,"./components/ClientPage.vue":140,"./components/ClientsPage.vue":158,"./components/LoginPage.vue":166,"./components/Notifications.vue":169,"./components/ProductsPage.vue":172,"./components/RegisterPage.vue":182,"./components/SettingsPage.vue":187,"./components/StatisticsPage.vue":210,"./components/SupportPage.vue":220,"bootstrap-datepicker":3,"bootstrap-sass":4,"bootstrap-select":5,"braintree-web":6,"chart.js":7,"jquery":66,"sweetalert":78,"trumbowyg":79,"typeahead.js-browserify":80,"vue":85,"vue-resource":84}],88:[function(require,module,exports){
+},{"./components/AdminCenterPage.vue":88,"./components/BillPage.vue":122,"./components/BillsPage.vue":135,"./components/ClientPage.vue":141,"./components/ClientsPage.vue":159,"./components/LoginPage.vue":167,"./components/Notifications.vue":170,"./components/ProductsPage.vue":173,"./components/RegisterPage.vue":183,"./components/SettingsPage.vue":188,"./components/StatisticsPage.vue":211,"./components/SupportPage.vue":221,"bootstrap-datepicker":3,"bootstrap-sass":4,"bootstrap-select":5,"braintree-web":6,"chart.js":7,"jquery":66,"sweetalert":78,"trumbowyg":79,"typeahead.js-browserify":80,"vue":85,"vue-resource":84}],88:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -57216,7 +57216,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ca84a624", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":100,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":101,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":102,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":103,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":104,"../../../../components/Common/Loader.vue":164,"vue":85,"vue-hot-reload-api":83}],100:[function(require,module,exports){
+},{"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePassword.vue":100,"../../../../components/AdminCenterPage/AdminCenter/Users/User/ChangePasswordModal.vue":101,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DeleteAccount.vue":102,"../../../../components/AdminCenterPage/AdminCenter/Users/User/DisableAccount.vue":103,"../../../../components/AdminCenterPage/AdminCenter/Users/User/EnableAccount.vue":104,"../../../../components/Common/Loader.vue":165,"vue":85,"vue-hot-reload-api":83}],100:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58374,6 +58374,17 @@ exports.default = {
             });
         },
 
+        getCampaign: function getCampaign(callback) {
+            var vm = this;
+            this.$http.get('/dashboard/bills/' + this.billId + '/get-campaign').then(function (success) {
+                vm.campaignYear = success.data.campaign_year;
+                vm.campaignNumber = success.data.campaign_number;
+                if (typeof callback !== 'undefined') {
+                    callback();
+                }
+            });
+        },
+
         getPaymentTerm: function getPaymentTerm(callback) {
 
             var vm = this;
@@ -58411,6 +58422,14 @@ exports.default = {
             this.getData();
         },
 
+        'reloadCampaign': function reloadCampaign(callback) {
+            if (typeof callback !== 'undefined') {
+                this.getCampaign(callback);
+                return;
+            }
+            this.getCampaign();
+        },
+
         'reloadPaymentTerm': function reloadPaymentTerm(callback) {
             if (typeof callback !== 'undefined') {
                 this.getPaymentTerm(callback);
@@ -58434,7 +58453,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-5dcde86a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/BillPage/BillHeader.vue":123,"../components/BillPage/Informations.vue":127,"../components/BillPage/Products.vue":129,"vue":85,"vue-hot-reload-api":83}],123:[function(require,module,exports){
+},{"../components/BillPage/BillHeader.vue":123,"../components/BillPage/Informations.vue":128,"../components/BillPage/Products.vue":130,"vue":85,"vue-hot-reload-api":83}],123:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n.options-menu {\n    display: inline-block;\n}\n\n")
 'use strict';
@@ -58451,13 +58470,18 @@ var _AddProduct = require('../../components/BillPage/BillHeader/AddProduct.vue')
 
 var _AddProduct2 = _interopRequireDefault(_AddProduct);
 
+var _EditCampaignModal = require('../../components/BillPage/BillHeader/EditCampaignModal.vue');
+
+var _EditCampaignModal2 = _interopRequireDefault(_EditCampaignModal);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
 
     components: {
         'set-payment-term-modal': _SetPaymentTermModal2.default,
-        'add-product': _AddProduct2.default
+        'add-product': _AddProduct2.default,
+        'edit-campaign-modal': _EditCampaignModal2.default
     },
 
     props: ['billId', 'status', 'paymentTerm', 'headerDetails'],
@@ -58552,7 +58576,7 @@ exports.default = {
         },
 
         editCampaignModal: function editCampaignModal() {
-            //
+            this.$broadcast('showEditCampaignModal');
         }
 
     },
@@ -58575,7 +58599,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Bill owner and bill campaign -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\">{{ headerDetails.clientName }}&nbsp;<span v-show=\"billIsMarkedAsPaid\" class=\"glyphicon glyphicon-ok\" data-toggle=\"tooltip\" title=\"Această factură a fost plătită.\" data-placement=\"right\"></span></span>\n            <span class=\"page-description grey\">Comanda <a @click=\"editCampaignModal\" href=\"#\">{{ headerDetails.campaignOrder }}</a> din campania <a @click=\"editCampaignModal\" href=\"#\">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>\n        </span></div>\n        <!-- END Bill owner and bill campaign -->\n\n        <!-- BEGIN Buttons -->\n        <div class=\"col-md-3\">\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-print\"></span></div>\n            <div class=\"dropdown options-menu\">\n                <button class=\"btn btn-primary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                    <span class=\"glyphicon glyphicon-cog\"></span>\n                </button>\n                    <ul class=\"dropdown-menu\">\n                        <li v-show=\"billIsMarkedAsUnpaid\" @click=\"markBillAsPaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca plătită</a></li>\n                        <li v-show=\"billIsMarkedAsPaid\" @click=\"markBillAsUnpaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca neplătită</a></li>\n                        <li @click=\"setPaymentTermModal\"><a href=\"#\"><span class=\"glyphicon glyphicon-calendar\"></span>&nbsp;Setează termenul de plată</a></li>\n                        <li><a href=\"#\"><span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;Editează detaliile suplimentare</a></li>\n                        <li class=\"divider\"></li>\n                        <li @click=\"deleteBill\"><a href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge factura</a></li>\n                    </ul>\n            </div>\n\n            <add-product :bill-id=\"billId\"></add-product>\n\n        </div>\n        <!-- END Buttons -->\n\n        <div class=\"col-md-12 alerts\">\n\n            <!-- BEGIN Payment term not set alert -->\n            <div class=\"alert alert-warning\">\n                Seteaza termenul de plata pentru aceasta factura.\n            </div>\n            <!-- END Payment term not set alert -->\n\n            <!-- BEGIN Payment term expired -->\n            <div class=\"alert alert-danger\">\n                Aceasta factura trebuia platita pana in data de 9.03.2016.\n            </div>\n            <!-- END Payment term expired -->\n\n        </div>\n\n    </div>\n\n    <set-payment-term-modal :current-payment-term=\"paymentTerm\" :bill-id=\"billId\"></set-payment-term-modal>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Bill owner and bill campaign -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\">{{ headerDetails.clientName }}&nbsp;<span v-show=\"billIsMarkedAsPaid\" class=\"glyphicon glyphicon-ok\" data-toggle=\"tooltip\" title=\"Această factură a fost plătită.\" data-placement=\"right\"></span></span>\n            <span class=\"page-description grey\">Comanda {{ headerDetails.campaignOrder }} din campania <a @click=\"editCampaignModal\" href=\"#\">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>\n        </span></div>\n        <!-- END Bill owner and bill campaign -->\n\n        <!-- BEGIN Buttons -->\n        <div class=\"col-md-3\">\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-print\"></span></div>\n            <div class=\"dropdown options-menu\">\n                <button class=\"btn btn-primary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                    <span class=\"glyphicon glyphicon-cog\"></span>\n                </button>\n                    <ul class=\"dropdown-menu\">\n                        <li v-show=\"billIsMarkedAsUnpaid\" @click=\"markBillAsPaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca plătită</a></li>\n                        <li v-show=\"billIsMarkedAsPaid\" @click=\"markBillAsUnpaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca neplătită</a></li>\n                        <li @click=\"setPaymentTermModal\"><a href=\"#\"><span class=\"glyphicon glyphicon-calendar\"></span>&nbsp;Setează termenul de plată</a></li>\n                        <li><a href=\"#\"><span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;Editează detaliile suplimentare</a></li>\n                        <li class=\"divider\"></li>\n                        <li @click=\"deleteBill\"><a href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge factura</a></li>\n                    </ul>\n            </div>\n\n            <add-product :bill-id=\"billId\"></add-product>\n\n        </div>\n        <!-- END Buttons -->\n\n        <div class=\"col-md-12 alerts\">\n\n            <!-- BEGIN Payment term not set alert -->\n            <div class=\"alert alert-warning\">\n                Seteaza termenul de plata pentru aceasta factura.\n            </div>\n            <!-- END Payment term not set alert -->\n\n            <!-- BEGIN Payment term expired -->\n            <div class=\"alert alert-danger\">\n                Aceasta factura trebuia platita pana in data de 9.03.2016.\n            </div>\n            <!-- END Payment term expired -->\n\n        </div>\n\n    </div>\n\n    <set-payment-term-modal :current-payment-term=\"paymentTerm\" :bill-id=\"billId\"></set-payment-term-modal>\n    <edit-campaign-modal :bill-id=\"billId\" :campaign-year=\"headerDetails.campaignYear\" :campaign-number=\"headerDetails.campaignNumber\"></edit-campaign-modal>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -58590,7 +58614,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-a23e9df0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/BillPage/BillHeader/AddProduct.vue":124,"../../components/BillPage/BillHeader/SetPaymentTermModal.vue":126,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],124:[function(require,module,exports){
+},{"../../components/BillPage/BillHeader/AddProduct.vue":124,"../../components/BillPage/BillHeader/EditCampaignModal.vue":126,"../../components/BillPage/BillHeader/SetPaymentTermModal.vue":127,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],124:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -58964,6 +58988,136 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {
 
+    props: ['campaignNumber', 'campaignYear', 'campaignOrder', 'billId'],
+
+    data: function data() {
+        return {
+            loading: false,
+            campaigns: '',
+            selectedCampaignYear: '',
+            selectedCampaignNumber: '',
+            error: '',
+            modal: {
+                title: 'Campania si numarul comenzii',
+                selector: '#edit-campaign-modal'
+            }
+        };
+    },
+
+    methods: {
+
+        showModal: function showModal() {
+            $(this.modal.selector).modal('show');
+            this.getCampaigns();
+        },
+
+        closeModal: function closeModal() {
+            $(this.modal.selector).modal('hide');
+        },
+
+        getCampaigns: function getCampaigns() {
+
+            this.loading = true;
+            var vm = this;
+
+            this.$http.get('/dashboard/bills/' + this.billId + '/get-campaigns').then(function (success) {
+                vm.campaigns = success.data.campaigns;
+                vm.loading = false;
+            }, function (error) {
+                //
+            });
+        },
+
+        updateCampaign: function updateCampaign() {
+
+            this.loading = true;
+            var vm = this;
+            var data = {
+                _token: $('#token').attr('content'),
+                campaign_number: this.selectedCampaignNumber,
+                campaign_year: this.selectedCampaignYear
+            };
+
+            this.$http.post('/dashboard/bills/' + this.billId + '/update-campaign', data).then(function (success) {
+                vm.$dispatch('reloadCampaign', function () {
+                    vm.loading = false;
+                    vm.$dispatch('success_alert', success.data.title, success.data.message);
+                    vm.closeModal();
+                });
+            }, function (error) {
+                vm.loading = false;
+                vm.checkForErrors(error.data);
+            });
+        },
+
+        checkForErrors: function checkForErrors(data) {
+            if (typeof data.errors === 'undefined') {
+                this.error = 'O eroare a avut loc.';
+                return;
+            }
+
+            var errors = data.errors;
+            if (errors.campaign_number) {
+                this.error = errors.campaig_number;
+                return;
+            }
+            if (errors.campaign_year) {
+                this.error = errors.campaign_year;
+            }
+        },
+
+        selectCampaignYear: function selectCampaignYear(campaign) {
+            this.selectedCampaignYear = campaign.year;
+        },
+
+        selectCampaignNumber: function selectCampaignNumber(campaign) {
+            this.selectedCampaignNumber = campaign.number;
+        }
+
+    },
+
+    computed: {
+        hasError: function hasError() {
+            if (!this.loading && this.error) {
+                return this.error;
+            }
+            return;
+        }
+    },
+
+    events: {
+        'showEditCampaignModal': function showEditCampaignModal() {
+            this.showModal();
+        }
+    },
+
+    watch: {
+        'campaignYear': function campaignYear(value) {
+            this.selectedCampaignYear = value;
+            this.selectedCampaignNumber = this.campaignNumber;
+        }
+    }
+};
+if (module.exports.__esModule) module.exports = module.exports.default
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Modal -->\n<div id=\"edit-campaign-modal\" data-backdrop=\"static\" class=\"modal fade\" role=\"dialog\">\n    <div class=\"modal-dialog\">\n\n        <!-- Modal content-->\n        <div class=\"modal-content\">\n\n            <!-- BEGIN Modal header -->\n            <div class=\"modal-header\">\n                <button @click=\"closeModal\" type=\"button\" class=\"close\">×</button>\n                <h4 class=\"modal-title\">{{ modal.title }}</h4>\n            </div>\n            <!-- END Modal header -->\n\n            <!-- BEGIN Modal body -->\n            <div class=\"modal-body\">\n\n                <div class=\"row\">\n                    <div class=\"col-md-12\">\n\n                        <div class=\"col-md-12\"><div v-show=\"hasError\" class=\"alert alert-danger\">{{ hasError }}</div></div>\n\n                        <!-- BEGIN Campaign year -->\n                        <div class=\"col-md-3\">\n                            <div class=\"dropdown\">\n                                <label>Anul campaniei</label>\n                                <button class=\"btn btn-default btn-block dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                                    {{ selectedCampaignYear }}\n                                    <span class=\"caret\"></span>\n                                </button>\n                                <ul class=\"dropdown-menu\">\n                                    <li v-for=\"(index, campaign) in campaigns\" @click=\"selectCampaignYear(campaign)\"><a href=\"#\">{{ index }}</a></li>\n                                </ul>\n                            </div>\n                        </div>\n                        <!-- END Campaign year -->\n\n                        <!-- BEGIN Campaign number -->\n                        <div class=\"col-md-4\">\n                            <div class=\"dropdown\">\n                                <label>Numarul campaniei</label>\n                                <button class=\"btn btn-default btn-block dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                                    {{ selectedCampaignNumber }}\n                                    <span class=\"caret\"></span>\n                                </button>\n                                <ul class=\"dropdown-menu\">\n                                    <li v-for=\"(index, campaign) in campaigns[selectedCampaignYear]\" @click=\"selectCampaignNumber(campaign)\"><a href=\"#\">{{ campaign.number }}</a></li>\n                                </ul>\n                            </div>\n                        </div>\n                        <!-- END Campaign number -->\n\n                    </div>\n                </div>\n            </div>\n            <!-- END Modal body -->\n\n            <!-- BEGIN Modal footer -->\n            <div class=\"modal-footer\">\n                <button @click=\"closeModal\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-default\">Anulează</button>\n                <button @click=\"updateCampaign\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-primary\">\n                    <span v-show=\"!loading\">Salvează</span>\n                    <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n                </button>\n            </div>\n            <!-- END Modal footer -->\n\n        </div>\n        <!-- END Modal content -->\n\n    </div>\n</div>\n<!-- END Modal -->\n\n"
+if (module.hot) {(function () {  module.hot.accept()
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  if (!module.hot.data) {
+    hotAPI.createRecord("_v-03f3c7a8", module.exports)
+  } else {
+    hotAPI.update("_v-03f3c7a8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
+  }
+})()}
+},{"vue":85,"vue-hot-reload-api":83}],127:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = {
+
     props: ['currentPaymentTerm', 'billId'],
 
     data: function data() {
@@ -59068,7 +59222,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-2843ffd4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],127:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],128:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -59117,7 +59271,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-fb36c04a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/BillPage/Informations/MoreDetails.vue":128,"vue":85,"vue-hot-reload-api":83}],128:[function(require,module,exports){
+},{"../../components/BillPage/Informations/MoreDetails.vue":129,"vue":85,"vue-hot-reload-api":83}],129:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n.other-details-editor {\n    min-height: 60px;\n}\n\n")
 'use strict';
@@ -59261,7 +59415,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-8ca0844e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"medium-editor":67,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],129:[function(require,module,exports){
+},{"medium-editor":67,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],130:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n\n.pointer {\n    cursor: pointer;\n}\n\n")
 'use strict';
@@ -59536,7 +59690,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-758007f8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/BillPage/Products/EditDiscountModal.vue":130,"../../components/BillPage/Products/EditPageModal.vue":131,"../../components/BillPage/Products/EditPriceModal.vue":132,"../../components/BillPage/Products/EditQuantityModal.vue":133,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],130:[function(require,module,exports){
+},{"../../components/BillPage/Products/EditDiscountModal.vue":131,"../../components/BillPage/Products/EditPageModal.vue":132,"../../components/BillPage/Products/EditPriceModal.vue":133,"../../components/BillPage/Products/EditQuantityModal.vue":134,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],131:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -59646,7 +59800,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-3b094a0b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],131:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],132:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -59755,7 +59909,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-9f916006", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],132:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],133:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -59865,7 +60019,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4eaf2d55", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],133:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],134:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -59975,7 +60129,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4ebe23fe", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],134:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],135:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60022,7 +60176,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-7a5a45b6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/BillsPage/Bills.vue":135,"../components/BillsPage/BillsHeader.vue":137,"vue":85,"vue-hot-reload-api":83}],135:[function(require,module,exports){
+},{"../components/BillsPage/Bills.vue":136,"../components/BillsPage/BillsHeader.vue":138,"vue":85,"vue-hot-reload-api":83}],136:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60264,7 +60418,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-bd5099da", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/Alerts/AlertDanger.vue":119,"../../components/Alerts/AlertWarning.vue":120,"../../components/BillsPage/Bills/Filters.vue":136,"../../components/Loaders/BigBubblesLoader.vue":165,"vue":85,"vue-hot-reload-api":83}],136:[function(require,module,exports){
+},{"../../components/Alerts/AlertDanger.vue":119,"../../components/Alerts/AlertWarning.vue":120,"../../components/BillsPage/Bills/Filters.vue":137,"../../components/Loaders/BigBubblesLoader.vue":166,"vue":85,"vue-hot-reload-api":83}],137:[function(require,module,exports){
 var __vueify_insert__ = require("vueify/lib/insert-css")
 var __vueify_style__ = __vueify_insert__.insert("\n.bottom-space {\n    margin-bottom: 18px;\n}\n")
 'use strict';
@@ -60457,7 +60611,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-b3cf8a42", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"babel-runtime/helpers/defineProperty":2,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],137:[function(require,module,exports){
+},{"babel-runtime/helpers/defineProperty":2,"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],138:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60517,7 +60671,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-43bedb00", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/BillsPage/BillsHeader/CreateBill.vue":138,"../../components/BillsPage/BillsHeader/OrderBy.vue":139,"vue":85,"vue-hot-reload-api":83}],138:[function(require,module,exports){
+},{"../../components/BillsPage/BillsHeader/CreateBill.vue":139,"../../components/BillsPage/BillsHeader/OrderBy.vue":140,"vue":85,"vue-hot-reload-api":83}],139:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60660,7 +60814,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1647ce3c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/Alerts/AlertDanger.vue":119,"../../../components/Autocomplete/Typeahead.vue":121,"vue":85,"vue-hot-reload-api":83}],139:[function(require,module,exports){
+},{"../../../components/Alerts/AlertDanger.vue":119,"../../../components/Autocomplete/Typeahead.vue":121,"vue":85,"vue-hot-reload-api":83}],140:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60685,7 +60839,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1a2a4116", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],140:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],141:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60737,7 +60891,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4c268c4f", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/ClientPage/Bills.vue":141,"../components/ClientPage/ClientHeader.vue":142,"../components/ClientPage/Notifications.vue":147,"../components/ClientPage/PersonalInformations.vue":149,"../components/ClientPage/Statistics.vue":153,"vue":85,"vue-hot-reload-api":83}],141:[function(require,module,exports){
+},{"../components/ClientPage/Bills.vue":142,"../components/ClientPage/ClientHeader.vue":143,"../components/ClientPage/Notifications.vue":148,"../components/ClientPage/PersonalInformations.vue":150,"../components/ClientPage/Statistics.vue":154,"vue":85,"vue-hot-reload-api":83}],142:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -60758,7 +60912,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-7bf0e2ec", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],142:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],143:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60818,7 +60972,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-aa1f7a70", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ClientPage/ClientHeader/ClientSettings.vue":143,"vue":85,"vue-hot-reload-api":83}],143:[function(require,module,exports){
+},{"../../components/ClientPage/ClientHeader/ClientSettings.vue":144,"vue":85,"vue-hot-reload-api":83}],144:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60866,7 +61020,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-021b65f6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/ClientPage/ClientHeader/ClientSettings/EditClientEmailModal.vue":144,"../../../components/ClientPage/ClientHeader/ClientSettings/EditClientNameModal.vue":145,"../../../components/ClientPage/ClientHeader/ClientSettings/EditClientPhoneNumberModal.vue":146,"vue":85,"vue-hot-reload-api":83}],144:[function(require,module,exports){
+},{"../../../components/ClientPage/ClientHeader/ClientSettings/EditClientEmailModal.vue":145,"../../../components/ClientPage/ClientHeader/ClientSettings/EditClientNameModal.vue":146,"../../../components/ClientPage/ClientHeader/ClientSettings/EditClientPhoneNumberModal.vue":147,"vue":85,"vue-hot-reload-api":83}],145:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\nbau\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -60878,7 +61032,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1c9b0f60", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],145:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],146:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -60995,7 +61149,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-738f0cc3", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],146:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],147:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\nbau\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -61007,7 +61161,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ddbe7476", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],147:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],148:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61039,7 +61193,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-638e6488", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ClientPage/Notifications/Notification.vue":148,"vue":85,"vue-hot-reload-api":83}],148:[function(require,module,exports){
+},{"../../components/ClientPage/Notifications/Notification.vue":149,"vue":85,"vue-hot-reload-api":83}],149:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61062,7 +61216,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4b2dc862", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],149:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],150:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61147,7 +61301,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-0b4b8837", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ClientPage/PersonalInformations/DateOfBirth.vue":150,"../../components/ClientPage/PersonalInformations/Email.vue":151,"../../components/ClientPage/PersonalInformations/PhoneNumber.vue":152,"vue":85,"vue-hot-reload-api":83}],150:[function(require,module,exports){
+},{"../../components/ClientPage/PersonalInformations/DateOfBirth.vue":151,"../../components/ClientPage/PersonalInformations/Email.vue":152,"../../components/ClientPage/PersonalInformations/PhoneNumber.vue":153,"vue":85,"vue-hot-reload-api":83}],151:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61170,7 +61324,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-75abf622", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],151:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],152:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61193,7 +61347,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-0dbf9724", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],152:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],153:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61216,7 +61370,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1c313c5f", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],153:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],154:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61258,7 +61412,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-69eb2633", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ClientPage/Statistics/Earnings.vue":154,"../../components/ClientPage/Statistics/OrderedProducts.vue":155,"../../components/ClientPage/Statistics/Orders.vue":156,"vue":85,"vue-hot-reload-api":83}],154:[function(require,module,exports){
+},{"../../components/ClientPage/Statistics/Earnings.vue":155,"../../components/ClientPage/Statistics/OrderedProducts.vue":156,"../../components/ClientPage/Statistics/Orders.vue":157,"vue":85,"vue-hot-reload-api":83}],155:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61292,7 +61446,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1d1f4355", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/ClientPage/Statistics/StatsPanel.vue":157,"vue":85,"vue-hot-reload-api":83}],155:[function(require,module,exports){
+},{"../../../components/ClientPage/Statistics/StatsPanel.vue":158,"vue":85,"vue-hot-reload-api":83}],156:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61326,7 +61480,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-023343f5", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/ClientPage/Statistics/StatsPanel.vue":157,"vue":85,"vue-hot-reload-api":83}],156:[function(require,module,exports){
+},{"../../../components/ClientPage/Statistics/StatsPanel.vue":158,"vue":85,"vue-hot-reload-api":83}],157:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61360,7 +61514,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-b1edbede", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/ClientPage/Statistics/StatsPanel.vue":157,"vue":85,"vue-hot-reload-api":83}],157:[function(require,module,exports){
+},{"../../../components/ClientPage/Statistics/StatsPanel.vue":158,"vue":85,"vue-hot-reload-api":83}],158:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61383,7 +61537,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6b075451", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],158:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],159:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61443,7 +61597,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-60fcd5b2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/ClientsPage/Clients.vue":159,"../components/ClientsPage/ClientsHeader.vue":160,"vue":85,"vue-hot-reload-api":83}],159:[function(require,module,exports){
+},{"../components/ClientsPage/Clients.vue":160,"../components/ClientsPage/ClientsHeader.vue":161,"vue":85,"vue-hot-reload-api":83}],160:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61661,7 +61815,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-48ad620b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],160:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],161:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61726,7 +61880,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-12a36ff8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ClientsPage/ClientsHeader/AddClient.vue":161,"../../components/ClientsPage/ClientsHeader/OrderBy.vue":162,"../../components/ClientsPage/ClientsHeader/SearchClient.vue":163,"vue":85,"vue-hot-reload-api":83}],161:[function(require,module,exports){
+},{"../../components/ClientsPage/ClientsHeader/AddClient.vue":162,"../../components/ClientsPage/ClientsHeader/OrderBy.vue":163,"../../components/ClientsPage/ClientsHeader/SearchClient.vue":164,"vue":85,"vue-hot-reload-api":83}],162:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61867,7 +62021,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-29157c56", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],162:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],163:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61892,7 +62046,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-10f343e4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],163:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],164:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61931,7 +62085,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-417a1d9a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],164:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],165:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -61952,7 +62106,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-67b6a512", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],165:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],166:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -61975,7 +62129,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-73dfbfde", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],166:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],167:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62012,7 +62166,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4ef86ad3", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/LoginPage/LoginForm.vue":167,"../components/LoginPage/LoginIcon.vue":168,"vue":85,"vue-hot-reload-api":83}],167:[function(require,module,exports){
+},{"../components/LoginPage/LoginForm.vue":168,"../components/LoginPage/LoginIcon.vue":169,"vue":85,"vue-hot-reload-api":83}],168:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62102,7 +62256,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-2705b671", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],168:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],169:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62121,7 +62275,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4263f8b4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],169:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62219,7 +62373,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-05a0e4a3", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/Notifications/Info.vue":170,"../components/Notifications/Warning.vue":171,"vue":85,"vue-hot-reload-api":83}],170:[function(require,module,exports){
+},{"../components/Notifications/Info.vue":171,"../components/Notifications/Warning.vue":172,"vue":85,"vue-hot-reload-api":83}],171:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62242,7 +62396,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-e6819b2c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],171:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],172:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62265,7 +62419,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-48732f90", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],172:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],173:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62325,7 +62479,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1a2145a8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/ProductsPage/Products.vue":173,"../components/ProductsPage/ProductsHeader.vue":180,"vue":85,"vue-hot-reload-api":83}],173:[function(require,module,exports){
+},{"../components/ProductsPage/Products.vue":174,"../components/ProductsPage/ProductsHeader.vue":181,"vue":85,"vue-hot-reload-api":83}],174:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62514,7 +62668,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-130e96bb", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ProductsPage/Products/Displayed.vue":174,"../../components/ProductsPage/Products/OrderBy.vue":175,"../../components/ProductsPage/Products/OrderType.vue":176,"../../components/ProductsPage/Products/Product.vue":177,"../../components/ProductsPage/Products/Search.vue":179,"vue":85,"vue-hot-reload-api":83}],174:[function(require,module,exports){
+},{"../../components/ProductsPage/Products/Displayed.vue":175,"../../components/ProductsPage/Products/OrderBy.vue":176,"../../components/ProductsPage/Products/OrderType.vue":177,"../../components/ProductsPage/Products/Product.vue":178,"../../components/ProductsPage/Products/Search.vue":180,"vue":85,"vue-hot-reload-api":83}],175:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62568,7 +62722,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6de3df6d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],175:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],176:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62634,7 +62788,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-758c11d1", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],176:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],177:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62704,7 +62858,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-00345ab4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],177:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],178:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62761,7 +62915,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-4f86f50a", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/ProductsPage/Products/Product/EditProductModal.vue":178,"vue":85,"vue-hot-reload-api":83}],178:[function(require,module,exports){
+},{"../../../components/ProductsPage/Products/Product/EditProductModal.vue":179,"vue":85,"vue-hot-reload-api":83}],179:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62897,7 +63051,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6fa6930c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/Alerts/AlertDanger.vue":119,"vue":85,"vue-hot-reload-api":83}],179:[function(require,module,exports){
+},{"../../../../components/Alerts/AlertDanger.vue":119,"vue":85,"vue-hot-reload-api":83}],180:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62941,7 +63095,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-5b4d704c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],180:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],181:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62996,7 +63150,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1ad33eb0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/ProductsPage/ProductsHeader/AddProduct.vue":181,"vue":85,"vue-hot-reload-api":83}],181:[function(require,module,exports){
+},{"../../components/ProductsPage/ProductsHeader/AddProduct.vue":182,"vue":85,"vue-hot-reload-api":83}],182:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63157,7 +63311,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-213dd6a5", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/Alerts/AlertDanger.vue":119,"vue":85,"vue-hot-reload-api":83}],182:[function(require,module,exports){
+},{"../../../components/Alerts/AlertDanger.vue":119,"vue":85,"vue-hot-reload-api":83}],183:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63209,7 +63363,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-54081832", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/RegisterPage/CreateAccountForm.vue":183,"../components/RegisterPage/CreateAccountIcon.vue":184,"../components/RegisterPage/FreePeriod.vue":185,"../components/RegisterPage/YourProfile.vue":186,"vue":85,"vue-hot-reload-api":83}],183:[function(require,module,exports){
+},{"../components/RegisterPage/CreateAccountForm.vue":184,"../components/RegisterPage/CreateAccountIcon.vue":185,"../components/RegisterPage/FreePeriod.vue":186,"../components/RegisterPage/YourProfile.vue":187,"vue":85,"vue-hot-reload-api":83}],184:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63312,7 +63466,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1fff6cad", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],184:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],185:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63331,7 +63485,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-50708c3c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],185:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],186:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63350,7 +63504,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-410ab0c5", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],186:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],187:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63369,7 +63523,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-78a2602e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],187:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],188:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63506,7 +63660,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-21fd0167", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/SettingsPage/Billing.vue":188,"../components/SettingsPage/Billing/CreditCard.vue":189,"../components/SettingsPage/Billing/Payments.vue":191,"../components/SettingsPage/Billing/SubscriptionDetails.vue":194,"../components/SettingsPage/Settings.vue":202,"../components/SettingsPage/Settings/Displayed.vue":203,"../components/SettingsPage/Settings/Profile.vue":206,"../components/SettingsPage/Settings/Security.vue":208,"vue":85,"vue-hot-reload-api":83}],188:[function(require,module,exports){
+},{"../components/SettingsPage/Billing.vue":189,"../components/SettingsPage/Billing/CreditCard.vue":190,"../components/SettingsPage/Billing/Payments.vue":192,"../components/SettingsPage/Billing/SubscriptionDetails.vue":195,"../components/SettingsPage/Settings.vue":203,"../components/SettingsPage/Settings/Displayed.vue":204,"../components/SettingsPage/Settings/Profile.vue":207,"../components/SettingsPage/Settings/Security.vue":209,"vue":85,"vue-hot-reload-api":83}],189:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63565,7 +63719,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6b8433b3", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],189:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],190:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63597,7 +63751,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-47ea6c56", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":190,"vue":85,"vue-hot-reload-api":83}],190:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/CreditCard/UpdateCreditCard.vue":191,"vue":85,"vue-hot-reload-api":83}],191:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63618,7 +63772,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1d3c8e1c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],191:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],192:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63655,7 +63809,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-c7b1134e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":192,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":193,"vue":85,"vue-hot-reload-api":83}],192:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/Payments/ExtraBillingInformation.vue":193,"../../../components/SettingsPage/Billing/Payments/PaymentsHistory.vue":194,"vue":85,"vue-hot-reload-api":83}],193:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63676,7 +63830,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-13a5890b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],193:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],194:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -63697,7 +63851,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-b78c865e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],194:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],195:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63778,7 +63932,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-5e9516e9", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":195,"vue":85,"vue-hot-reload-api":83}],195:[function(require,module,exports){
+},{"../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription.vue":196,"vue":85,"vue-hot-reload-api":83}],196:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63950,7 +64104,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-128db898", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/Cancelled.vue":196,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/Expired.vue":197,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/OnTrial.vue":198,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/Subscribed.vue":199,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/TrialExpired.vue":200,"vue":85,"vue-hot-reload-api":83}],196:[function(require,module,exports){
+},{"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/Cancelled.vue":197,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/Expired.vue":198,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/OnTrial.vue":199,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/Subscribed.vue":200,"../../../../components/SettingsPage/Billing/SubscriptionDetails/ViewSubscription/TrialExpired.vue":201,"vue":85,"vue-hot-reload-api":83}],197:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -63993,7 +64147,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-c812f50c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],197:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],198:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64016,7 +64170,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-0d83498e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],198:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],199:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64039,7 +64193,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-3ef0e440", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],199:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],200:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64089,7 +64243,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-54294a01", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],200:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],201:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -64112,7 +64266,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-de6f22d4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],201:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],202:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64135,7 +64289,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-23c24680", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],202:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],203:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64190,7 +64344,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-7c56151b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],203:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],204:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64227,7 +64381,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-dfae3466", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":204,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":205,"vue":85,"vue-hot-reload-api":83}],204:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Displayed/NumberOfBills.vue":205,"../../../components/SettingsPage/Settings/Displayed/NumberOfClients.vue":206,"vue":85,"vue-hot-reload-api":83}],205:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64328,7 +64482,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-efa5ee6c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],205:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],206:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64438,7 +64592,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-7d835206", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],206:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64470,7 +64624,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-936118d6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":207,"vue":85,"vue-hot-reload-api":83}],207:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Profile/ChangeAccountEmail.vue":208,"vue":85,"vue-hot-reload-api":83}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64577,7 +64731,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-ae13296e", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],208:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64609,7 +64763,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-050e5ef8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":209,"vue":85,"vue-hot-reload-api":83}],209:[function(require,module,exports){
+},{"../../../components/SettingsPage/Settings/Security/ChangeAccountPassword.vue":210,"vue":85,"vue-hot-reload-api":83}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64726,7 +64880,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-34e1282d", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../../../components/SettingsPage/Error.vue":201,"vue":85,"vue-hot-reload-api":83}],210:[function(require,module,exports){
+},{"../../../../components/SettingsPage/Error.vue":202,"vue":85,"vue-hot-reload-api":83}],211:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64875,7 +65029,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-d7a769b2", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/StatisticsPage/CampaignStatistics.vue":211,"../components/StatisticsPage/CampaignStatistics/CampaignClients.vue":212,"../components/StatisticsPage/CampaignStatistics/CampaignEarnings.vue":213,"../components/StatisticsPage/CampaignStatistics/CampaignProducts.vue":214,"../components/StatisticsPage/CampaignStatistics/SelectCampaign.vue":215,"../components/StatisticsPage/GeneralStatistics.vue":216,"../components/StatisticsPage/GeneralStatistics/GeneralClients.vue":217,"../components/StatisticsPage/GeneralStatistics/GeneralEarnings.vue":218,"../components/StatisticsPage/GeneralStatistics/GeneralProducts.vue":219,"vue":85,"vue-hot-reload-api":83}],211:[function(require,module,exports){
+},{"../components/StatisticsPage/CampaignStatistics.vue":212,"../components/StatisticsPage/CampaignStatistics/CampaignClients.vue":213,"../components/StatisticsPage/CampaignStatistics/CampaignEarnings.vue":214,"../components/StatisticsPage/CampaignStatistics/CampaignProducts.vue":215,"../components/StatisticsPage/CampaignStatistics/SelectCampaign.vue":216,"../components/StatisticsPage/GeneralStatistics.vue":217,"../components/StatisticsPage/GeneralStatistics/GeneralClients.vue":218,"../components/StatisticsPage/GeneralStatistics/GeneralEarnings.vue":219,"../components/StatisticsPage/GeneralStatistics/GeneralProducts.vue":220,"vue":85,"vue-hot-reload-api":83}],212:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64934,7 +65088,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-10cec18b", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],212:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],213:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -64998,7 +65152,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-adf78498", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],213:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],214:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65043,7 +65197,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-cf13a7a6", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],214:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],215:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65064,7 +65218,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-50cfe930", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],215:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],216:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65089,7 +65243,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-2489d400", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],216:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],217:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65148,7 +65302,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-6304ff23", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],217:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],218:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65181,7 +65335,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-72c8cd3c", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],218:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],219:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65214,7 +65368,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-07438da5", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],219:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],220:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -65251,7 +65405,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-46656ce0", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],220:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],221:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65293,7 +65447,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-0a4d1879", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../components/SupportPage/AskQuestion.vue":221,"../components/SupportPage/FrequentQuestions.vue":222,"../components/SupportPage/SupportHeader.vue":224,"vue":85,"vue-hot-reload-api":83}],221:[function(require,module,exports){
+},{"../components/SupportPage/AskQuestion.vue":222,"../components/SupportPage/FrequentQuestions.vue":223,"../components/SupportPage/SupportHeader.vue":225,"vue":85,"vue-hot-reload-api":83}],222:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n\n    <div class=\"col-md-12 primary\">\n        <div class=\"col-md-12\">\n            <span class=\"primary-title\">Nu ai găsit un răspuns la problema ta? Contactează-ne!</span>\n        </div>\n    </div>\n\n    <div class=\"col-md-12 white last\">\n\n        <div class=\"col-md-6 col-md-offset-3\">\n            <div class=\"form-horizontal\" role=\"form\">\n                <div class=\"form-group\">\n                    <label class=\"control-label col-md-2\" for=\"subject\">Subiect:</label>\n                    <div class=\"col-md-10\">\n                        <input type=\"text\" class=\"form-control\" id=\"subject\">\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <label class=\"control-label col-md-2\" for=\"message\">Mesaj:</label>\n                    <div class=\"col-md-10\">\n                        <textarea class=\"form-control\"></textarea>\n                    </div>\n                </div>\n                <div class=\"form-group\">\n                    <div class=\"col-md-offset-2 col-md-10\">\n                      <button type=\"submit\" class=\"btn btn-success\"><span class=\"glyphicon glyphicon-envelope\"></span>&nbsp;Trimite</button>\n                    </div>\n                </div>\n            </div>\n        </div>\n    </div>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
@@ -65305,7 +65459,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1d4a7cc9", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],222:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],223:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65337,7 +65491,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1b3c03e9", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"../../components/SupportPage/FrequentQuestions/Question.vue":223,"vue":85,"vue-hot-reload-api":83}],223:[function(require,module,exports){
+},{"../../components/SupportPage/FrequentQuestions/Question.vue":224,"vue":85,"vue-hot-reload-api":83}],224:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -65360,7 +65514,7 @@ if (module.hot) {(function () {  module.hot.accept()
     hotAPI.update("_v-1feea9c8", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],224:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83}],225:[function(require,module,exports){
 ;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Page title and description -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\">Ai nevoie de ajutor?</span>\n            <span class=\"page-description grey\">Caută prin întrebările comune sau contactează-ne.</span>\n        </div>\n        <!-- END Page title and description -->\n\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
