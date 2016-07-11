@@ -29,7 +29,6 @@
                             <li v-show="billIsMarkedAsUnpaid" @click="markBillAsPaid"><a href="#"><span class="glyphicon glyphicon-ok"></span>&nbsp;Marchează factura ca plătită</a></li>
                             <li v-show="billIsMarkedAsPaid" @click="markBillAsUnpaid"><a href="#"><span class="glyphicon glyphicon-ok"></span>&nbsp;Marchează factura ca neplătită</a></li>
                             <li @click="setPaymentTermModal"><a href="#"><span class="glyphicon glyphicon-calendar"></span>&nbsp;Setează termenul de plată</a></li>
-                            <li><a href="#"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Editează detaliile suplimentare</a></li>
                             <li class="divider"></li>
                             <li @click="deleteBill"><a href="#"><span class="glyphicon glyphicon-trash"></span>&nbsp;Șterge factura</a></li>
                         </ul>
@@ -43,8 +42,8 @@
             <div class="col-md-12 alerts">
 
                 <!-- BEGIN Payment term not set alert -->
-                <div class="alert alert-warning">
-                    Seteaza termenul de plata pentru aceasta factura.
+                <div v-show="showPaymentTermNotSetAlert" class="alert alert-warning">
+                    Această factură nu are termenul de plată setat. <a @click="setPaymentTermModal" href="#">Stează-l acum</a>
                 </div>
                 <!-- END Payment term not set alert -->
 
@@ -193,6 +192,13 @@ export default {
             }
             return false;
         },
+
+        showPaymentTermNotSetAlert: function() {
+            if (this.paymentTerm === '0000-00-00' || !this.paymentTerm) {
+                return true;
+            }
+            return false;
+        }
     },
 
 }

@@ -129,7 +129,8 @@ class IndexController extends BaseController {
 
         // Create bill
         $bill = $client->bills()->save(new Bill([
-            'campaign_id' => Campaign::current()->first()->id
+            'campaign_id' => Campaign::current()->first()->id,
+            'payment_term' => '0000-00-00'
         ]));
 
         return response()->json([

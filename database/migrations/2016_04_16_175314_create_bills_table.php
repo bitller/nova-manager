@@ -21,7 +21,7 @@ class CreateBillsTable extends Migration {
             $table->bigInteger('client_id')->unsigned();
             $table->integer('campaign_id')->unsigned();
             $table->tinyInteger('campaign_order')->default(1);
-            $table->date('payment_term');
+            $table->date('payment_term')->nullable();
             $table->text('other_details');
             $table->enum('paid', [0, 1])->default(0);
             $table->timestamps();

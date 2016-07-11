@@ -50,10 +50,11 @@ class BillController extends BaseController {
 
         $campaign = Campaign::where('id', $bill->campaign_id)->first();
         $client = Client::where('id', $bill->client_id)->first();
+        $paymentTerm = $bill->payment_term === '0000-00-00' ? '0000-00-00' : date('d-m-Y', strtotime($bill->payment_term));
 
         $response = [
             'status' => $status,
-            'payment_term' => date('d-m-Y', strtotime($bill->payment_term)),
+            'payment_term' => $paymentTerm,
             'products' => $products,
             'not_available_products' => $notAvailableProducts,
             'to_pay' => $priceWithDiscount,

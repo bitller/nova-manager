@@ -117,6 +117,9 @@ export default {
 
     watch: {
         'currentPaymentTerm': function(currentPaymentTerm) {
+            if (currentPaymentTerm === '0000-00-00') {
+                return;
+            }
             this.paymentTerm = currentPaymentTerm;
         },
     },

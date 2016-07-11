@@ -71,15 +71,14 @@ export default {
 
     methods: {
         displayPaymentTerm: function(paymentTerm) {
-            if (typeof paymentTerm === 'undefined' || !paymentTerm) {
-                return false;
+            if (paymentTerm === '0000-00-00' || !paymentTerm) {
+                return 'Nu a fost setat';
             }
 
             return paymentTerm;
         },
 
         setPaymentTermModal: function() {
-            console.log('a');
             $('#set-payment-term-modal').modal('show');
         },
     }

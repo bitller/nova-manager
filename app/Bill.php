@@ -20,6 +20,10 @@ class Bill extends Model {
      */
     protected $fillable = ['campaign_order', 'payment_term', 'other_details', 'paid', 'campaign_id'];
 
+    // protected $dates = ['created_at', 'updated_at', 'payment_term'];
+
+    // protected $dateFormat = 'Y-m-d';
+    // public $paymentTerm = '2002-01-04';
     /**
      * The products of the bill.
      *
