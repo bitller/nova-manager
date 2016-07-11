@@ -32,7 +32,7 @@ class BillController extends BaseController {
         if (!Auth::user()->bills()->where('bills.id', $billId)->count()) {
             return redirect('/dashboard');
         }
-        
+
         return view('pages.dashboard.bills.bill')->with('billId', $billId);
     }
 
@@ -273,7 +273,14 @@ class BillController extends BaseController {
             ]);
         }
 
-        Auth::user()->bills()->where('bills.id', $billId)->first()->products()->where('products.id', $request->get('product_id'))->delete();
+        DB::table('bill_products')
+            ->leftJoin('bills', 'bills.id', '=', 'bill_products.bill_id')
+            ->leftJoin('clients', 'clients.id', '=', 'bills.client_id')
+            ->leftJoin('users', 'users.id', '=', 'clients.user_id')
+            ->where('bills.id', $billId)
+            ->where('users.id', Auth::user()->id)
+            ->where('bill_products.id', $request->get('bill_product_id'))
+            ->delete();
 
         return response()->json([
             'title' => 'Succes!',

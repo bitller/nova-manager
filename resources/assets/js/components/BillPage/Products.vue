@@ -68,7 +68,7 @@
 
                                 <td v-if="showDiscountColumn" class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
                                 <td class="text-center vert-align">
-                                    <div @click="deleteProductConfirmation(product.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
+                                    <div @click="deleteProductConfirmation(product.bill_product_id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
                             </tr>
 
@@ -256,7 +256,7 @@ export default {
             var vm = this;
             var product = {
                 _token: $('#token').attr('content'),
-                product_id: productId
+                bill_product_id: productId
             };
 
             this.$http.post('/dashboard/bills/' + this.billId + '/delete-product', product).then(function(success) {
