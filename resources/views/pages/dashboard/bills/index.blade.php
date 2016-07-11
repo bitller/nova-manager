@@ -1,5 +1,5 @@
 @extends('layouts.base', [
-    'title' => 'bau'
+    'title' => 'Facturile dumneavostră'
 ])
 @section('content')
     <bills-page></bills-page>

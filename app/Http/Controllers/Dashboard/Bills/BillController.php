@@ -51,10 +51,12 @@ class BillController extends BaseController {
         $campaign = Campaign::where('id', $bill->campaign_id)->first();
         $client = Client::where('id', $bill->client_id)->first();
         $paymentTerm = $bill->payment_term === '0000-00-00' ? '0000-00-00' : date('d-m-Y', strtotime($bill->payment_term));
+        $paymentTermPassed = (strtotime($bill->payment_term) < time()  && $bill->payment_term !== '0000-00-00') ? 'Termenul de plată al acestei facturi a expirat în data de ' . date('d-m-Y', strtotime($bill->payment_term)) : '';
 
         $response = [
             'status' => $status,
             'payment_term' => $paymentTerm,
+            'payment_term_passed' => $paymentTermPassed,
             'products' => $products,
             'not_available_products' => $notAvailableProducts,
             'to_pay' => $priceWithDiscount,
@@ -88,8 +90,17 @@ class BillController extends BaseController {
 
     public function getPaymentTerm($billId) {
 
+        $bill = Auth::user()->bills()->where('bills.id', $billId)->first();
+        if (!$bill) {
+            // todo handle this case
+            return false;
+        }
+        $paymentTerm = date('d-m-Y', strtotime($bill->payment_term));
+        $paymentTermPassed = (strtotime($bill->payment_term) < time()  && $bill->payment_term !== '0000-00-00') ? 'Termenul de plată al acestei facturi a expirat în data de ' . date('d-m-Y', strtotime($bill->payment_term)) : '';
+
         return response()->json([
-            'payment_term' => date('d-m-Y', strtotime(Auth::user()->bills()->where('bills.id', $billId)->first()->payment_term))
+            'payment_term' => $paymentTerm,
+            'payment_term_passed' => $paymentTermPassed
         ]);
 
     }

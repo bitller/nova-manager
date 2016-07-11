@@ -48,8 +48,8 @@
                 <!-- END Payment term not set alert -->
 
                 <!-- BEGIN Payment term expired -->
-                <div class="alert alert-danger">
-                    Aceasta factura trebuia platita pana in data de 9.03.2016.
+                <div v-show="showPaymentTermPassedAlert" class="alert alert-danger">
+                    {{ showPaymentTermPassedAlert }}
                 </div>
                 <!-- END Payment term expired -->
 
@@ -198,6 +198,13 @@ export default {
                 return true;
             }
             return false;
+        },
+
+        showPaymentTermPassedAlert: function() {
+            if (this.headerDetails.paymentTermPassed === '') {
+                return false;
+            }
+            return this.headerDetails.paymentTermPassed;
         }
     },
 

@@ -58320,6 +58320,11 @@ exports.default = {
             products: {
                 available: '',
                 notAvailable: ''
+            },
+            headerDetails: {
+                clientName: this.clientName,
+                clientId: this.clientId
+
             }
         };
     },
@@ -58344,12 +58349,21 @@ exports.default = {
                 vm.toPay = success.data.to_pay;
                 vm.savedMoney = success.data.saved_money;
                 vm.paymentTerm = success.data.payment_term;
-                vm.otherDetails = success.data.other_details;
+                vm.paymentTermPassed = success.data.payment_term_passed, vm.otherDetails = success.data.other_details;
                 vm.campaignNumber = success.data.campaign_number;
                 vm.campaignYear = success.data.campaign_year;
                 vm.campaignOrder = success.data.campaign_order;
-                vm.clientName = success.data.client_name;
-                vm.clientId = success.data.client_id;
+                // vm.clientName = ;
+                // vm.clientId = success.data.client_id;
+
+                vm.headerDetails = {
+                    clientName: success.data.client_name,
+                    clientId: success.data.client_id,
+                    paymentTermPassed: success.data.payment_term_passed,
+                    campaignNumber: success.data.payment_term,
+                    campaignYear: success.data.campaign_year,
+                    campaignOrder: success.data.campaign_order
+                };
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -58392,7 +58406,8 @@ exports.default = {
             var vm = this;
             this.$http.get('/dashboard/bills/' + this.billId + '/get-payment-term').then(function (success) {
 
-                vm.paymentTerm = success.data.payment_term;
+                vm.headerDetails.paymentTerm = success.data.payment_term;
+                vm.headerDetails.paymentTermPassed = success.data.payment_term_passed;
                 if (typeof callback !== 'undefined') {
                     callback();
                 }
@@ -58404,15 +58419,11 @@ exports.default = {
     },
 
     computed: {
-        headerDetails: function headerDetails() {
-            return {
-                clientName: this.clientName,
-                clientId: this.clientId,
-                campaignNumber: this.campaignNumber,
-                campaignYear: this.campaignYear,
-                campaignOrder: this.campaignOrder
-            };
-        }
+        // headerDetails: function() {
+        //     return {
+        //
+        //     }
+        // }
     },
 
     events: {
@@ -58604,12 +58615,19 @@ exports.default = {
                 return true;
             }
             return false;
+        },
+
+        showPaymentTermPassedAlert: function showPaymentTermPassedAlert() {
+            if (this.headerDetails.paymentTermPassed === '') {
+                return false;
+            }
+            return this.headerDetails.paymentTermPassed;
         }
     }
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Bill owner and bill campaign -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\"><a href=\"/dashboard/clients/{{ headerDetails.clientId }}\">{{ headerDetails.clientName }}</a>&nbsp;<span v-show=\"billIsMarkedAsPaid\" class=\"glyphicon glyphicon-ok\" data-toggle=\"tooltip\" title=\"Această factură a fost plătită.\" data-placement=\"right\"></span></span>\n            <span class=\"page-description grey\">Comanda {{ headerDetails.campaignOrder }} din campania <a @click=\"editCampaignModal\" href=\"#\">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>\n        </span></div>\n        <!-- END Bill owner and bill campaign -->\n\n        <!-- BEGIN Buttons -->\n        <div class=\"col-md-3\">\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-print\"></span></div>\n            <div class=\"dropdown options-menu\">\n                <button class=\"btn btn-primary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                    <span class=\"glyphicon glyphicon-cog\"></span>\n                </button>\n                    <ul class=\"dropdown-menu\">\n                        <li v-show=\"billIsMarkedAsUnpaid\" @click=\"markBillAsPaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca plătită</a></li>\n                        <li v-show=\"billIsMarkedAsPaid\" @click=\"markBillAsUnpaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca neplătită</a></li>\n                        <li @click=\"setPaymentTermModal\"><a href=\"#\"><span class=\"glyphicon glyphicon-calendar\"></span>&nbsp;Setează termenul de plată</a></li>\n                        <li class=\"divider\"></li>\n                        <li @click=\"deleteBill\"><a href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge factura</a></li>\n                    </ul>\n            </div>\n\n            <add-product :bill-id=\"billId\"></add-product>\n\n        </div>\n        <!-- END Buttons -->\n\n        <div class=\"col-md-12 alerts\">\n\n            <!-- BEGIN Payment term not set alert -->\n            <div v-show=\"showPaymentTermNotSetAlert\" class=\"alert alert-warning\">\n                Această factură nu are termenul de plată setat. <a @click=\"setPaymentTermModal\" href=\"#\">Stează-l acum</a>\n            </div>\n            <!-- END Payment term not set alert -->\n\n            <!-- BEGIN Payment term expired -->\n            <div class=\"alert alert-danger\">\n                Aceasta factura trebuia platita pana in data de 9.03.2016.\n            </div>\n            <!-- END Payment term expired -->\n\n        </div>\n\n    </div>\n\n    <set-payment-term-modal :current-payment-term=\"paymentTerm\" :bill-id=\"billId\"></set-payment-term-modal>\n    <edit-campaign-modal :bill-id=\"billId\" :campaign-year=\"headerDetails.campaignYear\" :campaign-number=\"headerDetails.campaignNumber\"></edit-campaign-modal>\n\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"col-md-12 white first\">\n\n        <!-- BEGIN Bill owner and bill campaign -->\n        <div class=\"col-md-9\">\n            <span class=\"page-title grey-dark\"><a href=\"/dashboard/clients/{{ headerDetails.clientId }}\">{{ headerDetails.clientName }}</a>&nbsp;<span v-show=\"billIsMarkedAsPaid\" class=\"glyphicon glyphicon-ok\" data-toggle=\"tooltip\" title=\"Această factură a fost plătită.\" data-placement=\"right\"></span></span>\n            <span class=\"page-description grey\">Comanda {{ headerDetails.campaignOrder }} din campania <a @click=\"editCampaignModal\" href=\"#\">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>\n        </span></div>\n        <!-- END Bill owner and bill campaign -->\n\n        <!-- BEGIN Buttons -->\n        <div class=\"col-md-3\">\n            <div class=\"btn btn-info\"><span class=\"glyphicon glyphicon-print\"></span></div>\n            <div class=\"dropdown options-menu\">\n                <button class=\"btn btn-primary dropdown-toggle\" type=\"button\" data-toggle=\"dropdown\">\n                    <span class=\"glyphicon glyphicon-cog\"></span>\n                </button>\n                    <ul class=\"dropdown-menu\">\n                        <li v-show=\"billIsMarkedAsUnpaid\" @click=\"markBillAsPaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca plătită</a></li>\n                        <li v-show=\"billIsMarkedAsPaid\" @click=\"markBillAsUnpaid\"><a href=\"#\"><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Marchează factura ca neplătită</a></li>\n                        <li @click=\"setPaymentTermModal\"><a href=\"#\"><span class=\"glyphicon glyphicon-calendar\"></span>&nbsp;Setează termenul de plată</a></li>\n                        <li class=\"divider\"></li>\n                        <li @click=\"deleteBill\"><a href=\"#\"><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Șterge factura</a></li>\n                    </ul>\n            </div>\n\n            <add-product :bill-id=\"billId\"></add-product>\n\n        </div>\n        <!-- END Buttons -->\n\n        <div class=\"col-md-12 alerts\">\n\n            <!-- BEGIN Payment term not set alert -->\n            <div v-show=\"showPaymentTermNotSetAlert\" class=\"alert alert-warning\">\n                Această factură nu are termenul de plată setat. <a @click=\"setPaymentTermModal\" href=\"#\">Stează-l acum</a>\n            </div>\n            <!-- END Payment term not set alert -->\n\n            <!-- BEGIN Payment term expired -->\n            <div v-show=\"showPaymentTermPassedAlert\" class=\"alert alert-danger\">\n                {{ showPaymentTermPassedAlert }}\n            </div>\n            <!-- END Payment term expired -->\n\n        </div>\n\n    </div>\n\n    <set-payment-term-modal :current-payment-term=\"paymentTerm\" :bill-id=\"billId\"></set-payment-term-modal>\n    <edit-campaign-modal :bill-id=\"billId\" :campaign-year=\"headerDetails.campaignYear\" :campaign-number=\"headerDetails.campaignNumber\"></edit-campaign-modal>\n\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

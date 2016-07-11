@@ -42,6 +42,11 @@ export default {
                 available: '',
                 notAvailable: ''
             },
+            headerDetails: {
+                clientName: this.clientName,
+                clientId: this.clientId,
+
+            },
         }
     },
 
@@ -65,12 +70,22 @@ export default {
                 vm.toPay = success.data.to_pay;
                 vm.savedMoney = success.data.saved_money;
                 vm.paymentTerm = success.data.payment_term;
+                vm.paymentTermPassed = success.data.payment_term_passed,
                 vm.otherDetails = success.data.other_details;
                 vm.campaignNumber = success.data.campaign_number;
                 vm.campaignYear = success.data.campaign_year;
                 vm.campaignOrder = success.data.campaign_order;
-                vm.clientName = success.data.client_name;
-                vm.clientId = success.data.client_id;
+                // vm.clientName = ;
+                // vm.clientId = success.data.client_id;
+
+                vm.headerDetails = {
+                    clientName: success.data.client_name,
+                    clientId: success.data.client_id,
+                    paymentTermPassed: success.data.payment_term_passed,
+                    campaignNumber: success.data.payment_term,
+                    campaignYear: success.data.campaign_year,
+                    campaignOrder: success.data.campaign_order,
+                };
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -117,7 +132,8 @@ export default {
             var vm = this;
             this.$http.get('/dashboard/bills/' + this.billId + '/get-payment-term').then(function (success) {
 
-                vm.paymentTerm = success.data.payment_term;
+                vm.headerDetails.paymentTerm = success.data.payment_term;
+                vm.headerDetails.paymentTermPassed = success.data.payment_term_passed;
                 if (typeof callback !== 'undefined') {
                     callback();
                 }
@@ -131,15 +147,11 @@ export default {
     },
 
     computed: {
-        headerDetails: function() {
-            return {
-                clientName: this.clientName,
-                clientId: this.clientId,
-                campaignNumber: this.campaignNumber,
-                campaignYear: this.campaignYear,
-                campaignOrder: this.campaignOrder
-            }
-        }
+        // headerDetails: function() {
+        //     return {
+        //
+        //     }
+        // }
     },
 
     events: {
