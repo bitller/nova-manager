@@ -37,6 +37,7 @@ export default {
             campaignYear: '',
             campaignOrder: '',
             clientName: '',
+            clientId: '',
             products: {
                 available: '',
                 notAvailable: ''
@@ -69,6 +70,7 @@ export default {
                 vm.campaignYear = success.data.campaign_year;
                 vm.campaignOrder = success.data.campaign_order;
                 vm.clientName = success.data.client_name;
+                vm.clientId = success.data.client_id;
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -132,6 +134,7 @@ export default {
         headerDetails: function() {
             return {
                 clientName: this.clientName,
+                clientId: this.clientId,
                 campaignNumber: this.campaignNumber,
                 campaignYear: this.campaignYear,
                 campaignOrder: this.campaignOrder

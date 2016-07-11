@@ -13,7 +13,7 @@
 
             <!-- BEGIN Bill owner and bill campaign -->
             <div class="col-md-9">
-                <span class="page-title grey-dark"><a href="/dashboard/bills/{{ billId }}">{{ headerDetails.clientName }}</a>&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
+                <span class="page-title grey-dark"><a href="/dashboard/clients/{{ headerDetails.clientId }}">{{ headerDetails.clientName }}</a>&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
                 <span class="page-description grey">Comanda {{ headerDetails.campaignOrder }} din campania <a @click="editCampaignModal" href="#">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>
             </div>
             <!-- END Bill owner and bill campaign -->

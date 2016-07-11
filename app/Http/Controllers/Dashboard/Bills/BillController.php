@@ -60,6 +60,7 @@ class BillController extends BaseController {
             'saved_money' => $price - $priceWithDiscount,
             'other_details' => $bill->other_details,
             'client_name' => $client->name,
+            'client_id' => $client->id,
             'campaign_number' => $campaign->number,
             'campaign_year' => $campaign->year,
             'campaign_order' => $bill->campaign_order
