@@ -21,6 +21,7 @@ import Informations from '../components/BillPage/Informations.vue';
 export default {
 
     ready: function() {
+        this.$dispatch('show_loader');
         this.getData();
     },
 
@@ -90,6 +91,8 @@ export default {
 
                 if (typeof callback !== 'undefined') {
                     callback();
+                } else {
+                    vm.$dispatch('close_opened_alert');
                 }
 
             }, function (error) {

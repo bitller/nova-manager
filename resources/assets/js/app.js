@@ -97,6 +97,17 @@ new Vue({
             });
         },
 
+        'show_loader': function() {
+            swal({
+                type: 'info',
+                title: 'Loading...',
+                // text: message,
+                closeOnConfirm: false,
+                showConfirmButton: false,
+                timer: 3000
+            });
+        },
+
         'confirmation': function(config, confirmCallback, cancelCallback) {
 
             if (!config.title) {

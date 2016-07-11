@@ -74,6 +74,15 @@
                                   </div>
                                   <!-- END Product page -->
                               </div>
+
+                              <div class="row">
+                                  <div class="col-md-12">
+                                      <div class="checkbox">
+                                          <label><input type="checkbox" v-model="product.notAvailable">Acest produs nu este disponibil acum si va fi livarat data viitoare <span class="badge" data-toggle="tooltip" :title="tooltips.available">?</span></label>
+                                      </div>
+                                  </div>
+                              </div>
+
                           </div>
                       </div>
                   </div>
@@ -114,7 +123,8 @@ export default {
                 price: '',
                 discount: '',
                 page: '',
-                quantity: ''
+                quantity: '',
+                notAvailable: false,
             },
             modal: {
                 selector: '#add-product-modal',
@@ -129,7 +139,8 @@ export default {
                 productPrice: 'Prețul care va fi aplicat acestui produs. Între 0 și 9999 ron.',
                 productDiscount: 'Reducerea care să fie aplicată acestui produs, în procente (de exemplu 50). Lăsați câmpul necompletat în cazul în care nu oferiți reducere pentru acest produs.',
                 productPage: 'Numărul paginii din catalog în care apare produsul. Puteți lăsa acest câmp necompletat.',
-                productQuantity: 'Canitatea produsului. Lăsând acest câmp necompletat, se va folosi valoarea 1 (însemnând un singur produs).'
+                productQuantity: 'Canitatea produsului. Lăsând acest câmp necompletat, se va folosi valoarea 1 (însemnând un singur produs).',
+                available: 'Dacă acest produs nu poate fi livrat acum, bifați această căsuță, iar acest lucru va fi evidențiat pe factură.',
             },
             productCodeNotExists: 'validation.product_code_belongs_to_current_user',
         }
@@ -172,7 +183,8 @@ export default {
                 product_page: this.product.page,
                 product_price: this.product.price,
                 product_discount: this.product.discount,
-                product_quantity: this.product.quantity
+                product_quantity: this.product.quantity,
+                available_now: !this.product.notAvailable,
             };
 
             this.$http.post('/dashboard/bills/' + this.billId + '/add-product', data).then(function (success) {

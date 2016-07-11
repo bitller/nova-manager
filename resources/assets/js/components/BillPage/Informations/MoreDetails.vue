@@ -14,8 +14,11 @@
                 <span @click="showEditMoreDetailsModal">Detalii suplimentare &nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></span>
             </div>
             <div class="panel-body">
-                <div v-if="currentDetails === ''" class="well other-details-editor"></div>
-                <div v-if="currentDetails !== ''" class="well other-details-editor">{{ currentDetails }}</div>
+                <div v-if="currentDetails === ''" class="other-details-editor"></div>
+                <div v-if="currentDetails !== ''" class="other-details-editor">{{{ currentDetails }}}</div>
+            </div>
+            <div class="panel-footer">
+                <div @click="editOtherDetails" class="btn btn-success">Salveaza</div>
             </div>
         </div>
     </div>
@@ -34,6 +37,7 @@ export default {
             loading: false,
             error: '',
             otherDetails: '',
+            editor: '',
             modal: {
                 selector: '#edit-more-details-modal',
                 title: 'Editează detaliile suplimentare ale acestei facturi'
@@ -77,7 +81,7 @@ export default {
             }
 
             var MediumEditor = require('medium-editor');
-            var editor = new MediumEditor('.other-details-editor', config);
+            this.editor = new MediumEditor('.other-details-editor', config);
         },
 
         getPlaceholder: function() {
@@ -105,7 +109,7 @@ export default {
             var vm = this;
             var data = {
                 _token: $('#token').attr('content'),
-                other_details: $('.other-details-editor').trumbowyg
+                other_details: this.editor.getContent()
             };
 
             this.$http.post('/dashboard/bills/' + this.billId + '/edit-other-details', data).then(function (success) {

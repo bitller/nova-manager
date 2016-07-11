@@ -56426,6 +56426,17 @@ new Vue({
             });
         },
 
+        'show_loader': function show_loader() {
+            swal({
+                type: 'info',
+                title: 'Loading...',
+                // text: message,
+                closeOnConfirm: false,
+                showConfirmButton: false,
+                timer: 3000
+            });
+        },
+
         'confirmation': function confirmation(config, confirmCallback, cancelCallback) {
 
             if (!config.title) {
@@ -58300,6 +58311,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 exports.default = {
 
     ready: function ready() {
+        this.$dispatch('show_loader');
         this.getData();
     },
 
@@ -58368,6 +58380,8 @@ exports.default = {
 
                 if (typeof callback !== 'undefined') {
                     callback();
+                } else {
+                    vm.$dispatch('close_opened_alert');
                 }
             }, function (error) {
                 //
@@ -58672,7 +58686,8 @@ exports.default = {
                 price: '',
                 discount: '',
                 page: '',
-                quantity: ''
+                quantity: '',
+                notAvailable: false
             },
             modal: {
                 selector: '#add-product-modal',
@@ -58687,7 +58702,8 @@ exports.default = {
                 productPrice: 'Prețul care va fi aplicat acestui produs. Între 0 și 9999 ron.',
                 productDiscount: 'Reducerea care să fie aplicată acestui produs, în procente (de exemplu 50). Lăsați câmpul necompletat în cazul în care nu oferiți reducere pentru acest produs.',
                 productPage: 'Numărul paginii din catalog în care apare produsul. Puteți lăsa acest câmp necompletat.',
-                productQuantity: 'Canitatea produsului. Lăsând acest câmp necompletat, se va folosi valoarea 1 (însemnând un singur produs).'
+                productQuantity: 'Canitatea produsului. Lăsând acest câmp necompletat, se va folosi valoarea 1 (însemnând un singur produs).',
+                available: 'Dacă acest produs nu poate fi livrat acum, bifați această căsuță, iar acest lucru va fi evidențiat pe factură.'
             },
             productCodeNotExists: 'validation.product_code_belongs_to_current_user'
         };
@@ -58730,7 +58746,8 @@ exports.default = {
                 product_page: this.product.page,
                 product_price: this.product.price,
                 product_discount: this.product.discount,
-                product_quantity: this.product.quantity
+                product_quantity: this.product.quantity,
+                available_now: !this.product.notAvailable
             };
 
             this.$http.post('/dashboard/bills/' + this.billId + '/add-product', data).then(function (success) {
@@ -58878,7 +58895,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- <div style=\"display: inline-block\"> -->\n    <div @click=\"showModal\" class=\"btn btn-success pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adaugă produs</div>\n\n    <!-- BEGIN Modal -->\n    <div id=\"add-product-modal\" data-backdrop=\"static\" class=\"modal fade\" role=\"dialog\">\n        <div class=\"modal-dialog\">\n\n            <!-- Modal content-->\n            <div class=\"modal-content\">\n              <div class=\"modal-header\">\n                <button @click=\"closeModal\" type=\"button\" class=\"close\">×</button>\n                <h4 class=\"modal-title\">{{ modal.title }}</h4>\n              </div>\n              <div class=\"modal-body\">\n\n                  <div class=\"row\">\n                      <div class=\"col-md-12\">\n\n                          <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n                          <div class=\"row\">\n                              <!-- BEGIN Product code -->\n                              <div class=\"col-md-12\">\n                                  <div :class=\"{ 'has-error': productCodeHasError }\" class=\"form-group\">\n                                      <label>Codul produsului <span class=\"badge\" data-toggle=\"tooltip\" data-placement=\"right\" :title=\"tooltips.productCode\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.code\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productCodeHasError\" class=\"text-danger\">{{ productCodeHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product code -->\n                          </div>\n\n                          <div class=\"row\">\n                              <!-- BEGIN Product price -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productPriceHasError }\" class=\"form-group\">\n                                      <label>Pretul produsului <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productPrice\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.price\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productPriceHasError\" class=\"text-danger\">{{ productPriceHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product price -->\n\n                              <!-- Product discount -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productDiscountHasError }\" class=\"form-group\">\n                                      <label>Reducerea aplicata <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productDiscount\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.discount\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productDiscountHasError\" class=\"text-danger\">{{ productDiscountHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product discount -->\n                          </div>\n\n                          <div class=\"row\">\n                              <!-- BEGIN Product page -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productPageHasError }\" class=\"form-group\">\n                                      <label>Pagina produsului <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productPage\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.page\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productPageHasError\" class=\"text-danger\">{{ productPageHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product page -->\n\n                              <!-- BEGIN Product quantity -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productQuantityHasError }\" class=\"form-group\">\n                                      <label>Cantitatea produsului <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productQuantity\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.quantity\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productQuantityHasError\" class=\"text-danger\">{{ productQuantityHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product page -->\n                          </div>\n                      </div>\n                  </div>\n              </div>\n              <div class=\"modal-footer\">\n                <button @click=\"closeModal\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-default\">Anulează</button>\n                <button @click=\"addProduct\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-primary\">\n                    <span v-show=\"!loading\">Adaugă produs</span>\n                    <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n                </button>\n              </div>\n        </div>\n\n        </div>\n\n    </div>\n    <!-- END Modal -->\n    <add-not-existent-product :bill-id=\"billId\"></add-not-existent-product>\n<!-- </div> -->\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<!-- <div style=\"display: inline-block\"> -->\n    <div @click=\"showModal\" class=\"btn btn-success pull-right\"><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Adaugă produs</div>\n\n    <!-- BEGIN Modal -->\n    <div id=\"add-product-modal\" data-backdrop=\"static\" class=\"modal fade\" role=\"dialog\">\n        <div class=\"modal-dialog\">\n\n            <!-- Modal content-->\n            <div class=\"modal-content\">\n              <div class=\"modal-header\">\n                <button @click=\"closeModal\" type=\"button\" class=\"close\">×</button>\n                <h4 class=\"modal-title\">{{ modal.title }}</h4>\n              </div>\n              <div class=\"modal-body\">\n\n                  <div class=\"row\">\n                      <div class=\"col-md-12\">\n\n                          <div v-show=\"hasError\" class=\"alert alert-danger\">{{ error }}</div>\n\n                          <div class=\"row\">\n                              <!-- BEGIN Product code -->\n                              <div class=\"col-md-12\">\n                                  <div :class=\"{ 'has-error': productCodeHasError }\" class=\"form-group\">\n                                      <label>Codul produsului <span class=\"badge\" data-toggle=\"tooltip\" data-placement=\"right\" :title=\"tooltips.productCode\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.code\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productCodeHasError\" class=\"text-danger\">{{ productCodeHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product code -->\n                          </div>\n\n                          <div class=\"row\">\n                              <!-- BEGIN Product price -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productPriceHasError }\" class=\"form-group\">\n                                      <label>Pretul produsului <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productPrice\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.price\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productPriceHasError\" class=\"text-danger\">{{ productPriceHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product price -->\n\n                              <!-- Product discount -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productDiscountHasError }\" class=\"form-group\">\n                                      <label>Reducerea aplicata <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productDiscount\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.discount\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productDiscountHasError\" class=\"text-danger\">{{ productDiscountHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product discount -->\n                          </div>\n\n                          <div class=\"row\">\n                              <!-- BEGIN Product page -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productPageHasError }\" class=\"form-group\">\n                                      <label>Pagina produsului <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productPage\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.page\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productPageHasError\" class=\"text-danger\">{{ productPageHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product page -->\n\n                              <!-- BEGIN Product quantity -->\n                              <div class=\"col-md-6\">\n                                  <div :class=\"{ 'has-error': productQuantityHasError }\" class=\"form-group\">\n                                      <label>Cantitatea produsului <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.productQuantity\">?</span></label>\n                                      <input @keyup.enter=\"addProduct\" v-model=\"product.quantity\" type=\"text\" class=\"form-control\">\n                                      <span v-show=\"productQuantityHasError\" class=\"text-danger\">{{ productQuantityHasError }}</span>\n                                  </div>\n                              </div>\n                              <!-- END Product page -->\n                          </div>\n\n                          <div class=\"row\">\n                              <div class=\"col-md-12\">\n                                  <div class=\"checkbox\">\n                                      <label><input type=\"checkbox\" v-model=\"product.notAvailable\">Acest produs nu este disponibil acum si va fi livarat data viitoare <span class=\"badge\" data-toggle=\"tooltip\" :title=\"tooltips.available\">?</span></label>\n                                  </div>\n                              </div>\n                          </div>\n\n                      </div>\n                  </div>\n              </div>\n              <div class=\"modal-footer\">\n                <button @click=\"closeModal\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-default\">Anulează</button>\n                <button @click=\"addProduct\" :class=\"{ 'disabled': loading }\" type=\"button\" class=\"btn btn-primary\">\n                    <span v-show=\"!loading\">Adaugă produs</span>\n                    <img v-show=\"loading\" src=\"/img/loading-bubbles.svg\">\n                </button>\n              </div>\n        </div>\n\n        </div>\n\n    </div>\n    <!-- END Modal -->\n    <add-not-existent-product :bill-id=\"billId\"></add-not-existent-product>\n<!-- </div> -->\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -59321,6 +59338,7 @@ exports.default = {
             loading: false,
             error: '',
             otherDetails: '',
+            editor: '',
             modal: {
                 selector: '#edit-more-details-modal',
                 title: 'Editează detaliile suplimentare ale acestei facturi'
@@ -59363,7 +59381,7 @@ exports.default = {
             }
 
             var MediumEditor = require('medium-editor');
-            var editor = new MediumEditor('.other-details-editor', config);
+            this.editor = new MediumEditor('.other-details-editor', config);
         },
 
         getPlaceholder: function getPlaceholder() {
@@ -59391,7 +59409,7 @@ exports.default = {
             var vm = this;
             var data = {
                 _token: $('#token').attr('content'),
-                other_details: $('.other-details-editor').trumbowyg
+                other_details: this.editor.getContent()
             };
 
             this.$http.post('/dashboard/bills/' + this.billId + '/edit-other-details', data).then(function (success) {
@@ -59432,7 +59450,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"panel panel-info\">\n        <div class=\"panel-heading\">\n            <span @click=\"showEditMoreDetailsModal\">Detalii suplimentare &nbsp;&nbsp;<span class=\"glyphicon glyphicon-pencil\"></span></span>\n        </div>\n        <div class=\"panel-body\">\n            <div v-if=\"currentDetails === ''\" class=\"well other-details-editor\"></div>\n            <div v-if=\"currentDetails !== ''\" class=\"well other-details-editor\">{{ currentDetails }}</div>\n        </div>\n    </div>\n</div>\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div class=\"col-md-12\">\n    <div class=\"panel panel-info\">\n        <div class=\"panel-heading\">\n            <span @click=\"showEditMoreDetailsModal\">Detalii suplimentare &nbsp;&nbsp;<span class=\"glyphicon glyphicon-pencil\"></span></span>\n        </div>\n        <div class=\"panel-body\">\n            <div v-if=\"currentDetails === ''\" class=\"other-details-editor\"></div>\n            <div v-if=\"currentDetails !== ''\" class=\"other-details-editor\">{{{ currentDetails }}}</div>\n        </div>\n        <div class=\"panel-footer\">\n            <div @click=\"editOtherDetails\" class=\"btn btn-success\">Salveaza</div>\n        </div>\n    </div>\n</div>\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

@@ -28,6 +28,11 @@ class BillController extends BaseController {
      * @return View
      */
     public function index($billId, Request $request) {
+
+        if (!Auth::user()->bills()->where('bills.id', $billId)->count()) {
+            return redirect('/dashboard');
+        }
+        
         return view('pages.dashboard.bills.bill')->with('billId', $billId);
     }
 
@@ -160,6 +165,7 @@ class BillController extends BaseController {
 
         $product = Auth::user()->products()->where('code', $request->get('product_code'))->first();
         $data = $this->getAddProductDataFromRequest($request);
+
         $bill = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->attach([$product->id => $data]);
 
         return response()->json([
@@ -182,7 +188,7 @@ class BillController extends BaseController {
         $bill = Auth::user()->bills()->where('bills.id', $billId)->first()->products()->attach([$product->id => $data]);
 
         return response()->json([
-            'title' => 'Scces!',
+            'title' => 'Succes!',
             'message' => 'Produsul a fost adăugat.'
         ]);
     }
@@ -409,7 +415,7 @@ class BillController extends BaseController {
 
         $this->validateEditOtherDetailsData($request);
         $this->updateBill($billId, [
-            'other_details' => $request->get('other_details')
+            'other_details' => 'sssda'
         ]);
 
         return response()->json([
@@ -432,7 +438,8 @@ class BillController extends BaseController {
             'quantity' => $quantity,
             'discount' => $discount,
             'price' => $price,
-            'price_with_discount' => $priceWithDiscount
+            'price_with_discount' => $priceWithDiscount,
+            'available_now' => $request->get('available_now'),
         ];
     }
 
