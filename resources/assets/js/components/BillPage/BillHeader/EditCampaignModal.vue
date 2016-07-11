@@ -20,7 +20,10 @@
                     <div class="row">
                         <div class="col-md-12">
 
-                            <div class="col-md-12"><div v-show="hasError" class="alert alert-danger">{{ hasError }}</div></div>
+                            <div class="col-md-12">
+                                <div class="alert alert-info">Folosind formularul de mai jos, puteți alege altă campanie pentru această factură.</div>
+                                <div v-show="hasError" class="alert alert-danger">{{ hasError }}</div>
+                            </div>
 
                             <!-- BEGIN Campaign year -->
                             <div class="col-md-3">
