@@ -131,6 +131,7 @@ export default {
             };
 
             this.$http.post('/dashboard/bills/' + this.billId + '/update-campaign', data).then(function (success) {
+
                 vm.$dispatch('reloadCampaign', function() {
                     vm.loading = false;
                     vm.$dispatch('success_alert', success.data.title, success.data.message);
