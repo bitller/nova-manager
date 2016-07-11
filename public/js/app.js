@@ -58359,8 +58359,9 @@ exports.default = {
                 vm.headerDetails = {
                     clientName: success.data.client_name,
                     clientId: success.data.client_id,
+                    paymentTerm: success.data.payment_term,
                     paymentTermPassed: success.data.payment_term_passed,
-                    campaignNumber: success.data.payment_term,
+                    campaignNumber: success.data.campaign_number,
                     campaignYear: success.data.campaign_year,
                     campaignOrder: success.data.campaign_order
                 };
