@@ -62217,6 +62217,8 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"../components/LoginPage/LoginForm.vue":168,"../components/LoginPage/LoginIcon.vue":169,"vue":85,"vue-hot-reload-api":83}],168:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n.recover-link a {\n    color: #7f8c8d;\n}\n\n")
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -62295,18 +62297,24 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div v-show=\"displayError\" class=\"alert alert-danger\">{{ error }}</div>\n\n<!-- BEGIN Email input -->\n<div :class=\"{ 'has-error': displayEmailError }\" class=\"form-group has-feedback\">\n    <input v-model=\"email\" @keyup.enter=\"login\" id=\"login-email\" type=\"text\" class=\"form-control\" placeholder=\"Emailul dvs\">\n    <span v-show=\"displayEmailError\" class=\"text-danger\">{{ errors.email }}</span>\n    <i class=\"glyphicon glyphicon-user form-control-feedback icon-color\"></i>\n</div>\n<!-- END Email input -->\n\n<!-- BEGIN Password input -->\n<div :class=\"{ 'has-error': displayPasswordError }\" class=\"form-group has-feedback\">\n    <input v-model=\"password\" @keyup.enter=\"login\" type=\"password\" class=\"form-control\" placeholder=\"parola\">\n    <span v-show=\"displayPasswordError\" class=\"text-danger\">{{ errors.password }}</span>\n    <i class=\"glyphicon glyphicon-lock form-control-feedback icon-color\"></i>\n</div>\n<!-- END Password input -->\n\n<!-- BEGIN Login button -->\n<div class=\"form-group login-button\">\n    <button @click=\"login\" :class=\"{ 'disabled': loading }\" class=\"btn-block btn btn-primary\">\n        <img v-show=\"loading\" class=\"img-responsive center-responsive-image\" src=\"/img/loading-bubbles.svg\">\n        <span v-show=\"!loading\">login</span>\n    </button>\n</div>\n<!-- END Login button -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<div v-show=\"displayError\" class=\"alert alert-danger\">{{ error }}</div>\n\n<!-- BEGIN Email input -->\n<div :class=\"{ 'has-error': displayEmailError }\" class=\"form-group has-feedback\">\n    <input v-model=\"email\" @keyup.enter=\"login\" id=\"login-email\" type=\"text\" class=\"form-control\" placeholder=\"Adresa dumneavoastră de email\">\n    <span v-show=\"displayEmailError\" class=\"text-danger\">{{ errors.email }}</span>\n    <i class=\"glyphicon glyphicon-user form-control-feedback grey-icon\"></i>\n</div>\n<!-- END Email input -->\n\n<!-- BEGIN Password input -->\n<div :class=\"{ 'has-error': displayPasswordError }\" class=\"form-group has-feedback\">\n    <input v-model=\"password\" @keyup.enter=\"login\" type=\"password\" class=\"form-control\" placeholder=\"Parola\">\n    <span v-show=\"displayPasswordError\" class=\"text-danger\">{{ errors.password }}</span>\n    <span class=\"help-block recover-link\"><a href=\"/recover\">Nu vă amintiți parola?</a></span>\n    <i class=\"glyphicon glyphicon-lock form-control-feedback grey-icon\"></i>\n</div>\n<!-- END Password input -->\n\n\n<!-- BEGIN Login button -->\n<div class=\"form-group login-button\">\n    <button @click=\"login\" :class=\"{ 'disabled': loading }\" class=\"btn-block btn btn-primary\">\n        <img v-show=\"loading\" class=\"img-responsive center-responsive-image\" src=\"/img/loading-bubbles.svg\">\n        <span v-show=\"!loading\">Conectați-vă</span>\n    </button>\n</div>\n<!-- END Login button -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n.recover-link a {\n    color: #7f8c8d;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
   if (!module.hot.data) {
     hotAPI.createRecord("_v-2705b671", module.exports)
   } else {
     hotAPI.update("_v-2705b671", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],169:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],169:[function(require,module,exports){
+var __vueify_insert__ = require("vueify/lib/insert-css")
+var __vueify_style__ = __vueify_insert__.insert("\n\n.login-icon {\n    margin-bottom: 20px;\n}\n\n")
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -62314,18 +62322,22 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = {};
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row\">\n    <img class=\"img-responsive center-responsive-image\" src=\"/img/lock.svg\">\n</div>\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n<div class=\"row login-icon\">\n    <img class=\"img-responsive center-responsive-image\" src=\"/img/lock.svg\">\n</div>\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
+  module.hot.dispose(function () {
+    __vueify_insert__.cache["\n\n.login-icon {\n    margin-bottom: 20px;\n}\n\n"] = false
+    document.head.removeChild(__vueify_style__)
+  })
   if (!module.hot.data) {
     hotAPI.createRecord("_v-4263f8b4", module.exports)
   } else {
     hotAPI.update("_v-4263f8b4", module.exports, (typeof module.exports === "function" ? module.exports.options : module.exports).template)
   }
 })()}
-},{"vue":85,"vue-hot-reload-api":83}],170:[function(require,module,exports){
+},{"vue":85,"vue-hot-reload-api":83,"vueify/lib/insert-css":86}],170:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {

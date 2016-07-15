@@ -66,7 +66,7 @@ class LoginController extends Controller {
 
         return response()->json([
             'success' => false,
-            'error' => 'Invalid email or password.'
+            'error' => 'Adresă de email sau parolă invalidă.'
         ], 422);
     }
 

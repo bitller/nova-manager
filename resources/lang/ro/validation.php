@@ -106,6 +106,16 @@ return [
             'digits' => 'Codul produsului trebuie să conțină exact 5 cifre.'
         ],
 
+        'email' => [
+            'required' => 'Adresa dumneavostră de email este necesară.',
+            'email' => 'Introduceți o adresă de email validă.'
+        ],
+
+        'password' => [
+            'required' => 'Introduceți o parolă.',
+            'between' => 'Parola trebuie să conțină între 6 şi 128 de caractere.'
+        ],
+
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

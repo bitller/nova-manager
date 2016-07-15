@@ -28,7 +28,7 @@
                 <li>
                     <p class="navbar-btn">
                         @if (isset($registerButton) && $registerButton)
-                            <a href="/register" class="btn custom-button">{{ trans('login.join_nova') }}</a>
+                            <a href="/register" class="btn custom-button">Cont nou</a>
                         @else
                             <a href="/login" class="btn custom-button">Conectează-te</a>
                         @endif
@@ -42,7 +42,7 @@
 <!-- BEGIN Top section -->
 <div class="jumbotron custom-jumbotron top-part text-center">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3 text-center">
+        <div class="col-md-6 col-md-offset-3 text-center" style="margin-top: 10px;">
             <span class="first-text">{{ $firstText }}</span>
             <span class="short-description">{{ $shortDescription }}</span>
         </div>
