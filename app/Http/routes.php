@@ -11,6 +11,8 @@ Route::group(['namespace' => 'Auth'], function() {
 
 });
 
+Route::get('/', 'LandingController@index');
+
 // Dashboard
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function() {
 
@@ -224,6 +226,13 @@ Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middlew
     // Application settings section
     Route::group(['prefix' => 'application-settings'], function() {
         Route::get('/', 'ApplicationSettingsController@index');
+
+        // Landing page text
+        Route::group(['prefix' => '/landing-page-header-text'], function() {
+            Route::get('/', 'ApplicationSettingsController@getCurrentLandingPageHeaderText');
+            Route::post('/', 'ApplicationSettingsController@updateLandingPageHeaderText');
+        });
+
     });
 
     // Users metrics

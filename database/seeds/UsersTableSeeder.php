@@ -57,11 +57,28 @@ class UsersTableSeeder extends Seeder {
     protected $productsPerBill = 4;
 
     /**
+     * Generate admin.
+     *
+     * @var bool
+     */
+    protected $generateAdmin = true;
+
+    /**
      * Seeds table.
      */
     public function run() {
+
         // Create users and for each one attach required data
-        factory(App\User::class, $this->usersToCreate)->create()->each(function($user) {
+        factory(App\User::class, $this->usersToCreate)->create()->each(function($user)  {
+
+            if ($this->generateAdmin) {
+                $admin = App\Role::where('name', 'admin')->first();
+                $user->attachRole($admin);
+            } else {
+                $normal = App\Role::where('name', 'user')->first();
+                $user->attachRole($normal);
+            }
+            $this->generateAdmin = false;
 
             info('Generated user ' . $user->email);
             $this->command->info('Creating user with email ' . $user->email);

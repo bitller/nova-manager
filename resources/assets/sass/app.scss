@@ -82,3 +82,79 @@ textarea {
 .center-image {
     margin: 0 auto;
 }
+
+.first-section {
+  background-color: #ECECE6;
+}
+
+.welcome-text {
+    font-weight: 200;
+    font-size: 35px;
+    // padding-top: 40px;
+    padding-bottom: 20px;
+    color: $brand-primary;
+    font-family: 'Raleway', sans-serif;
+    padding: 100px 0 70px 0;
+}
+
+.second-section {
+  padding: 70px 0 70px 0;
+}
+
+.second-section .free-text {
+  padding: 10px 0 10px 0;
+}
+
+.second-section .free-text-description {
+    padding-bottom: 20px;
+}
+
+.big-button {
+  padding: 20px;
+  font-size: 20px;
+  color: #ffffff;
+}
+
+.no-underline-href:hover, .no-underline-href:active, .no-underline-href:focus {
+    text-decoration: none;
+}
+
+/**
+ * Third section (campaign statistics)
+ */
+.campaign-statistics {
+  padding: 50px 0 50px 0;
+  background-color: #ECECE6;
+}
+
+/**
+ * Fourth section (fast access and client history)
+ */
+ .client-history-feature {
+   background-color: #EDF1F2;
+   padding: 70px 0 70px 0;
+ }
+
+/**
+ * Fifth section (customized bills)
+ */
+ .customized-bills-feature {
+   padding: 70px 0 70px 0;
+   background-color: #ECECE6;
+
+}
+
+/**
+ * Sixth section (create bills in seconds)
+ */
+ .create-bills-in-seconds-and-statistics-features {
+     background-color: #fafafa;
+
+   padding: 70px 0 70px 0;
+}
+
+ .footer {
+   background-color: #2E3435;
+   padding: 30px 0 30px 0;
+   color: #ECECE6;
+ }

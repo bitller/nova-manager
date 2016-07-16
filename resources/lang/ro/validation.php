@@ -108,12 +108,23 @@ return [
 
         'email' => [
             'required' => 'Adresa dumneavostră de email este necesară.',
-            'email' => 'Introduceți o adresă de email validă.'
+            'email' => 'Introduceți o adresă de email validă.',
+            'not_exists' => 'Această adresă de email este deja folosită de altă persoană.',
         ],
 
         'password' => [
             'required' => 'Introduceți o parolă.',
-            'between' => 'Parola trebuie să conțină între 6 şi 128 de caractere.'
+            'between' => 'Parola trebuie să conțină între 6 şi 128 de caractere.',
+            'confirmed' => 'Parolele nu corespund.',
+        ],
+
+        'password_confirmation' => [
+            'required' => 'Confirmați parola.',
+        ],
+
+        'header_text' => [
+            'required' => 'Antetul paginii principale este obligatoriu.',
+            'between' => 'Antetul paginii principale trebuie să conțină între 5 şi 100 de caractere.'
         ],
 
         'attribute-name' => [

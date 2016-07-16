@@ -82,7 +82,7 @@ class RegisterController extends BaseController {
     protected function validateRegisterData($request) {
         $this->validate($request, [
             'email' => ['required', 'email', 'not_exists:users,email'],
-            'password' => ['required', 'string', 'between:6,256', 'confirmed'],
+            'password' => ['required', 'string', 'between:6,128', 'confirmed'],
             'password_confirmation' => ['required']
         ]);
     }

@@ -20,6 +20,7 @@ class CreateApplicationSettingsTable extends Migration {
             $table->smallIncrements('id');
             $table->boolean('allow_new_accounts')->defalt(true);
             $table->string('name')->default('Nova');
+            $table->string('landing_index_title')->default('Aplicația dedicată reprezentanților Avon.');
             $table->tinyInteger('trial_days')->unsigned()->default(30);
             $table->timestamps();
         });
