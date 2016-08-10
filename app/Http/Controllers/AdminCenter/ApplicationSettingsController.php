@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminCenter;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageHeaderTextRequest;
+use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageSecondSectionDetailsRequest;
 use App\ApplicationSetting;
 
 /**
@@ -14,6 +15,18 @@ use App\ApplicationSetting;
 class ApplicationSettingsController extends BaseController {
 
     /**
+     * Application settings.
+     *
+     * @var null
+     */
+    protected $applicationSettings = null;
+
+    public function __construct() {
+        parent::__construct();
+        $this->applicationSettings = ApplicationSetting::first();
+    }
+
+    /**
      * Render application settings page.
      */
     public function index() {
@@ -22,7 +35,15 @@ class ApplicationSettingsController extends BaseController {
 
     public function getCurrentLandingPageHeaderText() {
         return response()->json([
-            'header_text' => ApplicationSetting::first()->landing_index_title
+            'header_text' => $this->applicationSettings->landing_index_title
+        ]);
+    }
+
+    public function getSecondSectionDetails() {
+        return response()->json([
+            'title' => $this->applicationSettings->second_section_title,
+            'description' => $this->applicationSettings->second_section_description,
+            'button_text' => $this->applicationSettings->second_section_button_text
         ]);
     }
 
@@ -36,6 +57,21 @@ class ApplicationSettingsController extends BaseController {
             'title' => 'Succes!',
             'message' => 'Antetul primei pagini a fost actualizat.'
         ]);
+    }
+
+    public function updateLandingPageSecondSectionDetails(EditLandingPageSecondSectionDetailsRequest $request) {
+
+        ApplicationSetting::where('id', '<', 10000)->update([
+            'second_section_title' => $request->get('title'),
+            'second_section_description' => $request->get('description'),
+            'second_section_button_text' => $request->get('button_text')
+        ]);
+
+        return response()->json([
+            'title' => 'Success!',
+            'message' => 'A doua sectiune a paginii a fost actualizata.'
+        ]);
+
     }
 
 }

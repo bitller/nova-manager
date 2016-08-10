@@ -2,7 +2,7 @@
 @section('content')
     <div class="first-section">
         <div class="container">
-            <h2 class="text-center welcome-text">Aplicația dedicată reprezentanților Avon.</h2>
+            <h2 class="text-center welcome-text">{{ $settings->landing_index_title }}</h2>
             <div class="col md-12 text-center image-video-container">
                 <img src="http://placehold.it/800x400">
             </div>

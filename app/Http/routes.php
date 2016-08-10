@@ -233,6 +233,12 @@ Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middlew
             Route::post('/', 'ApplicationSettingsController@updateLandingPageHeaderText');
         });
 
+        // Landing page second section settings
+        Route::group(['prefix' => '/landing-page-second-section'], function() {
+            Route::get('/', 'ApplicationSettingsController@getSecondSectionDetails');
+            Route::post('/', 'ApplicationSettingsController@updateLandingPageSecondSectionDetails');
+        });
+
     });
 
     // Users metrics

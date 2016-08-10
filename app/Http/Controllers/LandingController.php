@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\BaseController;
 use Auth;
+use App\ApplicationSetting;
 
 class LandingController extends BaseController {
 
@@ -14,7 +15,9 @@ class LandingController extends BaseController {
     }
 
     public function index() {
-        return view('pages.landing.index');
+
+        $appSettings = ApplicationSetting::first();
+        return view('pages.landing.index')->with('settings', $appSettings);
     }
 
 }

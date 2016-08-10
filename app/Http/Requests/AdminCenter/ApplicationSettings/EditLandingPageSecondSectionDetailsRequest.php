@@ -6,11 +6,11 @@ use Auth;
 use App\Http\Requests\Request;
 
 /**
- * Validate data used to edit landing page header text.
+ * Validate data used to edit landing page second section.
  *
  * @author Alexandru Bugarin <alexandru.bugarin@gmail.com>
  */
-class EditLandingPageHeaderTextRequest extends Request {
+class EditLandingPageSecondSectionDetailsRequest extends Request {
 
     /**
      * @return bool
@@ -26,7 +26,9 @@ class EditLandingPageHeaderTextRequest extends Request {
      */
     public function rules() {
         return [
-            'header_text' => ['required', 'string', 'between:5, 100']
+            'title' => ['required', 'string', 'between:5,50'],
+            'description' => ['required', 'string', 'between:5,200'],
+            'button_text' => ['required', 'string', 'between:5,50']
         ];
     }
 

@@ -21,6 +21,9 @@ class CreateApplicationSettingsTable extends Migration {
             $table->boolean('allow_new_accounts')->defalt(true);
             $table->string('name')->default('Nova');
             $table->string('landing_index_title')->default('Aplicația dedicată reprezentanților Avon.');
+            $table->string('second_section_title')->default('Primele 90 de zile gratuit!');
+            $table->string('second_section_description')->default('Primele 90 de zile sunt gratuite. Exact, 90 de zile în care te vei convinge că Nova este aplicația special creată pentru tine. Înscrie-te acum, durează 30 de secunde.');
+            $table->string('second_section_button_text')->default('Începe să folosești Nova gratuit!');
             $table->tinyInteger('trial_days')->unsigned()->default(30);
             $table->timestamps();
         });
