@@ -24,6 +24,8 @@ class CreateApplicationSettingsTable extends Migration {
             $table->string('second_section_title')->default('Primele 90 de zile gratuit!');
             $table->string('second_section_description')->default('Primele 90 de zile sunt gratuite. Exact, 90 de zile în care te vei convinge că Nova este aplicația special creată pentru tine. Înscrie-te acum, durează 30 de secunde.');
             $table->string('second_section_button_text')->default('Începe să folosești Nova gratuit!');
+            $table->string('third_section_title')->default('Statistici pentru fiecare campanie.');
+            $table->string('third_section_description')->default('Ai la dispoziție statistici pentru fiecare campanie în parte. Deasemenea, poți compara două campanii pentru a vedea diferențele.');
             $table->tinyInteger('trial_days')->unsigned()->default(30);
             $table->timestamps();
         });

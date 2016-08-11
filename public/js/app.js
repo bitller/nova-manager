@@ -56942,7 +56942,7 @@ exports.default = {
 
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <logo-text></logo-text>\n    <allow-new-users></allow-new-users>\n    <edit-landing-page-second-section></edit-landing-page-second-section>\n    <edit-landing-page-third-section></edit-landing-page-third-section>\n    <edit-landing-page-header-text>\n\n</edit-landing-page-header-text>"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n    <logo-text></logo-text>\n    <allow-new-users></allow-new-users>\n    <edit-landing-page-third-section></edit-landing-page-third-section>\n    <edit-landing-page-second-section></edit-landing-page-second-section>\n    <edit-landing-page-header-text>\n\n</edit-landing-page-header-text>"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -57185,16 +57185,103 @@ if (module.hot) {(function () {  module.hot.accept()
   }
 })()}
 },{"vue":85,"vue-hot-reload-api":83}],97:[function(require,module,exports){
-"use strict";
+'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 exports.default = {
-    //
+
+    data: function data() {
+        return {
+            title: '',
+            description: '',
+            errors: {
+                title: '',
+                description: ''
+            },
+            endpoints: {
+                thirdSection: '/admin-center/application-settings/landing-page-third-section'
+            }
+        };
+    },
+
+    ready: function ready() {
+        this.getThirdSectionDetails();
+    },
+
+    methods: {
+
+        getThirdSectionDetails: function getThirdSectionDetails() {
+            var vm = this;
+            this.$http.get(this.endpoints.thirdSection).then(function (success) {
+                vm.title = success.data.title;
+                vm.description = success.data.description;
+            }, function (error) {
+                //
+            });
+        },
+
+        updateThirdSectionDetails: function updateThirdSectionDetails() {
+            this.$dispatch('show_loader');
+            var vm = this;
+            var data = {
+                _token: $('#token').attr('content'),
+                title: vm.title,
+                description: vm.description
+            };
+
+            this.$http.post(vm.endpoints.thirdSection, data).then(function (success) {
+                vm.emptyErrors();
+                vm.$dispatch('success_alert', success.data.title, success.data.message);
+            }, function (error) {
+                if (error.data.title) {
+                    vm.errors.title = error.data.title;
+                }
+                if (error.data.description) {
+                    vm.errors.description = error.data.description;
+                }
+
+                if (vm.hasError) {
+                    vm.$dispatch('close_opened_alert');
+                    return;
+                }
+
+                vm.$dispatch('error_alert', 'Ooops', 'O eroare a avut loc.');
+            });
+        },
+
+        emptyErrors: function emptyErrors() {
+            this.errors.title = this.errors.message = '';
+        }
+    },
+
+    computed: {
+        hasError: function hasError() {
+            if (this.titleHasError || this.descriptionHasError) {
+                return true;
+            }
+            return false;
+        },
+
+        titleHasError: function titleHasError() {
+            if (this.errors.title) {
+                return this.errors.title;
+            }
+            return false;
+        },
+
+        descriptionHasError: function descriptionHasError() {
+            if (this.errors.description) {
+                return this.errors.description;
+            }
+            return false;
+        }
+    }
+
 };
 if (module.exports.__esModule) module.exports = module.exports.default
-;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">A doua sectiune a paginei principale</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
+;(typeof module.exports === "function"? module.exports.options: module.exports).template = "\n\n<!-- BEGIN Panel -->\n<div class=\"panel panel-default\">\n\n    <div class=\"panel-heading\">A treia sectiune a paginei principale</div>\n\n    <!-- BEGIN Panel body -->\n    <div class=\"panel-body\">\n        <!-- BEGIN Title -->\n        <div :class=\"{ 'has-error': titleHasError }\" class=\"form-group\">\n            <label>Titlu:</label>\n            <input v-model=\"title\" @keyup.enter=\"updateThirdSectionDetails\" type=\"text\" class=\"form-control\">\n            <span v-show=\"titleHasError\" class=\"text-danger\">{{ titleHasError }}</span>\n        </div>\n        <!-- END Title -->\n\n        <!-- BEGIN Description -->\n        <div :class=\"{ 'has-error': descriptionHasError }\" class=\"form-group\">\n            <label>Descriere:</label>\n            <textarea v-model=\"description\" @keyup.enter=\"updateThirdSectionDetails\" class=\"form-control\"></textarea>\n            <span v-show=\"descriptionHasError\" class=\"text-danger\">{{ descriptionHasError }}</span>\n        </div>\n        <!-- END Description -->\n\n        <div @click=\"updateThirdSectionDetails\" class=\"btn btn-primary\">Salvează</div>\n\n    </div>\n    <!-- END Panel body -->\n\n</div>\n<!-- END Panel -->\n\n"
 if (module.hot) {(function () {  module.hot.accept()
   var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)

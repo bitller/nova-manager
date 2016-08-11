@@ -2,8 +2,8 @@
 
     <logo-text></logo-text>
     <allow-new-users></allow-new-users>
-    <edit-landing-page-second-section></edit-landing-page-second-section>
     <edit-landing-page-third-section></edit-landing-page-third-section>
+    <edit-landing-page-second-section></edit-landing-page-second-section>
     <edit-landing-page-header-text></edit-langing-page-header-text>
 
 </template>

@@ -228,17 +228,22 @@ Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middlew
         Route::get('/', 'ApplicationSettingsController@index');
 
         // Landing page text
-        Route::group(['prefix' => '/landing-page-header-text'], function() {
+        Route::group(['prefix' => 'landing-page-header-text'], function() {
             Route::get('/', 'ApplicationSettingsController@getCurrentLandingPageHeaderText');
             Route::post('/', 'ApplicationSettingsController@updateLandingPageHeaderText');
         });
 
         // Landing page second section settings
-        Route::group(['prefix' => '/landing-page-second-section'], function() {
+        Route::group(['prefix' => 'landing-page-second-section'], function() {
             Route::get('/', 'ApplicationSettingsController@getSecondSectionDetails');
             Route::post('/', 'ApplicationSettingsController@updateLandingPageSecondSectionDetails');
         });
 
+        // Landing page third section settings
+        Route::group(['prefix' => 'landing-page-third-section'], function() {
+            Route::get('/', 'ApplicationSettingsController@getThirdSectionDetails');
+            Route::post('/', 'ApplicationSettingsController@updateLandingPageThirdSectionDetails');
+        });
     });
 
     // Users metrics

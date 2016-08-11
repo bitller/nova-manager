@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminCenter;
 
 use App\Http\Controllers\BaseController;
 use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageHeaderTextRequest;
+use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageThirdSectionDetailsRequest;
 use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageSecondSectionDetailsRequest;
 use App\ApplicationSetting;
 
@@ -39,14 +40,6 @@ class ApplicationSettingsController extends BaseController {
         ]);
     }
 
-    public function getSecondSectionDetails() {
-        return response()->json([
-            'title' => $this->applicationSettings->second_section_title,
-            'description' => $this->applicationSettings->second_section_description,
-            'button_text' => $this->applicationSettings->second_section_button_text
-        ]);
-    }
-
     public function updateLandingPageHeaderText(EditLandingPageHeaderTextRequest $request) {
 
         ApplicationSetting::where('id', '<', 10000)->update([
@@ -59,8 +52,15 @@ class ApplicationSettingsController extends BaseController {
         ]);
     }
 
-    public function updateLandingPageSecondSectionDetails(EditLandingPageSecondSectionDetailsRequest $request) {
+    public function getSecondSectionDetails() {
+        return response()->json([
+            'title' => $this->applicationSettings->second_section_title,
+            'description' => $this->applicationSettings->second_section_description,
+            'button_text' => $this->applicationSettings->second_section_button_text
+        ]);
+    }
 
+    public function updateLandingPageSecondSectionDetails(EditLandingPageSecondSectionDetailsRequest $request) {
         ApplicationSetting::where('id', '<', 10000)->update([
             'second_section_title' => $request->get('title'),
             'second_section_description' => $request->get('description'),
@@ -68,10 +68,27 @@ class ApplicationSettingsController extends BaseController {
         ]);
 
         return response()->json([
-            'title' => 'Success!',
+            'title' => 'Succes!',
             'message' => 'A doua sectiune a paginii a fost actualizata.'
         ]);
-
     }
 
+    public function getThirdSectionDetails() {
+        return response()->json([
+            'title' => $this->applicationSettings->third_section_title,
+            'description' => $this->applicationSettings->third_section_description
+        ]);
+    }
+
+    public function updateLandingPageThirdSectionDetails(EditLandingPageThirdSectionDetailsRequest $request) {
+        ApplicationSetting::where('id', '<', 10000)->update([
+            'third_section_title' => $request->get('title'),
+            'third_section_description' => $request->get('description')
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'A treia sectiune a paginii a fost actualizata.'
+        ]);
+    }
 }
