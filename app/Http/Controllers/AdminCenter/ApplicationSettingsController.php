@@ -6,6 +6,7 @@ use App\Http\Controllers\BaseController;
 use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageHeaderTextRequest;
 use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageThirdSectionDetailsRequest;
 use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageSecondSectionDetailsRequest;
+use App\Http\Requests\AdminCenter\ApplicationSettings\EditLandingPageFourthSectionDetailsRequest;
 use App\ApplicationSetting;
 
 /**
@@ -89,6 +90,25 @@ class ApplicationSettingsController extends BaseController {
         return response()->json([
             'title' => 'Succes!',
             'message' => 'A treia sectiune a paginii a fost actualizata.'
+        ]);
+    }
+
+    public function getFourthSectionDetails() {
+        return response()->json([
+            'title' => $this->applicationSettings->fourth_section_title,
+            'description' => $this->applicationSettings->fourth_section_description
+        ]);
+    }
+
+    public function updateLandingPageFourthSectionDetails(EditLandingPageFourthSectionDetailsRequest $request) {
+        ApplicationSetting::where('id', '<', 10000)->update([
+            'fourth_section_title' => $request->get('title'),
+            'fourth_section_description' => $request->get('description')
+        ]);
+
+        return response()->json([
+            'title' => 'Succes!',
+            'message' => 'A patra sectiune a paginii a fost actualizata.'
         ]);
     }
 }

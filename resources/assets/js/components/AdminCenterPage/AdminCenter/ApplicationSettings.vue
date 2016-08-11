@@ -2,6 +2,7 @@
 
     <logo-text></logo-text>
     <allow-new-users></allow-new-users>
+    <edit-landing-page-fourth-section></edit-landing-page-fourth-section>
     <edit-landing-page-third-section></edit-landing-page-third-section>
     <edit-landing-page-second-section></edit-landing-page-second-section>
     <edit-landing-page-header-text></edit-langing-page-header-text>
@@ -15,6 +16,7 @@ import AllowNewUsers from '../../../components/AdminCenterPage/AdminCenter/Appli
 import EditLandingPageHeaderText from '../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/EditLandingPageHeaderText.vue';
 import EditLandingPageSecondSection from '../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/EditLandingPageSecondSection.vue';
 import EditLandingPageThirdSection from '../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/EditLandingPageThirdSection.vue';
+import EditLandingPageFourthSection from '../../../components/AdminCenterPage/AdminCenter/ApplicationSettings/EditLandingPageFourthSection.vue';
 
 export default {
 
@@ -24,6 +26,7 @@ export default {
         'edit-landing-page-header-text': EditLandingPageHeaderText,
         'edit-landing-page-second-section': EditLandingPageSecondSection,
         'edit-landing-page-third-section': EditLandingPageThirdSection,
+        'edit-landing-page-fourth-section': EditLandingPageFourthSection,
     }
 
 }
