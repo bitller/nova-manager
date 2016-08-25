@@ -14,3 +14,7 @@ $silver: #bdc3c7;
 .grey-dark {
     color: $grey-dark;
 }
+
+.grey-middle {
+    color: darken($grey, 10);
+}

@@ -192,6 +192,7 @@ export default {
                 vm.$dispatch('reloadProducts', function() {
                     vm.loading = false;
                     vm.closeModal();
+                    vm.$dispatch('hideHowToAddProductsAlert');
                     vm.$dispatch('success_alert', success.data.title, success.data.message);
                 });
 

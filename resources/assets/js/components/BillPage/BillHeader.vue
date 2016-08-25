@@ -53,12 +53,19 @@
                 </div>
                 <!-- END Payment term expired -->
 
+                <!-- BEGIN How to add products -->
+                <div v-show="showHowToAddProductsAlert" class="alert alert-success">
+                    Acum este momentul sa adaugi produsele. <a @click="showHowToAddProductsModal" href="#">Vezi aici cum se face</a>.
+                </div>
+                <!-- END How to add products -->
+
             </div>
 
         </div>
 
         <set-payment-term-modal :current-payment-term="paymentTerm" :bill-id="billId"></set-payment-term-modal>
         <edit-campaign-modal :bill-id="billId" :campaign-year="headerDetails.campaignYear" :campaign-number="headerDetails.campaignNumber"></edit-campaign-modal>
+        <how-to-add-products-modal></how-to-add-products-modal>
 
     </div>
 
@@ -69,6 +76,7 @@
 import SetPaymentTermModal from '../../components/BillPage/BillHeader/SetPaymentTermModal.vue';
 import AddProduct from '../../components/BillPage/BillHeader/AddProduct.vue';
 import EditCampaignModal from '../../components/BillPage/BillHeader/EditCampaignModal.vue';
+import HowToAddProductsModal from '../../components/BillPage/BillHeader/HowToAddProductsModal.vue';
 
 export default {
 
@@ -76,6 +84,7 @@ export default {
         'set-payment-term-modal': SetPaymentTermModal,
         'add-product': AddProduct,
         'edit-campaign-modal': EditCampaignModal,
+        'how-to-add-products-modal': HowToAddProductsModal,
     },
 
     props: ['billId', 'status', 'paymentTerm', 'headerDetails'],
@@ -176,6 +185,17 @@ export default {
             this.$broadcast('showEditCampaignModal');
         },
 
+        showHowToAddProductsModal: function() {
+            this.$broadcast('showHowToAddProductsModal');
+        },
+
+    },
+
+    events: {
+        'hideHowToAddProductsAlert': function() {
+            // console.log('called');
+            this.headerDetails.firstBill = false;
+        }
     },
 
     computed: {
@@ -194,17 +214,25 @@ export default {
         },
 
         showPaymentTermNotSetAlert: function() {
-            if (this.paymentTerm === '0000-00-00' || !this.paymentTerm) {
+            if ((!this.headerDetails.paymentTerm || this.headerDetails.paymentTerm === '0000-00-00') && !this.showHowToAddProductsAlert) {
                 return true;
             }
+
             return false;
         },
 
         showPaymentTermPassedAlert: function() {
-            if (this.headerDetails.paymentTermPassed === '') {
+            if (this.headerDetails.paymentTermPassed === '' || this.showHowToAddProductsAlert) {
                 return false;
             }
             return this.headerDetails.paymentTermPassed;
+        },
+
+        showHowToAddProductsAlert: function() {
+            if (this.headerDetails.firstBill) {
+                return true;
+            }
+            return false;
         }
     },
 

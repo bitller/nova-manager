@@ -47,10 +47,10 @@ $pager-disabled-color:                 #ffffff !default;
 $pager-disabled-bg: lighten($brand-primary, 9%);
 
 // Alerts
-//$info-bg: #54C6EB;
-//$alert-info-bg: $info-bg;
-//$alert-info-text: darken($info-bg, 25);
-//$alert-info-border: darken($info-bg, 7);
+$info-bg: #009EEB;
+$alert-info-bg: $info-bg;
+$alert-info-text: #ffffff;
+$alert-info-border: $info-bg;
 //
 //$warning-bg: #F7CA18;
 //$alert-warning-bg: $warning-bg;

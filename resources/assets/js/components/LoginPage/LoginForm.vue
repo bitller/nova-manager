@@ -29,7 +29,7 @@
 
     <!-- BEGIN Login button -->
     <div class="form-group login-button">
-        <button @click="login" :class="{ 'disabled': loading }" class="btn-block btn btn-primary">
+        <button @click="login" :class="{ 'disabled': loading }" class="btn-block btn btn-primary padding">
             <img v-show="loading" class="img-responsive center-responsive-image" src="/img/loading-bubbles.svg" />
             <span v-show="!loading">Conectați-vă</span>
         </button>

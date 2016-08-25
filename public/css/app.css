@@ -5,6 +5,9 @@
 .grey-dark {
   color: #34495e; }
 
+.grey-middle {
+  color: #667273; }
+
 body.stop-scrolling {
   height: 100%;
   overflow: hidden; }
@@ -5131,13 +5134,13 @@ a.thumbnail.active {
     color: #2b542c; }
 
 .alert-info {
-  background-color: #d9edf7;
-  border-color: #bce8f1;
-  color: #31708f; }
+  background-color: #009EEB;
+  border-color: #009EEB;
+  color: #ffffff; }
   .alert-info hr {
-    border-top-color: #a6e1ec; }
+    border-top-color: #008dd2; }
   .alert-info .alert-link {
-    color: #245269; }
+    color: #e6e6e6; }
 
 .alert-warning {
   background-color: #fcf8e3;
@@ -8656,7 +8659,8 @@ html, body {
   overflow-x: hidden;
   height: 100%;
   margin: 0;
-  padding: 0; }
+  padding: 0;
+  font-family: 'Ubuntu', serif; }
 
 #wrapper {
   min-height: 100%;
@@ -8753,5 +8757,26 @@ textarea {
   background-color: #2E3435;
   padding: 30px 0 30px 0;
   color: #ECECE6; }
+
+.underline:hover {
+  text-decoration: underline; }
+
+/**
+ * Terms and privacy
+ */
+.first-part-of-text {
+  padding-top: 15px; }
+
+.paragraph-title {
+  padding-top: 10px; }
+
+.padding-input {
+  padding: 15px; }
+
+.padding {
+  padding: 15px 25px; }
+
+.padding-input {
+  padding: 22px 15px; }
 
 /*# sourceMappingURL=app.css.map */

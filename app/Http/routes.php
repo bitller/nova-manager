@@ -13,8 +13,19 @@ Route::group(['namespace' => 'Auth'], function() {
 
 Route::get('/', 'LandingController@index');
 
+Route::group(['namespace' => 'Legal'], function() {
+    Route::get('terms-and-conditions', 'TermsAndConditionsController@index');
+    Route::get('privacy', 'PrivacyController@index');
+});
+
 // Dashboard
 Route::group(['namespace' => 'Dashboard', 'prefix' => 'dashboard', 'middleware' => 'auth'], function() {
+
+    // Get started
+    Route::group(['prefix' => 'get-started'], function() {
+        Route::get('/', 'GetStartedController@index');
+        Route::post('/create-my-first-bill', 'GetStartedController@createMyFirstBill');
+    });
 
     // Bills
     Route::get('/', 'Bills\IndexController@index');
@@ -250,6 +261,34 @@ Route::group(['prefix' => 'admin-center', 'namespace' => 'AdminCenter', 'middlew
             Route::get('/', 'ApplicationSettingsController@getFourthSectionDetails');
             Route::post('/', 'ApplicationSettingsController@updateLandingPageFourthSectionDetails');
         });
+
+        // Landing page fifth section settings
+        Route::group(['prefix' => 'landing-page-fifth-section'], function() {
+            Route::get('/', 'ApplicationSettingsController@getFifthSectionDetails');
+            Route::post('/', 'ApplicationSettingsController@updateLandingPageFifthSectionDetails');
+        });
+
+        // Landing page sixth section settings
+        Route::group(['prefix' => 'landing-page-sixth-section'], function() {
+            Route::get('/', 'ApplicationSettingsController@getSixthSectionDetails');
+            Route::post('/', 'ApplicationSettingsController@updateLandingPageSixthSectionDetails');
+        });
+
+        // Landing page seventh section settings
+        Route::group(['prefix' => 'landing-page-seventh-section'], function() {
+            Route::get('/', 'ApplicationSettingsController@getSeventhSectionDetails');
+            Route::post('/', 'ApplicationSettingsController@updateLandingPageSeventhSectionDetails');
+        });
+    });
+
+    // Tickets
+    Route::group(['prefix' => 'tickets'], function() {
+        Route::get('/', 'TicketsController@index');
+    });
+
+    // Frequent questions
+    Route::group(['prefix' => 'frequent-questions'], function() {
+        Route::get('/', 'FrequentQuestionsController@index');
     });
 
     // Users metrics

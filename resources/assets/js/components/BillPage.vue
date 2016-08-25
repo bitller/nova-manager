@@ -5,7 +5,7 @@
         <div class="row">
             <bill-header :bill-id="billId" :status="billStatus" :payment-term="paymentTerm" :header-details="headerDetails"></bill-header>
             <products :bill-id="billId" :products="products"></products>
-            <informations :payment-term="paymentTerm" :to-pay="toPay" :saved-money="savedMoney" :other-details="otherDetails"></informations>
+            <informations v-if="!headerDetails.firstBill" :payment-term="headerDetails.paymentTerm" :to-pay="toPay" :saved-money="savedMoney" :other-details="otherDetails"></informations>
         </div>
 
     </div>
@@ -46,7 +46,7 @@ export default {
             headerDetails: {
                 clientName: this.clientName,
                 clientId: this.clientId,
-
+                firstBill: false,
             },
         }
     },
@@ -88,6 +88,8 @@ export default {
                     campaignYear: success.data.campaign_year,
                     campaignOrder: success.data.campaign_order,
                 };
+
+                vm.checkIfIsUserFirstBill();
 
                 if (typeof callback !== 'undefined') {
                     callback();
@@ -148,6 +150,25 @@ export default {
 
         },
 
+        checkIfIsUserFirstBill: function() {
+            console.log(this.getParameterByName('first_bill'));
+            if (this.getParameterByName('first_bill') === 'true') {
+                this.headerDetails.firstBill = true;
+                return;
+            }
+            this.headerDetails.firstBill = false;
+        },
+
+        getParameterByName: function(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
     },
 
     computed: {
@@ -178,9 +199,11 @@ export default {
 
         'reloadPaymentTerm': function(callback) {
             if (typeof callback !== 'undefined') {
+                console.log('reloadPaymentTerm() called with callback');
                 this.getPaymentTerm(callback);
                 return;
             }
+            console.log('reloadPaymentTerm() called without callback');
             this.getPaymentTerm();
         }
 

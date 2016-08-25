@@ -9,7 +9,9 @@
     <link rel="stylesheet" type="text/css" href="/css/medium-editor.css" />
     <link rel="stylesheet" type="text/css" href="/css/flat.css" />
     <link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
-
+    <link href="https://fonts.googleapis.com/css?family=Antic+Slab" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+ <link href="https://fonts.googleapis.com/css?family=PT+Sans|Ubuntu" rel="stylesheet"> 
     <!--[if lt IE 7]>
     <style type="text/css">
         #wrapper { height:100%; }

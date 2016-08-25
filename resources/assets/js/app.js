@@ -40,6 +40,7 @@ import ProductsPage from './components/ProductsPage.vue';
 import BillPage from './components/BillPage.vue';
 import SupportPage from './components/SupportPage.vue';
 import StatisticsPage from './components/StatisticsPage.vue';
+import GetStartedPage from './components/GetStartedPage.vue';
 
 new Vue({
 
@@ -63,6 +64,7 @@ new Vue({
         'bill-page': BillPage,
         'support-page': SupportPage,
         'statistics-page': StatisticsPage,
+        'get-started-page': GetStartedPage,
     },
 
     methods: {
