@@ -8,19 +8,20 @@
 
 <template>
 
-    <div class="col-md-12">
+    <div class="col-md-12 bill-to-print">
         <div class="col-md-12 white first">
 
             <!-- BEGIN Bill owner and bill campaign -->
             <div class="col-md-9">
-                <span class="page-title grey-dark"><a href="/dashboard/clients/{{ headerDetails.clientId }}">{{ headerDetails.clientName }}</a>&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
-                <span class="page-description grey">Comanda {{ headerDetails.campaignOrder }} din campania <a @click="editCampaignModal" href="#">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>
+                <h3 class="visible-print text-center">{{ headerDetails.clientName }} - comanda {{ headerDetails.campaignOrder }} din campania {{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</h3>
+                <span class="page-title grey-dark hidden-print"><a href="/dashboard/clients/{{ headerDetails.clientId }}">{{ headerDetails.clientName }}</a>&nbsp;<span v-show="billIsMarkedAsPaid" class="glyphicon glyphicon-ok" data-toggle="tooltip" title="Această factură a fost plătită." data-placement="right"></span></span>
+                <span class="page-description grey hidden-print">Comanda {{ headerDetails.campaignOrder }} din campania <a @click="editCampaignModal" href="#">{{ headerDetails.campaignNumber }}/{{ headerDetails.campaignYear }}</a>
             </div>
             <!-- END Bill owner and bill campaign -->
 
             <!-- BEGIN Buttons -->
-            <div class="col-md-3">
-                <div class="btn btn-info"><span class="glyphicon glyphicon-print"></span></div>
+            <div class="col-md-3 hidden-print">
+                <div @click="printBill" class="btn btn-info"><span class="glyphicon glyphicon-print"></span></div>
                 <div class="dropdown options-menu">
                     <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                         <span class="glyphicon glyphicon-cog"></span>
@@ -39,7 +40,7 @@
             </div>
             <!-- END Buttons -->
 
-            <div class="col-md-12 alerts">
+            <div class="col-md-12 alerts hidden-print">
 
                 <!-- BEGIN Payment term not set alert -->
                 <div v-show="showPaymentTermNotSetAlert" class="alert alert-warning">
@@ -96,6 +97,10 @@ export default {
     },
 
     methods: {
+
+        printBill: function() {
+            window.print();
+        },
 
         deleteBill: function() {
 

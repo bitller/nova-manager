@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-md-12">
+    <div class="col-md-12 hidden-print">
 
         <div class="col-md-12 primary">
             <div class="col-md-12">

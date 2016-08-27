@@ -11,7 +11,7 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto:100' rel='stylesheet' type='text/css'>
     <link href="https://fonts.googleapis.com/css?family=Antic+Slab" rel="stylesheet">
  <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
- <link href="https://fonts.googleapis.com/css?family=PT+Sans|Ubuntu" rel="stylesheet"> 
+ <link href="https://fonts.googleapis.com/css?family=PT+Sans|Ubuntu" rel="stylesheet">
     <!--[if lt IE 7]>
     <style type="text/css">
         #wrapper { height:100%; }
@@ -112,7 +112,7 @@
         </div>
     </div>
 
-    <div id="footer">
+    <div id="footer" class="hidden-print">
         <div class="container">
             <div class="row">
                 <div class="col-md-12 text-center footer-text">2016 - Toate drepturile rezervate.</div>

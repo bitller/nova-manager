@@ -29,7 +29,7 @@
                                 <th class="text-center">Preț</th>
                                 <th v-if="showDiscountColumn" class="text-center">Reducere</th>
                                 <th v-if="showDiscountColumn" class="text-center">Preț cu reducere</th>
-                                <th class="text-center">Șterge</th>
+                                <th class="text-center hidden-print">Șterge</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,7 +67,7 @@
                                 <!-- END Product discount -->
 
                                 <td v-if="showDiscountColumn" class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
-                                <td class="text-center vert-align">
+                                <td class="text-center vert-align hidden-print">
                                     <div @click="deleteProductConfirmation(product.bill_product_id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
                             </tr>
@@ -100,7 +100,7 @@
                                 <th class="text-center">Preț</th>
                                 <th v-if="showDiscountColumn" class="text-center">Reducere</th>
                                 <th v-if="showDiscountColumn" class="text-center">Preț cu reducere</th>
-                                <th class="text-center">Șterge</th>
+                                <th class="text-center hidden-print">Șterge</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,12 +137,10 @@
                                 <!-- END Product discount -->
 
                                 <td v-if="showDiscountColumn" class="text-center vert-align">{{ product.pivot.price_with_discount }} ron</td>
-                                <td class="text-center vert-align">
+                                <td class="text-center vert-align hidden-print">
                                     <div @click="deleteProductConfirmation(product.id)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></div>
                                 </td>
                             </tr>
-
-
                         </tbody>
                     </table>
                 </div>
