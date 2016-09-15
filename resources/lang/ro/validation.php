@@ -127,6 +127,22 @@ return [
             'between' => 'Antetul paginii principale trebuie să conțină între 5 şi 100 de caractere.'
         ],
 
+        'current_password' => [
+            'required' => 'Parola actuală este obligatorie.',
+            'current_user_password' => 'Parola curentă nu este validă.',
+        ],
+
+        'new_password' => [
+            'required' => 'Este obligatoriu să introduceți noua parolă.',
+            'string' => 'Noua parolă trebuie sa fie un şir de caractere.',
+            'between' => 'Parola trebuie să conțină între 5 şi 100 de caractere.',
+            'confirmed' => 'Parolele nu corespund.',
+        ],
+
+        'new_password_confirmation' => [
+            'required' => 'Este obligatoriu sa reintroduceți noua parolă.'
+        ],
+
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],

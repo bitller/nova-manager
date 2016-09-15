@@ -1,4 +1,4 @@
-<style>
+/*<style>
 
 .other-details-editor {
     min-height: 60px;
@@ -14,8 +14,10 @@
                 <span @click="showEditMoreDetailsModal">Detalii suplimentare &nbsp;&nbsp;<span class="glyphicon glyphicon-pencil"></span></span>
             </div>
             <div class="panel-body">
-                <div v-if="currentDetails === ''" class="other-details-editor"></div>
-                <div v-if="currentDetails !== ''" class="other-details-editor">{{{ currentDetails }}}</div>
+                <div>{{ currentDetails }}</div>
+                <!-- <textarea>other details goes here</textarea> -->
+                <!-- <div v-if="currentDetails === ''" class="other-details-editor"></div> -->
+                <!-- <div v-if="currentDetails !== ''" class="other-details-editor">{{{ currentDetails }}}</div> -->
             </div>
             <div class="panel-footer">
                 <div @click="editOtherDetails" class="btn btn-success">Salveaza</div>
@@ -154,4 +156,4 @@ export default {
 
 }
 
-</script>
+</script>*/

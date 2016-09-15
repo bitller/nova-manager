@@ -1,13 +1,8 @@
-<style>
-/*.padding {
-    padding: 10px;
-}*/
-</style>
 <template>
 
     <!-- BEGIN Open modal button -->
     <div class="col-md-2 col-md-offset-6">
-        <div @click="showModal" class="btn btn-block btn-success padding pull-right">
+        <div @click="showModal" class="btn btn-block btn-success pull-right">
             <span class="glyphicon glyphicon-plus"></span>
             <span>Creează factură</span>
         </div>

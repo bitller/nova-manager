@@ -1,7 +1,7 @@
 <template>
 
     <div class="panel panel-default">
-        <div class="panel-heading">Numarul de facturi afisate</div>
+        <div class="panel-heading">Numărul de facturi afișate</div>
         <!-- BEGIN Panel body -->
         <div class="panel-body">
             <div class="row">
@@ -17,7 +17,7 @@
                     <div v-if="showForm && !loading">
                         <!-- BEGIN Input -->
                         <div class="form-group">
-                            <label for="number-of-bills">Numarul de facturi afisate pe pagina</label>
+                            <label for="number-of-bills">Numărul de facturi afișate pe pagină</label>
                             <input v-model="number_of_bills" @keyup.enter="updateNumberOfBills" type="text" class="form-control" />
                         </div>
                         <!-- END Input -->

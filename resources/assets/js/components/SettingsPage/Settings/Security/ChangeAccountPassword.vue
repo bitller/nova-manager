@@ -2,7 +2,7 @@
 
     <!-- BEGIN Panel -->
     <div class="panel panel-info">
-        <div class="panel-heading">Schimba parola contului</div>
+        <div class="panel-heading">Schimbă parola contului</div>
         <!-- BEGIN Panel body -->
         <div class="panel-body">
             <div class="row">
@@ -14,7 +14,7 @@
 
                         <!-- BEGIN Current password -->
                         <div :class="{ 'has-error': showErrorForCurrentPassword }" class="form-group">
-                            <label for="current-password">Parola actuala</label>
+                            <label for="current-password">Parola actuală</label>
                             <input v-model="current_password" @keyup.enter="changeAccountPassword" type="password" id="current-password" class="form-control" />
                             <span v-if="showErrorForCurrentPassword" class="text-danger">{{ errors.current_password }}</span>
                         </div>
@@ -22,7 +22,7 @@
 
                         <!-- BEGIN New password  -->
                         <div :class="{ 'has-error': showErrorForNewPassword }" class="form-group">
-                            <label for="new-password">Alege o noua parola</label>
+                            <label for="new-password">Alege o nouă parolă</label>
                             <input v-model="new_password" @keyup.enter="changeAccountPassword" type="password" id="new-password" class="form-control" />
                             <span v-if="showErrorForNewPassword" class="text-danger">{{ errors.new_password}}</span>
                         </div>
@@ -30,7 +30,7 @@
 
                         <!-- BEGIN New password confirmation -->
                         <div :class="{ 'has-error': showErrorForNewPasswordConfirmation }" class="form-group">
-                            <label for="new-password-confirmation">Reintroduceti noua parola</label>
+                            <label for="new-password-confirmation">Reintroduceţi noua parolă</label>
                             <input v-model="new_password_confirmation" @keyup.enter="changeAccountPassword" type="password" id="new-password-confirmation" class="form-control" />
                             <span v-if="showErrorForNewPasswordConfirmation" class="text-danger">{{ errors.new_password_confirmation }}</span>
                         </div>
