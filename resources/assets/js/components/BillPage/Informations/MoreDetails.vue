@@ -3,7 +3,7 @@
     <div class="col-md-12">
 
         <!-- BEGIN Panel -->
-        <div class="panel panel-info">
+        <div class="panel panel-info hidden-print">
 
             <!-- BEGIN Panel heading -->
             <div class="panel-heading">
@@ -29,6 +29,13 @@
 
         </div>
         <!-- END Panel -->
+
+        <!-- BEGIN Other details for print version -->
+        <div class="visible-print">
+            <h4>Detalii suplimentare</h4>
+            <p>{{ currentDetails }}</p>
+        </div>
+        <!-- END Other details for print version -->
 
         <edit-more-details-modal :bill-id="billId" :current-details="currentDetails"></edit-more-details-modal>
 
