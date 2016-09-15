@@ -421,13 +421,15 @@ class BillController extends BaseController {
     public function editOtherDetails($billId, Request $request) {
 
         $this->validateEditOtherDetailsData($request);
+        // dd($request->get('other_details'));
         $this->updateBill($billId, [
-            'other_details' => 'sssda'
+            'other_details' => $request->get('other_details')
         ]);
 
         return response()->json([
             'title' => 'Succes!',
-            'message' => 'Detaliile suplimentare pentru această factură au fost actualizate.'
+            'message' => 'Detaliile suplimentare pentru această factură au fost actualizate.',
+            'other_details' => $request->get('other_details')
         ]);
 
     }

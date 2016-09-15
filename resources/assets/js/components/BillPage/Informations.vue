@@ -10,7 +10,7 @@
 
         <div class="col-md-12 white last">
 
-            <more-details :current-details="otherDetails"></more-details>
+            <more-details :bill-id="billId" :current-details="otherDetails"></more-details>
 
             <!-- BEGIN Payment term -->
             <div class="col-md-4">
@@ -63,7 +63,7 @@ import MoreDetails from '../../components/BillPage/Informations/MoreDetails.vue'
 
 export default {
 
-    props: ['toPay', 'paymentTerm', 'savedMoney', 'otherDetails'],
+    props: ['billId', 'toPay', 'paymentTerm', 'savedMoney', 'otherDetails'],
 
     components: {
         'more-details': MoreDetails,

@@ -5,7 +5,7 @@
         <div class="row">
             <bill-header :bill-id="billId" :status="billStatus" :payment-term="paymentTerm" :header-details="headerDetails"></bill-header>
             <products :bill-id="billId" :products="products"></products>
-            <informations v-if="!headerDetails.firstBill" :payment-term="headerDetails.paymentTerm" :to-pay="toPay" :saved-money="savedMoney" :other-details="otherDetails"></informations>
+            <informations v-if="!headerDetails.firstBill" :bill-id="billId" :payment-term="headerDetails.paymentTerm" :to-pay="toPay" :saved-money="savedMoney" :other-details="otherDetails"></informations>
         </div>
 
     </div>
